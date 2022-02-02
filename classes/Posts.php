@@ -125,7 +125,7 @@ class Posts
      * @param int $limit The limit of the posts (default = 10)
      * @return object The posts object or a response
      */
-    public static function getPostsByUser(int $user_id, int $offset = 0, int $limit = 10): object
+    public static function getPostsByUser(int $user_id, int $offset = 0, int $limit = 10): object|array
     {
 
         global $conn;
@@ -162,7 +162,7 @@ class Posts
             }
 
             // Return the posts
-            return (object)$posts;
+            return $posts;
 
         } else {
             // Return 204 response
