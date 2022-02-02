@@ -383,8 +383,8 @@ $board_slug = $_GET['board_slug'];
 <script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
 <script src="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $site_url ?>/assets/libs/simplemde/js/simplemde.min.js"></script>
-<script src="<?= $site_url ?>/assets/main.js"></script>
-<script src="<?= $site_url ?>/assets/board.js"></script>
+<script src="<?= $site_url ?>/assets/js/main.js"></script>
+<script src="<?= $site_url ?>/assets/js/board.js"></script>
 
 </body>
 </html>
