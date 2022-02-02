@@ -99,7 +99,7 @@ class Posts
                     $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
                 }
                 // Get post user details
-                $post->user = User::getUser($post->user_id);
+                $post->user = User::getUserExcerpt($post->user_id);
 
                 // Add post to array
                 $posts[] = $post;
@@ -154,7 +154,7 @@ class Posts
                 }
 
                 // Get post user details
-                $post->user = User::getUser($post->user_id);
+                $post->user = User::getUserExcerpt($post->user_id);
 
                 // Add post to array
                 $posts[] = $post;

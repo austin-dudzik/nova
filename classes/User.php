@@ -32,8 +32,32 @@ class User
     public static function getUser(string $user_slug): object
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT us.id user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username, COUNT(po.id) posts, COUNT(up.id) upvotes, us.created_at joined FROM users us LEFT JOIN posts po ON us.id = po.user_id LEFT JOIN upvotes up ON us.id = up.user_id WHERE us.username = ?");
+        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username, COUNT(po.id) posts, COUNT(up.id) upvotes, us.created_at joined FROM users us LEFT JOIN posts po ON us.id = po.user_id LEFT JOIN upvotes up ON us.id = up.user_id WHERE us.username = ?");
         $stmt->bind_param("s", $user_slug);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Return user details
+            return $result->fetch_object('User');
+        } else {
+            // Return 204 response
+            return Response::throwResponse(204, "Data not found");
+        }
+    }
+
+    /**
+     * getUserExcerpt
+     * Returns user excerpt for a given user
+     *
+     * @param string $user_id The user ID
+     * @return object The user or response object
+     */
+    public static function getUserExcerpt(string $user_id): object
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username FROM users us WHERE us.id = ?");
+        $stmt->bind_param("s", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
