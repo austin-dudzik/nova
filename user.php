@@ -30,7 +30,7 @@ $user_slug = $_GET['user_slug'];
 
 <?php include "includes/navigation.php" ?>
 
-<div class="container-fluid my-5 px-5">
+<div class="container my-5 px-5">
 
     <div class="card w-50 mx-auto p-4"
          id="404-holder" style="display:none">
@@ -64,11 +64,10 @@ $user_slug = $_GET['user_slug'];
                  style="top:150px">
                 <div class="card-body">
 
-                    <span class="fa-stack ms-1"
-                          style="font-size:22px">
-                      <i class="fas fa-square fa-stack-2x text-primary"></i>
-                      <i class="fas fa-stack-1x fa-inverse board-icon"></i>
-                    </span>
+                    <img class="user-avatar rounded" height="70">
+
+                    <h5 class="user-name"></h5>
+                    <p class="user-username"></p>
 
                     <div class="mx-2 mt-2">
                         <h6 style="font-weight:700"
@@ -223,119 +222,9 @@ $user_slug = $_GET['user_slug'];
                     </div>
                 </div>
 
-                <div class="col-md-4"
-                     id="sidebar">
-
-                    <div class="ph-item mb-3">
-                        <div class="ph-col-12">
-                            <div class="ph-row">
-                                <div class="ph-col-12"
-                                     style="height:200px"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ph-item mb-3">
-                        <div class="ph-col-12">
-                            <div class="ph-row">
-                                <div class="ph-col-12"
-                                     style="height:200px"></div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="sticky-top lz-load"
-                         style="top:150px">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <p class="fw-bold mb-2">
-                                    <i class="fas fa-filter text-muted me-2"></i>
-                                    Filter</p>
-
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios1"
-                                           value="option1"
-                                           checked>
-                                    <label class="form-check-label"
-                                           for="exampleRadios1">
-                                        Under
-                                        Review
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios2"
-                                           value="option2">
-                                    <label class="form-check-label"
-                                           for="exampleRadios2">
-                                        Planned
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios2"
-                                           value="option2">
-                                    <label class="form-check-label"
-                                           for="exampleRadios2">
-                                        Fixed
-                                    </label>
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="fw-bold mb-2">
-                                    <i class="fas fa-circle-sort text-muted me-2"></i>
-                                    Sort</p>
-
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios1"
-                                           value="option1"
-                                           checked>
-                                    <label class="form-check-label"
-                                           for="exampleRadios1">
-                                        New
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios2"
-                                           value="option2">
-                                    <label class="form-check-label"
-                                           for="exampleRadios2">
-                                        Top
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios2"
-                                           value="option2">
-                                    <label class="form-check-label"
-                                           for="exampleRadios2">
-                                        Fixed
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
         </div>
 
+    </div>
     </div>
 </div>
 
@@ -375,16 +264,16 @@ $user_slug = $_GET['user_slug'];
 
 <script>
     let site_name = '<?= $site_name ?>';
-    let board_id = null;
+    let user_id = null;
     let csrf_token = '<?= generate_token() ?>';
-    let boardSlug = '<?= $board_slug ?>';
+    let userSlug = '<?= $user_slug ?>';
 </script>
 
 <script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
 <script src="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $site_url ?>/assets/libs/simplemde/js/simplemde.min.js"></script>
 <script src="<?= $site_url ?>/assets/js/main.js"></script>
-<script src="<?= $site_url ?>/assets/js/board.js"></script>
+<script src="<?= $site_url ?>/assets/js/user.js"></script>
 
 </body>
 </html>

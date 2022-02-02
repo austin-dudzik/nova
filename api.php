@@ -41,12 +41,19 @@ if($_GET) {
     $type = $_GET["type"] ?? "";
     // Determine call type
     $result = match ($type) {
+        // Get posts by board
         'getPostsByBoard' => Posts::getPostsByBoard($_GET["board_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
+        // Get posts by user
         'getPostsByUser' => Posts::getPostsByUser($_GET["user_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
+        // Get single post
         'getPost' => Post::getPost($_GET["post_id"]),
+        // Get board details
         'getBoard' => Board::getBoard($_GET["board_slug"]),
+        // Get board excerpt
         'getBoardExcerpt' => Board::getBoardExcerpt($_GET["board_id"]),
-        'getUser' => User::getUser($_GET["user_id"]),
+        // Get user details
+        'getUser' => User::getUser($_GET["user_slug"]),
+        // Authenticate user
         'authenticateUser' => Authentication::authenticateUser($_GET["email"], $_GET["password"]),
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
@@ -54,6 +61,7 @@ if($_GET) {
     $type = $_POST["type"] ?? "";
     // Determine call type
     $result = match ($type) {
+        // Add/remove post upvote
         'votePost' => Upvote::votePost($_POST["post_id"]),
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };

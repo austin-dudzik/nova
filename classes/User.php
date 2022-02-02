@@ -26,14 +26,14 @@ class User
      * getUser
      * Returns user details for a given user
      *
-     * @param int $user_id The user ID
+     * @param string $user_slug The user slug
      * @return object The user or response object
      */
-    public static function getUser(int $user_id): object
+    public static function getUser(string $user_slug): object
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username  FROM users us WHERE id = ?");
-        $stmt->bind_param("i", $user_id);
+        $stmt = $conn->prepare("SELECT us.id user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username, COUNT(po.id) posts, COUNT(up.id) upvotes, us.created_at joined FROM users us LEFT JOIN posts po ON us.id = po.user_id LEFT JOIN upvotes up ON us.id = up.user_id WHERE us.username = ?");
+        $stmt->bind_param("s", $user_slug);
         $stmt->execute();
         $result = $stmt->get_result();
 
