@@ -47,7 +47,7 @@ if($_GET) {
         'getBoard' => Board::getBoard($_GET["board_slug"]),
         'getBoardExcerpt' => Board::getBoardExcerpt($_GET["board_id"]),
         'getUser' => User::getUser($_GET["user_id"]),
-        'checkCredentials' => Authentication::checkCredentials($_GET["email"], $_GET["password"]),
+        'authenticateUser' => Authentication::authenticateUser($_GET["email"], $_GET["password"]),
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
 } else if($_POST) {

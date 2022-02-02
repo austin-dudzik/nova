@@ -1,147 +1,106 @@
 <?php
-// Initialize the session
+// Start session
 session_start();
-
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: welcome.php");
-    exit;
-}
-
 // Include config file
-require_once "config.php";
+include "includes/config.php";
 
-// Define variables and initialize with empty values
-$username = $password = "";
-$username_err = $password_err = $login_err = "";
-
-// Processing form data when form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Check if username is empty
-    if (empty(trim($_POST["username"]))) {
-        $username_err = "Please enter username.";
-    } else {
-        $username = trim($_POST["username"]);
-    }
-
-    // Check if password is empty
-    if (empty(trim($_POST["password"]))) {
-        $password_err = "Please enter your password.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-
-    // Validate credentials
-    if (empty($username_err) && empty($password_err)) {
-        // Prepare a select statement
-        $sql = "SELECT id, username, password FROM users WHERE username = ?";
-
-        if ($stmt = $mysqli->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_username);
-
-            // Set parameters
-            $param_username = $username;
-
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-                // Store result
-                $stmt->store_result();
-
-                // Check if username exists, if yes then verify password
-                if ($stmt->num_rows == 1) {
-                    // Bind result variables
-                    $stmt->bind_result($id, $username, $hashed_password);
-                    if ($stmt->fetch()) {
-                        if (password_verify($password, $hashed_password)) {
-                            // Password is correct, so start a new session
-                            session_start();
-
-                            // Store data in session variables
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;
-
-                            // Redirect user to welcome page
-                            header("location: welcome.php");
-                        } else {
-                            // Password is not valid, display a generic error message
-                            $login_err = "Invalid username or password.";
-                        }
-                    }
-                } else {
-                    // Username doesn't exist, display a generic error message
-                    $login_err = "Invalid username or password.";
-                }
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            $stmt->close();
-        }
-    }
-
-    // Close connection
-    $mysqli->close();
-}
 ?>
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Log In | <?= $site_name ?></title>
     <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font: 14px sans-serif;
-        }
-
-        .wrapper {
-            width: 360px;
-            padding: 20px;
-        }
-    </style>
+          href="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="<?= $site_url ?>/assets/libs/font-awesome-v6.0.0-beta3/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="<?= $site_url ?>/assets/libs/simplemde/css/simplemde.min.css">
+    <link rel="stylesheet"
+          href="<?= $site_url ?>/assets/css/styles.css">
 </head>
-<body>
-<div class="wrapper">
-    <h2>Login</h2>
+<body class="bg-light">
+<?php include "includes/navigation.php" ?>
+<div class="mx-auto border p-5 m-5 rounded bg-white"
+     style="width:40%">
+    <h1 class="mb-2">👋</h1>
+    <h2>Welcome back!</h2>
     <p>Please fill in your credentials to
         login.</p>
 
-    <?php
-    if (!empty($login_err)) {
-        echo '<div class="alert alert-danger">' . $login_err . '</div>';
-    }
-    ?>
+    <div class="alert alert-danger"
+         id="msg"></div>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
-          method="post">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" name="username"
-                   class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>"
-                   value="<?php echo $username; ?>">
-            <span class="invalid-feedback"><?php echo $username_err; ?></span>
+    <form>
+        <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input type="email" id="email"
+                   class="form-control">
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password"
-                   class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
-            <span class="invalid-feedback"><?php echo $password_err; ?></span>
+        <div class="form-group mb-3">
+            <label for="password">Password</label>
+            <input type="password" id="password"
+                   class="form-control">
         </div>
-        <div class="form-group">
-            <input type="submit"
-                   class="btn btn-primary"
-                   value="Login">
+        <div class="form-group mb-3">
+            <button type="button"
+                    class="btn btn-primary w-100"
+                    id="submitLogin">Log in
+            </button>
         </div>
-        <p>Don't have an account? <a
+        <p class="text-center">Don't have an account? <a
                     href="register.php">Sign up
                 now</a>.</p>
+        <p id="text"></p>
     </form>
 </div>
+<script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<script>
+    let site_name = '<?= $site_name ?>';
+    let csrf_token = '<?= generate_token() ?>';
+</script>
+
+<script>
+    $("#msg").hide();
+
+    $("#submitLogin").on("click", function () {
+
+        if ($("#email").val() || $("#password").val()) {
+
+            $("#msg").hide();
+
+            $.ajax({
+                url: "http://localhost/feedback/api.php",
+                method: "GET",
+                data: {
+                    type: "authenticateUser",
+                    csrf_token: csrf_token,
+                    email: $("#email").val(),
+                    password: $("#password").val()
+                },
+                success: (data) => {
+                    if (data.code === 204) {
+                        $("#msg").show().text("Sorry, the login details you entered are incorrect. Please try again.");
+                    } else {
+                        $("#msg").hide();
+                        $("#text").html(JSON.stringify(data));
+                    }
+                }
+            })
+        } else {
+            $("#msg").show().text("Both email and password are required fields.");
+        }
+
+        $("input").keypress(() => {
+            $("#msg").hide();
+        });
+
+    });
+</script>
 </body>
 </html>

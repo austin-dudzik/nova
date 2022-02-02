@@ -2,12 +2,13 @@
     <nav class="navbar navbar-light bg-light navbar-expand-lg"
          id="navigation">
         <div class="container py-2">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="<?= $site_url ?>">
                 <img src="<?= $site_url ?>/logo.svg"
                      alt="Logo">
             </a>
             <div>
 
+        <?php if(isset($_SESSION['user'])) { ?>
         <span class="fa-stack fa-2x"
               style="font-size:18px">
   <i class="fas fa-circle fa-stack-2x"
@@ -42,7 +43,8 @@
 
 
                 <div class="dropdown d-inline-block">
-                    <img src="https://gravatar.com/avatar/<?php echo md5("austin.dudzik@gmail.com") ?>"
+                    <?php $user = json_decode($_SESSION["user"]) ?>
+                    <img src="https://gravatar.com/avatar/<?php echo md5($user->email) ?>"
                          alt=""
                          class="rounded-circle"
                          style="width:35px;cursor:pointer"
@@ -63,6 +65,14 @@
                                 here</a></li>
                     </ul>
                 </div>
+                <?php } else { ?>
+
+                <a href="<?= $site_url ?>/login.php" class="btn btn-light border me-2">Log in</a>
+                <a href="<?= $site_url ?>/register.php" class="btn btn-primary">Create account</a>
+
+                <?php } ?>
+
+
             </div>
         </div>
 

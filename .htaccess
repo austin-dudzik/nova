@@ -1,3 +1,4 @@
 RewriteEngine on 
-RewriteRule ^p/(.*) post.php?post_id=$1 [QSA,L]
+RewriteRule ^p/(.*) post.php?post_slug=$1 [QSA,L]
 RewriteRule ^b/(.*) board.php?board_slug=$1 [QSA,L]
+RewriteRule ^u/(.*) user.php?user_slug=$1 [QSA,L]

@@ -31,15 +31,16 @@ class Authentication
     private string $password;
 
     /**
-     * checkCredentials
-     * Returns post details for a given post
+     * authenticateUser
+     * Verify credentials and log the user in
      *
      * @param string $email The email
      * @param string $password The password
-     * @return \Response|\stdClass The post or response object
+     * @return Authentication|Response The authentication or response object
      */
     public static function authenticateUser(string $email, string $password): Authentication|Response
     {
+
         global $conn;
 
         $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name, ' ', us.last_name) name, us.email, us.username, us.password FROM users us WHERE us.email = ?");
@@ -51,14 +52,12 @@ class Authentication
 
             $auth = $result->fetch_object('Authentication');
 
-            if(password_verify($password, $auth->password)) {
-
-                $_SESSION["user"] = $auth;
-
-                return $_SESSION["user"];
-
+            // If submitted password matches the hash
+            if (password_verify($password, $auth->password)) {
+                // Set session to user details
+                $_SESSION["user"] = json_encode($auth);
                 // Return 200 response
-                return Response::throwResponse(200, "User credentials are valid");
+                return Response::throwResponse(200, "User has successfully been logged in");
             } else {
                 // Return 204 response
                 return Response::throwResponse(204, "User credentials are invalid");

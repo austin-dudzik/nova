@@ -341,17 +341,16 @@ $board_slug = $_GET['board_slug'];
 
 <!-- Modal -->
 <div class="modal fade" id="mustSignInModal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header border-0">
                 <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <span class="fa-stack ms-1 fa-3x"
-                      style="font-size:22px">
+            <div class="modal-body text-center">
+                <span class="fa-stack ms-1 fa-2x">
                       <i class="fas fa-square fa-stack-2x text-primary"></i>
-                      <i class="fas fa-stack-1x fa-inverse board-icon"></i>
+                      <i class="fas fa-stack-1x fa-inverse"></i>
                     </span>
                 <h3>Please Sign In</h3>
             </div>
@@ -382,7 +381,6 @@ $board_slug = $_GET['board_slug'];
 </script>
 
 <script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-waypoints@2.0.5/waypoints.js"></script>
 <script src="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
 <script src="<?= $site_url ?>/assets/libs/simplemde/js/simplemde.min.js"></script>
 <script src="<?= $site_url ?>/assets/main.js"></script>
