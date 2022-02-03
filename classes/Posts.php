@@ -92,7 +92,7 @@ class Posts
 
                 // If post has assigned status
                 if ($post->status_id) {
-                    $post->status = Status::getStatus($post->status_id);
+                    $post->status = Status::getStatusExcerpt($post->status_id);
                 }
 
                 // If user is signed in
@@ -147,7 +147,7 @@ class Posts
 
                 // If post has assigned status
                 if ($post->status_id) {
-                    $post->status = Status::getStatus($post->status_id);
+                    $post->status = Status::getStatusExcerpt($post->status_id);
                 }
 
                 // If user is signed in
@@ -203,7 +203,7 @@ class Posts
 
                 // If post has assigned status
                 if ($post->status_id) {
-                    $post->status = Status::getStatus($post->status_id);
+                    $post->status = Status::getStatusExcerpt($post->status_id);
                 }
 
                 // If user is signed in

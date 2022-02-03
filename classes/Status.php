@@ -47,4 +47,29 @@ class Status
         }
     }
 
+    /**
+     * getStatusExcerpt
+     * Returns status excerpt for a given status
+     *
+     * @param int $status_id The status ID
+     * @return object The post or response object
+     */
+    public static function getStatusExcerpt(int $status_id): object
+    {
+        global $conn;
+
+        $stmt = $conn->prepare("SELECT st.name, st.slug, st.color FROM statuses st WHERE st.id = ?");
+        $stmt->bind_param("i", $status_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Return status details
+            return $result->fetch_object('Status');
+        } else {
+            // Return 204 response
+            return Response::throwResponse(204, 'No data found');
+        }
+    }
+
 }
