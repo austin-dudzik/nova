@@ -70,4 +70,18 @@ class Authentication
 
     }
 
+    /**
+     * revokeSession
+     * Revokes the current user session
+     *
+     * @return Response The response object
+     */
+    public static function revokeSession(): Response
+    {
+        // Unset the session variable
+        unset($_SESSION["user"]);
+        // Return 200 response
+        return Response::throwResponse(200, "User has successfully been logged out");
+    }
+
 }

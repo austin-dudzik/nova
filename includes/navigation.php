@@ -43,7 +43,6 @@
 
 
                 <div class="dropdown d-inline-block">
-                    <?php $user = json_decode($_SESSION["user"]) ?>
                     <img src="https://gravatar.com/avatar/<?php echo md5($user->email) ?>"
                          alt=""
                          class="rounded-circle"
@@ -52,17 +51,15 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item"
-                               href="#">Action</a>
+                               href="<?= $site_url ?>/u/<?= $user->username ?>">Profile</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
                                href="#">Another
                                 action</a></li>
                         <li>
-                            <a class="dropdown-item"
-                               href="#">Something
-                                else
-                                here</a></li>
+                            <a class="dropdown-item logout" href="javascript:void()">Log out</a>
+                        </li>
                     </ul>
                 </div>
                 <?php } else { ?>
