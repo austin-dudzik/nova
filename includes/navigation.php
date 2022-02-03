@@ -54,10 +54,6 @@
                                href="<?= $site_url ?>/u/<?= $user->username ?>">Profile</a>
                         </li>
                         <li>
-                            <a class="dropdown-item"
-                               href="#">Another
-                                action</a></li>
-                        <li>
                             <a class="dropdown-item logout" href="javascript:void()">Log out</a>
                         </li>
                     </ul>
@@ -68,7 +64,6 @@
                 <a href="<?= $site_url ?>/register.php" class="btn btn-primary">Create account</a>
 
                 <?php } ?>
-
 
             </div>
         </div>
