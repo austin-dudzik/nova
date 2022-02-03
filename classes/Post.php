@@ -45,6 +45,10 @@ class Post
      * @var int The post status ID
      */
     private int $status_id;
+    /**
+     * @var bool Status of current user upvote
+     */
+    public bool $hasUpvoted;
 
     /**
      * getPost
@@ -55,6 +59,7 @@ class Post
      */
     public static function getPost(string $post_slug): Post|Response|stdClass
     {
+        global $user;
         global $conn;
 
         $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
@@ -70,6 +75,11 @@ class Post
             // If post has assigned status
             if ($post->status_id) {
                 $post->status = Status::getStatus($post->status_id);
+            }
+
+            // If user is signed in
+            if (isset($user)) {
+                $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
             }
 
             // Get post board details
