@@ -46,7 +46,7 @@ if($_GET) {
         // Get posts by user
         'getPostsByUser' => Posts::getPostsByUser($_GET["user_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
         // Get single post
-        'getPost' => Post::getPost($_GET["post_id"]),
+        'getPost' => Post::getPost($_GET["post_slug"]),
         // Get board details
         'getBoard' => Board::getBoard($_GET["board_slug"]),
         // Get board excerpt

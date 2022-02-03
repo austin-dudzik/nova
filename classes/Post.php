@@ -46,15 +46,15 @@ class Post
      * getPost
      * Returns post details for a given post
      *
-     * @param int $post_id The post ID
+     * @param string $post_slug The post ID
      * @return Post|Response|stdClass The post or response object
      */
-    public static function getPost(int $post_id): Post|Response|stdClass
+    public static function getPost(string $post_slug): Post|Response|stdClass
     {
         global $conn;
 
-        $stmt = $conn->prepare("SELECT po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id WHERE po.id = ? GROUP BY up.post_id");
-        $stmt->bind_param("i", $post_id);
+        $stmt = $conn->prepare("SELECT po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY up.post_id");
+        $stmt->bind_param("i", $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();
 

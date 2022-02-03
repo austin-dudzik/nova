@@ -5,7 +5,7 @@ session_start();
 include "includes/config.php";
 
 // Define required parameters
-$post_id = $_GET['post_id'];
+$post_slug = $_GET['post_slug'];
 
 function slugify ($string) {
     $string = utf8_encode($string);
@@ -275,12 +275,12 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
     $(document).ready(() => {
 
         $.ajax({
-            url: "http://localhost/feedback/test.php",
+            url: "http://localhost/feedback/api.php",
             method: "GET",
             data: {
                 csrf_token: '<?php echo generate_token() ?>',
                 type: "getPost",
-                post_id: <?= $_GET['post_id'] ?>
+                post_slug: '<?= $_GET['post_slug'] ?>'
             },
             success: (data) => {
 
@@ -334,7 +334,7 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
             method: "POST",
             data: {
                 csrf_token: '<?php echo generate_token() ?>',
-                post_id: <?= $_GET['post_id'] ?>
+                post_id: 1
             },
             success: (data) => {
 
@@ -380,7 +380,7 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
             method: "POST",
             data: {
                 csrf_token: '<?php echo generate_token() ?>',
-                post_id: <?= $_GET['post_id'] ?>
+                post_id: 1
             },
             success: () => {
                 // Remove disabled state
@@ -409,7 +409,7 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
                 method: "POST",
                 data: {
                     csrf_token: '<?php echo generate_token() ?>',
-                    post_id: <?= $_GET['post_id'] ?>
+                    post_id: 1
                 },
                 success: () => {
                     // Remove disabled state
