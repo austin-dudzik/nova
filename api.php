@@ -5,11 +5,6 @@ session_start();
 // Set content type to JSON
 header('Content-Type: application/json');
 
-// Autoload classes
-spl_autoload_register(function ($class_name) {
-    require_once 'classes/' . $class_name . '.php';
-});
-
 ////If CSRF tokens don't match
 //if($_GET) {
 //    if (!isset($_GET["csrf_token"]) || !isset($_SESSION["csrf_token"]) || $_GET["csrf_token"] != $_SESSION["csrf_token"]) {
@@ -39,6 +34,8 @@ if($_GET) {
     $type = $_GET["type"] ?? "";
     // Determine call type
     $result = match ($type) {
+        // Get boards
+        'getBoards' => Boards::getBoards(),
         // Get posts by board
         'getPostsByBoard' => Posts::getPostsByBoard($_GET["board_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
         // Get posts by user

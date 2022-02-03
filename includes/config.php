@@ -5,6 +5,12 @@ include "db.php";
 $site_name = "Hexagonal";
 $site_url = "http://localhost/feedback";
 
+// Autoload classes
+spl_autoload_register(function ($class_name) {
+    require_once 'classes/' . $class_name . '.php';
+});
+
+
 // Generate CSRF token
 function generate_token()
 {
