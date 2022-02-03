@@ -27,25 +27,43 @@ $.ajax({
     </div>`);
 
 
-            for (let j = 0; j < data[i].posts.length; j++) {
-                $("#status-" + data[i].status_id + "-posts").append(`
+            $.ajax({
+                url: "http://localhost/feedback/api.php",
+                method: "GET",
+                data: {
+                    type: "getPostsByStatus",
+                    csrf_token: csrf_token,
+                    status_id: data[i].status_id
+                },
+                success: (posts) => {
+
+                    if (!posts.code) {
+
+                        for (let j = 0; j < posts.length; j++) {
+                            $("#status-" + data[i].status_id + "-posts").append(`
+<a href=""
                         <li class="list-group-item">
                         <div class="row">
                             <div class="col-md-2 my-auto">
-                                <button class="btn ${data[i].posts[j].hasUpvoted ? "btn-primary" : "btn-light"} border px-2 w-100">
+                                <button class="btn ${posts[j].hasUpvoted ? "btn-primary" : "btn-light"} border px-2 w-100">
                                     <i class="fas fa-caret-up d-block"></i>
-                                    <p class="mb-0">${data[i].posts[j].upvotes}</p>
+                                    <p class="mb-0">${posts[j].upvotes}</p>
                                 </button>
                             </div>
                             <div class="col-md-10">
-                                <p class="mb-0 mt-1" style="font-weight: 600; font-size: 15px; line-height: 22px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word">${data[i].posts[j].title}</p>
+                                <p class="mb-0 mt-1" style="font-weight: 600; font-size: 15px; line-height: 22px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word">${posts[j].title}</p>
                                 <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">FEATURE REQUESTS</small>
                             </div>
                         </div>
                     </li>`);
 
-            }
+                        }
 
+                    }
+
+                }
+
+            });
 
 
         }
