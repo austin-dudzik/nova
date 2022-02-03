@@ -53,6 +53,8 @@ if($_GET) {
         'getBoardExcerpt' => Board::getBoardExcerpt($_GET["board_id"]),
         // Get post voters
         'getVoters' => Voters::getVoters($_GET["post_id"]),
+        // Get statuses
+        'getStatuses' => Statuses::getStatuses(),
         // Get user details
         'getUser' => User::getUser($_GET["user_slug"]),
         // Revoke user session
