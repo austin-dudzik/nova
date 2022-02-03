@@ -19,16 +19,17 @@ class Upvote
     public static function votePost(int $post_id): Response
     {
 
+        global $user;
         global $conn;
 
         // If user is not authenticated
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($user)) {
             // Return 401 response
             return Response::throwResponse(401, "You must be authenticated in order to vote");
         }
 
         $stmt = $conn->prepare("SELECT COUNT(up.id) count FROM upvotes up WHERE up.post_id = ? AND up.user_id = ? GROUP BY up.id");
-        $stmt->bind_param("ii", $post_id, $_SESSION['id']);
+        $stmt->bind_param("ii", $post_id, $user->id);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -37,7 +38,7 @@ class Upvote
 
             // Delete upvote from database
             $stmt = $conn->prepare("DELETE up FROM upvotes up WHERE up.post_id = ? AND up.user_id = ?");
-            $stmt->bind_param("ii", $post_id, $_SESSION['id']);
+            $stmt->bind_param("ii", $post_id, $user->id);
             $stmt->execute();
 
             // If successful deletion...
@@ -54,7 +55,7 @@ class Upvote
 
             // Insert upvote into database
             $stmt = $conn->prepare("INSERT INTO upvotes (post_id, user_id) VALUES (?, ?)");
-            $stmt->bind_param("ii", $post_id, $_SESSION['id']);
+            $stmt->bind_param("ii", $post_id, $user->id);
             $stmt->execute();
 
             // If successful insertion...
@@ -81,7 +82,7 @@ class Upvote
     {
         global $conn;
         $stmt = $conn->prepare("SELECT COUNT(up.id) FROM upvotes up WHERE up.user_id = ? AND up.post_id = ? GROUP BY up.id");
-        $stmt->bind_param("ii", $_SESSION['id'], $post_id);
+        $stmt->bind_param("ii", $user->id, $post_id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->num_rows;
