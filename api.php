@@ -53,14 +53,14 @@ if($_GET) {
         'getBoardExcerpt' => Board::getBoardExcerpt($_GET["board_id"]),
         // Get user details
         'getUser' => User::getUser($_GET["user_slug"]),
-        // Authenticate user
-        'authenticateUser' => Authentication::authenticateUser($_GET["email"], $_GET["password"]),
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
 } else if($_POST) {
     $type = $_POST["type"] ?? "";
     // Determine call type
     $result = match ($type) {
+        // Authenticate user
+        'authenticateUser' => Authentication::authenticateUser($_POST["email"], $_POST["password"]),
         // Add/remove post upvote
         'votePost' => Upvote::votePost($_POST["post_id"]),
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")

@@ -55,7 +55,6 @@ include "includes/config.php";
         <p class="text-center">Don't have an account? <a
                     href="register.php">Sign up
                 now</a>.</p>
-        <p id="text"></p>
     </form>
 </div>
 <script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
@@ -76,7 +75,7 @@ include "includes/config.php";
 
             $.ajax({
                 url: "http://localhost/feedback/api.php",
-                method: "GET",
+                method: "POST",
                 data: {
                     type: "authenticateUser",
                     csrf_token: csrf_token,
@@ -88,7 +87,6 @@ include "includes/config.php";
                         $("#msg").show().text("Sorry, the login details you entered are incorrect. Please try again.");
                     } else {
                         $("#msg").hide();
-                        $("#text").html(JSON.stringify(data));
                     }
                 }
             })
