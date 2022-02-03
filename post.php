@@ -114,12 +114,14 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
                         </div>
                     </div>
 
-                    <button class="btn border px-2 w-100 lz-load" id="votePost">
+                    <div class="upvote">
+                        <button class="btn border px-3">
                         <i class="fas fa-caret-up d-block"></i>
                         <p class="mb-0">0</p>
-                    </button>
+                        </button>
+                    </div>
 
-                    <button class="btn border px-2 w-100 mt-3 lz-load" id="favoritePost">
+                    <button class="btn border px-3 mt-3 lz-load" id="favoritePost">
                         <i class="far fa-star d-block py-1"></i>
                     </button>
 
@@ -138,11 +140,11 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
 
                     <div class="row d-inline-block mb-3 small">
                         <p class="d-inline pe-0 text-muted">
-                            <span class="text-primary">Home</span>
+                            <a href="<?= $site_url ?>" class="text-primary text-decoration-none">Home</a>
                             <i class="fas fa-caret-right ms-2"></i>
                         </p>
                         <p class="d-inline pe-0 text-muted">
-                            <span class="text-primary post-board"></span>
+                            <a href="#" class="text-primary post-board text-decoration-none"></a>
                             <i class="fas fa-caret-right ms-2"></i>
                         </p>
                         <p class="d-inline pe-0 text-muted post-title"></p>
@@ -242,7 +244,6 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
     </div>
 </div>
 
-</div>
 
 <footer class="bg-light border text-center py-4">
     <div class="container px-5">
@@ -254,6 +255,15 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
         <div class="clearfix"></div>
     </div>
 </footer>
+
+<script>
+    const site_name = '<?= $site_name ?>';
+    const site_url = '<?= $site_url ?>';
+    const csrf_token = '<?= generate_token() ?>';
+
+    let post_id = null;
+    let post_slug = '<?= $_GET['post_slug'] ?>';
+</script>
 
 <script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
 <script src="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
@@ -278,23 +288,31 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
             url: "http://localhost/feedback/api.php",
             method: "GET",
             data: {
-                csrf_token: '<?php echo generate_token() ?>',
                 type: "getPost",
-                post_slug: '<?= $_GET['post_slug'] ?>'
+                csrf_token: csrf_token,
+                post_slug: post_slug,
             },
             success: (data) => {
 
                 // If post is not found
                 if (data.code && data.code === 204) {
                     $("#404-holder").show();
-                    $("#post-holder").hide();
+                    $("#post-holder").remove();
                 } else {
+
+                    $(".upvote").data("id", data.post_id).data("voted", data.hasUpvoted);
+                    $(".upvote button").addClass(data.hasUpvoted ? "btn-primary" : "btn-light");
+                    $(".upvote p").text(data.upvotes);
+
+                    window.post_id = data.post_id;
+
                     // Set page title
                     document.title = data.title;
+
                     // Set post title
                     $(".post-title").text(data.title);
                     // Set board name
-                    $(".post-board").text(data.board.name);
+                    $(".post-board").text(data.board.name).attr("href", data.board.url);
 
                     if (status) {
                         // Display status
@@ -303,16 +321,6 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
                             href: status.slug
                         });
                     }
-
-                    // Display upvote count
-                    $("#votePost p").text(data.upvotes)
-                    // Update upvote btn color
-                    $("#votePost").addClass(data.hasUpvoted ? "btn-primary" : "");
-
-                    $("#favoritePost").addClass(data.hasFavorited ? "btn-warning" : "");
-                    $("#favoritePost i").toggleClass("far fas");
-
-                    $("#votePost").data("voted", data.hasVoted);
 
                     $(".post-content").html(data.content);
 
@@ -327,106 +335,45 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
 
     });
 
+    $(document).on("click", ".upvote", function () {
 
-    function getVoters() {
+        $(this).find("button").addClass("disabled");
+
         $.ajax({
-            url: "http://localhost/feedback/endpoints/post/getVoters.php",
+            url: "http://localhost/feedback/api.php",
             method: "POST",
             data: {
-                csrf_token: '<?php echo generate_token() ?>',
-                post_id: 1
+                type: "votePost",
+                csrf_token: csrf_token,
+                post_id: window.post_id,
             },
             success: (data) => {
 
-                $("#votePost").show();
-                $("#pl-votePost").hide();
+                // Remove disabled state
+                $(this).find("button").removeClass("disabled");
 
-                if (data) {
+                if (data.code && data.code === 401) {
+                    //$("#mustSignInModal").modal("show");
+                } else {
 
-
-                    // $("#votePost").addClass("btn-primary");
-
-
-                    for (let i = 0; i < data.length; i++) {
-                        $("<li>").addClass("list-group-item px-0").html(`
-                    <div class="row">
-                        <div class="col-md-1 my-auto">
-                            <img src="https://gravatar.com/avatar/<?php echo md5("austin.dudzik@gmail.com") ?>"
-                                 class="rounded-circle"
-                                 style="width:25px;height:25px;font-weight:700">
-                        </div>
-                        <div class="col ms-3">
-                            <p class="mb-0">${data[0].name}</p>
-                        </div>
-                    </div>
-                    `).appendTo("#voterList");
+                    // Toggle appearance
+                    if ($(this).data("voted")) {
+                        $(this).data("voted", false);
+                        $(this).find("p").text(parseInt($(this).find("p").text()) - 1)
+                    } else {
+                        $(this).data("voted", true);
+                        $(this).find("p").text(parseInt($(this).find("p").text()) + 1)
                     }
 
+                    $(this).find("button").toggleClass("btn-primary btn-light");
+
                 }
-
-
-            }
-        });
-    }
-
-    $(document).ready(function () {
-        getVoters();
-    })
-
-    $("#votePost").on("click", () => {
-        $("#votePost").addClass("disabled");
-        $.ajax({
-            url: "http://localhost/feedback/endpoints/post/vote.php",
-            method: "POST",
-            data: {
-                csrf_token: '<?php echo generate_token() ?>',
-                post_id: 1
-            },
-            success: () => {
-                // Remove disabled state
-                $("#votePost").removeClass("disabled");
-                // Toggle appearance
-
-                if ($("#votePost p").data("voted")) {
-                    $("#votePost p").data("voted", false);
-                    $("#votePost p").text(parseInt($("#votePost p").text()) - 1)
-                } else {
-                    $("#votePost p").data("voted", true);
-                    $("#votePost p").text(parseInt($("#votePost p").text()) + 1)
-                }
-
-                $("#votePost").toggleClass("btn-primary");
 
             }
         })
 
+
     })
-
-        $("#favoritePost").on("click", () => {
-            $("#favoritePost").addClass("disabled");
-            $.ajax({
-                url: "http://localhost/feedback/endpoints/post/favorite.php",
-                method: "POST",
-                data: {
-                    csrf_token: '<?php echo generate_token() ?>',
-                    post_id: 1
-                },
-                success: () => {
-                    // Remove disabled state
-                    $("#favoritePost").removeClass("disabled");
-                    // Toggle appearance
-                    if ($("#favoritePost").data("favorited")) {
-                        $("#favoritePost").data("favorited", false);
-                    } else {
-                        $("#favoritePost").data("favorited", true);
-                    }
-
-                    $("#favoritePost").toggleClass("btn-warning");
-
-                }
-            })
-
-    });
 
 
 </script>
