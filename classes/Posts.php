@@ -74,6 +74,7 @@ class Posts
     public static function getPostsByBoard(int $board_id, int $offset = 0, int $limit = 10): object|array
     {
 
+        global $user;
         global $conn;
         global $site_url;
 
@@ -82,10 +83,10 @@ class Posts
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Define new array
-        $posts = array();
-
         if ($result->num_rows > 0) {
+
+            // Define new array
+            $posts = array();
 
             while ($post = $result->fetch_object('Posts')) {
 
@@ -95,7 +96,7 @@ class Posts
                 }
 
                 // If user is signed in
-                if (isset($_SESSION['id'])) {
+                if (isset($user)) {
                     $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
                 }
                 // Get post user details
@@ -128,6 +129,7 @@ class Posts
     public static function getPostsByUser(int $user_id, int $offset = 0, int $limit = 10): object|array
     {
 
+        global $user;
         global $conn;
         global $site_url;
 
@@ -149,7 +151,7 @@ class Posts
                 }
 
                 // If user is signed in
-                if (isset($_SESSION['id'])) {
+                if (isset($user)) {
                     $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
                 }
 

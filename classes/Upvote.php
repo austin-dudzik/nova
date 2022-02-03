@@ -80,6 +80,7 @@ class Upvote
      */
     public static function hasUpvoted(int $post_id): bool
     {
+        global $user;
         global $conn;
         $stmt = $conn->prepare("SELECT COUNT(up.id) FROM upvotes up WHERE up.user_id = ? AND up.post_id = ? GROUP BY up.id");
         $stmt->bind_param("ii", $user->id, $post_id);
