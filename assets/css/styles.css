@@ -1,8 +1,3 @@
-.list-group-item {
-    border: 0;
-    background: #efefef;
-}
-
 body {
     font-family: 'Be Vietnam Pro', sans-serif;
 }
@@ -22,6 +17,11 @@ body {
 
 .btn {
     box-shadow: none !important
+}
+
+.list-group-item {
+    border: 0;
+    background: #efefef;
 }
 
 .form-check-input:checked {
