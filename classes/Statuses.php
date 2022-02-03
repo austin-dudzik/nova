@@ -36,7 +36,7 @@ class Statuses
     {
         global $conn;
 
-        $stmt = $conn->prepare("SELECT st.id status_id, st.name, st.slug, st.color FROM statuses st");
+        $stmt = $conn->prepare("SELECT st.id AS status_id, st.name, st.slug, st.color, COUNT(po.id) posts FROM statuses st LEFT JOIN posts po ON po.status_id = st.id GROUP BY st.id");
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -45,12 +45,9 @@ class Statuses
             // Define new array
             $statuses = array();
 
-            while ($status = $result->fetch_object('Status')) {
+            while ($status = $result->fetch_object('Statuses')) {
 
-                // Get post's under this status
-                $status->posts = Posts::getPostsByStatus($status->status_id);
-
-                // Add status to array
+                // Add post to array
                 $statuses[] = $status;
             }
 
@@ -61,6 +58,7 @@ class Statuses
             // Return 204 response
             return Response::throwResponse(204, 'No data found');
         }
+
     }
 
 }
