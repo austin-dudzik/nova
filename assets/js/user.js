@@ -56,7 +56,7 @@ function getPosts(offset = 0, loadMore = false) {
         data: {
             csrf_token: csrf_token,
             type: "getPostsByUser",
-            user_id: window.user_id,
+            user_id: user_id,
             limit: 10,
             offset: offset
         },

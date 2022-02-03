@@ -193,24 +193,3 @@ $(".loadMore").on("click", function () {
     getPosts(offset, true);
     offset += 10;
 });
-
-
-
-let scroll_po = 0;
-$(window).scroll(function () {
-    if ($(window).scrollTop() + $(window).height() > $(document).height() - 250) {
-        //console.log($(window).scrollTop());
-
-        if (scroll_po == 0) {
-            scroll_po = $(window).scrollTop();
-
-            if(isLoading === false) {
-                $(".loadMore").trigger("click");
-            }
-
-            scroll_po = 0;
-        }
-    }
-
-
-});
