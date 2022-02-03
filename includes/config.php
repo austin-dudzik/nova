@@ -24,3 +24,7 @@ function isAdmin() {
         return false;
     }
 }
+
+if (isset($_SESSION['user'])) {
+    $user = json_decode($_SESSION["user"]);
+}
