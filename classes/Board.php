@@ -41,6 +41,10 @@ class Board
      * @var int The board upvote count
      */
     public int $upvotes;
+    /**
+     * @var string The board URL
+     */
+    public string $board_url;
 
 
     /**
@@ -78,10 +82,11 @@ class Board
      */
     public static function getBoardExcerpt(int $board_id): object
     {
+        global $site_url;
         global $conn;
 
-        $stmt = $conn->prepare("SELECT bo.name, bo.slug, bo.icon  FROM boards bo WHERE bo.id = ?");
-        $stmt->bind_param("i", $board_id);
+        $stmt = $conn->prepare("SELECT bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url FROM boards bo WHERE bo.id = ?");
+        $stmt->bind_param("si", $site_url, $board_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
