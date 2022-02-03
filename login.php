@@ -60,8 +60,9 @@ include "includes/config.php";
 <script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
 
 <script>
-    let site_name = '<?= $site_name ?>';
-    let csrf_token = '<?= generate_token() ?>';
+    const site_name = '<?= $site_name ?>';
+    const site_url = '<?= $site_url ?>';
+    const csrf_token = '<?= generate_token() ?>';
 </script>
 
 <script>
@@ -87,6 +88,7 @@ include "includes/config.php";
                         $("#msg").show().text("Sorry, the login details you entered are incorrect. Please try again.");
                     } else {
                         $("#msg").hide();
+                        window.location = site_url;
                     }
                 }
             })
