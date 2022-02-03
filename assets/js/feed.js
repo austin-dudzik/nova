@@ -71,49 +71,6 @@ $.ajax({
 })
 
 
-$(document).on("click", ".upvote", function () {
-
-    $(this).find("button").addClass("disabled");
-
-    $.ajax({
-        url: "http://localhost/feedback/api.php",
-        method: "POST",
-        data: {
-            type: "votePost",
-            csrf_token: csrf_token,
-            post_id: $(this).data("id")
-        },
-        success: (data) => {
-
-            // Remove disabled state
-            $(this).find("button").removeClass("disabled");
-
-            if (data.code && data.code === 401) {
-                $("#mustSignInModal").modal("show");
-            } else {
-
-                // Toggle appearance
-
-                if ($(this).data("voted")) {
-                    $(this).data("voted", false);
-                    $(this).find("p").text(parseInt($(this).find("p").text()) - 1)
-                } else {
-                    $(this).data("voted", true);
-                    $(this).find("p").text(parseInt($(this).find("p").text()) + 1)
-
-                }
-
-                $(this).find("button").toggleClass("btn-primary btn-light");
-
-            }
-
-        }
-    })
-
-
-})
-
-
 $.ajax({
     url: "http://localhost/feedback/api.php",
     method: "GET",
