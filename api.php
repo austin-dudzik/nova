@@ -53,6 +53,8 @@ if($_GET) {
         'getBoardExcerpt' => Board::getBoardExcerpt($_GET["board_id"]),
         // Get user details
         'getUser' => User::getUser($_GET["user_slug"]),
+        // Revoke user session
+        'revokeSession' => Authentication::revokeSession(),
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
 } else if($_POST) {
