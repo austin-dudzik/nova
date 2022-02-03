@@ -1,5 +1,3 @@
-isLoading = true;
-
 $.ajax({
     url: "http://localhost/feedback/api.php",
     method: "GET",
@@ -41,14 +39,15 @@ $.ajax({
 
                         for (let j = 0; j < posts.length; j++) {
                             $("#status-" + data[i].status_id + "-posts").append(`
-<a href=""
                         <li class="list-group-item">
                         <div class="row">
                             <div class="col-md-2 my-auto">
-                                <button class="btn ${posts[j].hasUpvoted ? "btn-primary" : "btn-light"} border px-2 w-100">
-                                    <i class="fas fa-caret-up d-block"></i>
-                                    <p class="mb-0">${posts[j].upvotes}</p>
-                                </button>
+                                <div class="upvote" data-id="${posts[j].post_id}" data-voted="${posts[j].hasUpvoted}">
+                                    <button class="btn ${posts[j].hasUpvoted ? "btn-primary" : "btn-light"} border px-3">
+                                        <i class="fas fa-caret-up d-block"></i>
+                                        <p class="mb-0">${posts[j].upvotes}</p>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-md-10">
                                 <p class="mb-0 mt-1" style="font-weight: 600; font-size: 15px; line-height: 22px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word">${posts[j].title}</p>
@@ -65,6 +64,122 @@ $.ajax({
 
             });
 
+
+        }
+
+    }
+})
+
+
+$(document).on("click", ".upvote", function () {
+
+    $(this).find("button").addClass("disabled");
+
+    $.ajax({
+        url: "http://localhost/feedback/api.php",
+        method: "POST",
+        data: {
+            type: "votePost",
+            csrf_token: csrf_token,
+            post_id: $(this).data("id")
+        },
+        success: (data) => {
+
+            // Remove disabled state
+            $(this).find("button").removeClass("disabled");
+
+            if (data.code && data.code === 401) {
+                $("#mustSignInModal").modal("show");
+            } else {
+
+                // Toggle appearance
+
+                if ($(this).data("voted")) {
+                    $(this).data("voted", false);
+                    $(this).find("p").text(parseInt($(this).find("p").text()) - 1)
+                } else {
+                    $(this).data("voted", true);
+                    $(this).find("p").text(parseInt($(this).find("p").text()) + 1)
+
+                }
+
+                $(this).find("button").toggleClass("btn-primary btn-light");
+
+            }
+
+        }
+    })
+
+
+})
+
+
+$.ajax({
+    url: "http://localhost/feedback/api.php",
+    method: "GET",
+    data: {
+        type: "getBoards",
+        csrf_token: csrf_token
+    },
+    success: (data) => {
+
+        for (let i = 0; i < data.length; i++) {
+
+            if (feedType === 1) {
+                $("#boards-container").append(`
+                        <div class="col-md-3 mb-4">
+                        <a href="${data[i].url}" class="text-reset text-decoration-none">
+            <div class="card" style="background:#efefef">
+                <div class="card-body text-center">
+                    <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-primary"></i>
+                    <p class="mb-0" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
+                    <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} posts</small>
+                </div>
+            </div>
+            </a>
+        </div>`);
+            } else if (feedType === 2) {
+
+                $("#boards-container").append(`
+                        <div class="col-md-3">
+                <div class="card" style="background:#efefef">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2 my-auto">
+                                <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-primary"></i>
+                            </div>
+                            <div class="col-md-10 ps-3">
+                                <p class="mb-0"
+                                   style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
+                                <small
+                                    style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} posts</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`);
+            } else if (feedType === 3) {
+
+                $("#boards-container").append(`
+                        <div class="col-md-3">
+            <div class="card" style="background:#efefef">
+                <div class="card-body py-2">
+                    <div class="row mt-1">
+                        <div class="col-md-1 my-auto">
+                            <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-primary" style="font-size:20px"></i>
+                        </div>
+                        <div class="col-md-8 ps-4">
+                            <p class="mb-0" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
+                        </div>
+                        <div class="col float-end">
+                            <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase" class="float-end mt-1">${data[i].posts}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`);
+
+            }
 
         }
 
