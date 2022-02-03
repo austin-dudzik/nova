@@ -35,10 +35,10 @@ $user_slug = $_GET['user_slug'];
     <div class="card w-50 mx-auto p-4"
          id="404-holder" style="display:none">
         <div class="card-body">
-            <h5>Board Not Found</h5>
-            <p>Sorry, we couldn't find a board
+            <h5>User Not Found</h5>
+            <p>Sorry, we couldn't find a user
                 located at the specified URL.</p>
-            <p class="fw-bold">It may have been
+            <p class="fw-bold">The page may have been
                 moved, deleted, or may have never
                 existed.</p>
             <a href="<?= $site_url ?>"
@@ -47,9 +47,9 @@ $user_slug = $_GET['user_slug'];
         </div>
     </div>
 
-    <div class="row" id="board-holder">
+    <div class="row" id="user-holder">
 
-        <div class="col-md-3">
+        <div class="col-md-4">
 
             <div class="ph-item mb-3">
                 <div class="ph-col-12">
@@ -62,34 +62,25 @@ $user_slug = $_GET['user_slug'];
 
             <div class="card sticky-top lz-load"
                  style="top:150px">
-                <div class="card-body">
+                <div class="card-body p-4">
 
-                    <img class="user-avatar rounded" height="70">
+                    <img class="user-avatar rounded mb-3"
+                         height="70">
 
                     <h5 class="user-name"></h5>
-                    <p class="user-username"></p>
+                    <p class="user-username small text-muted"></p>
 
                     <div class="mx-2 mt-2">
                         <h6 style="font-weight:700"
                             class="board-name"></h6>
                         <p class="small text-muted board-desc"></p>
 
-                        <div class="row">
-                            <div class="col">
-                                <button type="button"
-                                        class="btn btn-primary w-100 border btn-sm mb-2">
-                                    <i class="far fa-plus me-2"></i>
-                                    New post
-                                </button>
-                            </div>
-                            <div class="col">
+
                                 <button type="button"
                                         class="btn btn-light w-100 border btn-sm mb-2">
-                                    <i class="far fa-rss me-2"></i>
-                                    Subscribe
+                                    <i class="fas fa-pencil me-2"></i>
+                                    Edit profile
                                 </button>
-                            </div>
-                        </div>
 
                         <p class="small mt-2 mb-0"
                            style="font-size:11px">
@@ -131,25 +122,23 @@ $user_slug = $_GET['user_slug'];
                     </div>
 
 
-                    <div class="mb-3 small lz-load">
-                        <span class="float-start">
-                        <p class="d-inline pe-0 text-muted">
-                            <span class="text-primary">Boards</span>
-                            <i class="fas fa-caret-right mx-2"></i>
-                        </p>
-                        <p class="d-inline pe-0 text-muted board-name">Feature Requests</p>
-                            </span>
-
-                        <p class="float-end"
-                           id="toggle-sidebar"
-                           role="button">
-                            <i class="fas fa-right-from-line me-2"></i>
-                            Options
-                        </p>
-
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Posts</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Upvotes</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Favorites</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
                     </div>
 
-                    <div class="clearfix"></div>
 
 
                     <div class="ph-item mb-3">
@@ -200,13 +189,21 @@ $user_slug = $_GET['user_slug'];
                     <div class="card no-posts-holder">
                         <div class="card-body p-5">
                             <h1>🦄</h1>
-                            <h5>No posts to be found here...</h5>
-                            <p>It appears no posts have been published to this board yet.</p>
-                            <button type="button" class="btn btn-primary btn-sm px-4 me-2">
+                            <h5>No posts to be
+                                found here...</h5>
+                            <p>It appears no posts
+                                have been
+                                published to this
+                                board yet.</p>
+                            <button type="button"
+                                    class="btn btn-primary btn-sm px-4 me-2">
                                 <i class="far fa-plus"></i>
-                                New post</button>
-                            <button type="button" class="btn btn-light border btn-sm px-4">
-                                Go back</button>
+                                New post
+                            </button>
+                            <button type="button"
+                                    class="btn btn-light border btn-sm px-4">
+                                Go back
+                            </button>
                         </div>
                     </div>
 
@@ -218,13 +215,15 @@ $user_slug = $_GET['user_slug'];
                             <i class="fas fa-plus me-2"></i>
                             Load more
                         </button>
-                        <p class="text-muted small fst-italic">🎈 You've reached the end</p>
+                        <p class="text-muted small fst-italic">
+                            🎈 You've reached the
+                            end</p>
                     </div>
                 </div>
 
-        </div>
+            </div>
 
-    </div>
+        </div>
     </div>
 </div>
 
@@ -233,8 +232,12 @@ $user_slug = $_GET['user_slug'];
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title"
+                    id="exampleModalLabel"></h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
                 <span class="fa-stack ms-1 fa-2x">
@@ -244,8 +247,15 @@ $user_slug = $_GET['user_slug'];
                 <h3>Please Sign In</h3>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button"
+                        class="btn btn-primary">
+                    Save changes
+                </button>
             </div>
         </div>
     </div>
