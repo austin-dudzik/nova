@@ -14,13 +14,12 @@ function getUser() {
         },
         success: (data) => {
 
-
-            // If board is not found
+            // If user is not found
             if (data.code && data.code === 204) {
                 // Show 404 holder
                 $("#404-holder").show();
-                // Remove board holder
-                $("#board-holder").remove();
+                // Remove user holder
+                $("#user-holder").remove();
             } else {
 
                 // Set the user ID
@@ -30,19 +29,14 @@ function getUser() {
                 $("#404-holder").remove();
 
                 //Get user posts
-                    getPosts();
-                    $(".no-posts-holder").remove();
+                getPosts();
+                $(".no-posts-holder").remove();
 
                 // Set board information
                 document.title = data.name + " | " + site_name;
-                // $(".board-name").text(data.name);
-                // $(".board-desc").text(data.description);
                 $(".user-name").text(data.name);
                 $(".user-avatar").attr("src", data.avatar);
                 $(".user-username").text("@" + data.username);
-                $(".board-posts").text(data.posts + (data.posts === 1 ? " post" : " posts"));
-                $(".board-subscribers").text(data.subscribers + (data.subscribers === 1 ? " subscriber" : " subscribers"));
-                $(".board-upvotes").text(data.upvotes + (data.upvotes === 1 ? " upvote" : " upvotes"));
 
                 // Hide placeholders
                 $(".ph-item").hide();
@@ -62,7 +56,7 @@ function getPosts(offset = 0, loadMore = false) {
         data: {
             csrf_token: csrf_token,
             type: "getPostsByUser",
-            user_id: user_id,
+            user_id: window.user_id,
             limit: 10,
             offset: offset
         },
@@ -151,12 +145,9 @@ $(document).on("click", ".upvote", function () {
                 if ($(this).data("voted")) {
                     $(this).data("voted", false);
                     $(this).find("p").text(parseInt($(this).find("p").text()) - 1)
-                    $(".board-upvotes").text((parseInt($(".board-upvotes").text()) - 1) + " upvotes");
                 } else {
                     $(this).data("voted", true);
                     $(this).find("p").text(parseInt($(this).find("p").text()) + 1)
-                    $(".board-upvotes").text((parseInt($(".board-upvotes").text()) + 1) + " upvotes");
-
                 }
 
                 $(this).find("button").toggleClass("btn-primary btn-light");
