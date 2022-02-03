@@ -33,8 +33,6 @@ spl_autoload_register(function ($class_name) {
 // Include configuration
 require_once "includes/config.php";
 
-@$userId = $_SESSION["id"];
-
 $result = array();
 
 if($_GET) {
@@ -45,6 +43,8 @@ if($_GET) {
         'getPostsByBoard' => Posts::getPostsByBoard($_GET["board_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
         // Get posts by user
         'getPostsByUser' => Posts::getPostsByUser($_GET["user_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
+        // Get posts by status
+        'getPostsByStatus' => Posts::getPostsByStatus($_GET["status_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
         // Get single post
         'getPost' => Post::getPost($_GET["post_slug"]),
         // Get board details
@@ -57,6 +57,7 @@ if($_GET) {
         'getUser' => User::getUser($_GET["user_slug"]),
         // Revoke user session
         'revokeSession' => Authentication::revokeSession(),
+        // Default response
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
 } else if($_POST) {
@@ -67,6 +68,7 @@ if($_GET) {
         'authenticateUser' => Authentication::authenticateUser($_POST["email"], $_POST["password"]),
         // Add/remove post upvote
         'votePost' => Upvote::votePost($_POST["post_id"]),
+        // Default response
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
 }

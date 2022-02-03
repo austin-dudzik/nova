@@ -69,9 +69,9 @@ class Posts
      * @param int $board_id The board ID
      * @param int $offset The offset of the posts (default = 0)
      * @param int $limit The limit of the posts (default = 10)
-     * @return object|array The posts or response object
+     * @return Posts|Response|array The posts or response object
      */
-    public static function getPostsByBoard(int $board_id, int $offset = 0, int $limit = 10): object|array
+    public static function getPostsByBoard(int $board_id, int $offset = 0, int $limit = 10): Posts|Response|array
     {
 
         global $user;
@@ -124,9 +124,9 @@ class Posts
      * @param int $user_id The user ID
      * @param int $offset The offset of the posts (default = 0)
      * @param int $limit The limit of the posts (default = 10)
-     * @return object The posts object or a response
+     * @return Posts|Response|array The posts object or a response
      */
-    public static function getPostsByUser(int $user_id, int $offset = 0, int $limit = 10): object|array
+    public static function getPostsByUser(int $user_id, int $offset = 0, int $limit = 10): Posts|Response|array
     {
 
         global $user;
@@ -135,6 +135,62 @@ class Posts
 
         $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id LEFT JOIN comments co ON po.id = co.post_id WHERE po.user_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $user_id, $offset, $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+
+            // Define new array
+            $posts = array();
+
+            while ($post = $result->fetch_object('Posts')) {
+
+                // If post has assigned status
+                if ($post->status_id) {
+                    $post->status = Status::getStatus($post->status_id);
+                }
+
+                // If user is signed in
+                if (isset($user)) {
+                    $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
+                }
+
+                // Get post user details
+                $post->user = User::getUserExcerpt($post->user_id);
+
+                // Add post to array
+                $posts[] = $post;
+
+            }
+
+            // Return the posts
+            return $posts;
+
+        } else {
+            // Return 204 response
+            return Response::throwResponse(204, "No posts found");
+        }
+
+    }
+
+    /**
+     * getPostsByStatus
+     * Returns all posts for a given status
+     *
+     * @param int $status_id The status ID
+     * @param int $offset The offset of the posts (default = 0)
+     * @param int $limit The limit of the posts (default = 10)
+     * @return Posts|Response|array The posts object or a response
+     */
+    public static function getPostsByStatus(int $status_id, int $offset = 0, int $limit = 10): Posts|Response|array
+    {
+
+        global $user;
+        global $conn;
+        global $site_url;
+
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id LEFT JOIN comments co ON po.id = co.post_id WHERE po.status_id = ? GROUP BY po.id DESC LIMIT ?, ?");
+        $stmt->bind_param("siii", $site_url, $status_id, $offset, $limit);
         $stmt->execute();
         $result = $stmt->get_result();
 
