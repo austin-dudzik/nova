@@ -10,6 +10,10 @@ class Post
 {
 
     /**
+     * @var int The post ID
+     */
+    public int $post_id;
+    /**
      * @var string The post title
      */
     public string $title;
@@ -53,7 +57,7 @@ class Post
     {
         global $conn;
 
-        $stmt = $conn->prepare("SELECT po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY up.post_id");
+        $stmt = $conn->prepare("SELECT po.id post_id, po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY up.post_id");
         $stmt->bind_param("i", $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();
