@@ -24,8 +24,7 @@ $user_slug = $_GET['user_slug'];
             <h5>User Not Found</h5>
             <p>Sorry, we couldn't find a user
                 located at the specified URL.</p>
-            <p class="fw-bold">The page may have
-                been
+            <p class="fw-bold">The page may have been
                 moved, deleted, or may have never
                 existed.</p>
             <a href="<?= $site_url ?>"
@@ -63,11 +62,11 @@ $user_slug = $_GET['user_slug'];
                         <p class="small text-muted board-desc"></p>
 
 
-                        <button type="button"
-                                class="btn btn-light w-100 border btn-sm mb-2">
-                            <i class="fas fa-pencil me-2"></i>
-                            Edit profile
-                        </button>
+                                <button type="button"
+                                        class="btn btn-light w-100 border btn-sm mb-2">
+                                    <i class="fas fa-pencil me-2"></i>
+                                    Edit profile
+                                </button>
 
                         <p class="small mt-2 mb-0"
                            style="font-size:11px">
@@ -109,70 +108,23 @@ $user_slug = $_GET['user_slug'];
                     </div>
 
 
-                    <ul class="nav nav-pills mb-3"
-                        id="pills-tab"
-                        role="tablist">
-                        <li class="nav-item"
-                            role="presentation">
-                            <button class="nav-link active"
-                                    id="pills-home-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-home"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-home"
-                                    aria-selected="true">
-                                Posts
-                            </button>
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Posts</button>
                         </li>
-                        <li class="nav-item"
-                            role="presentation">
-                            <button class="nav-link"
-                                    id="pills-profile-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-profile"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-profile"
-                                    aria-selected="false">
-                                Upvotes
-                            </button>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Upvotes</button>
                         </li>
-                        <li class="nav-item"
-                            role="presentation">
-                            <button class="nav-link"
-                                    id="pills-contact-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-contact"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-contact"
-                                    aria-selected="false">
-                                Favorites
-                            </button>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Favorites</button>
                         </li>
                     </ul>
-                    <div class="tab-content"
-                         id="pills-tabContent">
-                        <div class="tab-pane fade show active"
-                             id="pills-home"
-                             role="tabpanel"
-                             aria-labelledby="pills-home-tab">
-                            ...
-                        </div>
-                        <div class="tab-pane fade"
-                             id="pills-profile"
-                             role="tabpanel"
-                             aria-labelledby="pills-profile-tab">
-                            ...
-                        </div>
-                        <div class="tab-pane fade"
-                             id="pills-contact"
-                             role="tabpanel"
-                             aria-labelledby="pills-contact-tab">
-                            ...
-                        </div>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
                     </div>
+
 
 
                     <div class="ph-item mb-3">
