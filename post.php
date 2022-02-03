@@ -4,6 +4,8 @@ session_start();
 // Include config file
 include "includes/config.php";
 
+require_once "classes/Render.php";
+
 // Define required parameters
 $post_slug = $_GET['post_slug'];
 
@@ -22,27 +24,12 @@ function slugify ($string) {
     return $string;
 }
 
-echo slugify("Add the ability to add new tag's to already existing posts.");
+//echo slugify("Add the ability to add new tag's to already existing posts.");
 
 ?>
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Loading...</title>
-    <link rel="stylesheet"
-          href="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="<?= $site_url ?>/assets/libs/font-awesome-v6.0.0-beta3/css/all.css">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet"
-          href="<?= $site_url ?>/assets/libs/simplemde/css/simplemde.min.css">
-    <link rel="stylesheet"
-          href="<?= $site_url ?>/assets/css/styles.css">
-</head>
+<?php echo Render::header(); ?>
 <body>
 
 <?php include "includes/navigation.php" ?>
@@ -244,139 +231,11 @@ echo slugify("Add the ability to add new tag's to already existing posts.");
     </div>
 </div>
 
-
-<footer class="bg-light border text-center py-4">
-    <div class="container px-5">
-        <p class="float-start mb-0">
-            &copy; <?= date('Y') ?> Hexagonal, all
-            rights reserved.</p>
-        <p class="float-end mb-0">🚀 Powered by
-            Nova</p>
-        <div class="clearfix"></div>
-    </div>
-</footer>
-
 <script>
-    const site_name = '<?= $site_name ?>';
-    const site_url = '<?= $site_url ?>';
-    const csrf_token = '<?= generate_token() ?>';
-
     let post_id = null;
     let post_slug = '<?= $_GET['post_slug'] ?>';
 </script>
-
-<script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
-<script src="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="<?= $site_url ?>/assets/libs/simplemde/js/simplemde.min.js"></script>
-
-<script>
-
-    // Hide all lazy load elements
-    $(".lz-load").hide();
-
-    $(".toggle-co-area").click(function () {
-        $("#comment-area, #leave-comment").toggle();
-    });
-
-
-    const simplemde = new SimpleMDE({element: $("#comment-area#editor")[0]});
-
-
-    $(document).ready(() => {
-
-        $.ajax({
-            url: "http://localhost/feedback/api.php",
-            method: "GET",
-            data: {
-                type: "getPost",
-                csrf_token: csrf_token,
-                post_slug: post_slug,
-            },
-            success: (data) => {
-
-                // If post is not found
-                if (data.code && data.code === 204) {
-                    $("#404-holder").show();
-                    $("#post-holder").remove();
-                } else {
-
-                    $(".upvote").data("id", data.post_id).data("voted", data.hasUpvoted);
-                    $(".upvote button").addClass(data.hasUpvoted ? "btn-primary" : "btn-light");
-                    $(".upvote p").text(data.upvotes);
-
-                    window.post_id = data.post_id;
-
-                    // Set page title
-                    document.title = data.title;
-
-                    // Set post title
-                    $(".post-title").text(data.title);
-                    // Set board name
-                    $(".post-board").text(data.board.name).attr("href", data.board.url);
-
-                    if (status) {
-                        // Display status
-                        $("#post-status").text(status.name).attr({
-                            style: "color:" + status.color,
-                            href: status.slug
-                        });
-                    }
-
-                    $(".post-content").html(data.content);
-
-                    $("#post-wrapper .ph-item").hide();
-                    $(".lz-load").show();
-
-                }
-
-            }
-
-        });
-
-    });
-
-    $(document).on("click", ".upvote", function () {
-
-        $(this).find("button").addClass("disabled");
-
-        $.ajax({
-            url: "http://localhost/feedback/api.php",
-            method: "POST",
-            data: {
-                type: "votePost",
-                csrf_token: csrf_token,
-                post_id: window.post_id,
-            },
-            success: (data) => {
-
-                // Remove disabled state
-                $(this).find("button").removeClass("disabled");
-
-                if (data.code && data.code === 401) {
-                    //$("#mustSignInModal").modal("show");
-                } else {
-
-                    // Toggle appearance
-                    if ($(this).data("voted")) {
-                        $(this).data("voted", false);
-                        $(this).find("p").text(parseInt($(this).find("p").text()) - 1)
-                    } else {
-                        $(this).data("voted", true);
-                        $(this).find("p").text(parseInt($(this).find("p").text()) + 1)
-                    }
-
-                    $(this).find("button").toggleClass("btn-primary btn-light");
-
-                }
-
-            }
-        })
-
-
-    })
-
-
-</script>
-
+<?php echo Render::footer(); ?>
+<script src="<?= $site_url ?>/assets/js/post.js"></script>
 </body>
 </html>

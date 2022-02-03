@@ -4,42 +4,12 @@ session_start();
 
 include "includes/config.php";
 
-//if(!isLoggedIn()){
-//    header("location: login.php");
-//    exit;
-//}
+require_once "classes/Render.php";
+
 ?>
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<style>
-    .list-group-item {
-        border: 0;
-        background: #efefef;
-    }
-    body {
-        font-family: 'Be Vietnam Pro', sans-serif;
-    }
-    .text-primary {
-        color: #f0513c!important;
-    }
-    .bg-primary {
-        background-color: #f0513c!important;
-    }
-    .btn-primary {
-        background-color: #f0513c!important;
-        border-color: #f0513c!important;
-    }
-</style>
+<?php echo Render::header('Home'); ?>
 <body>
 
 <?php include "includes/navigation.php"; ?>
@@ -213,23 +183,6 @@ include "includes/config.php";
 
 </div>
 
-<footer class="bg-light border text-center py-4">
-    <div class="container px-5">
-        <p class="float-start mb-0">&copy; <?= date('Y') ?> Hexagonal, all rights reserved.</p>
-        <p class="float-end mb-0">🚀 Powered by Nova</p>
-        <div class="clearfix"></div>
-    </div>
-</footer>
-
-<script>
-    const site_name = '<?= $site_name ?>';
-    const site_url = '<?= $site_url ?>';
-    const csrf_token = '<?= generate_token() ?>';
-</script>
-
-<script
-<script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
-<script src="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="<?= $site_url ?>/assets/js/main.js"></script>
+<?php echo Render::footer(); ?>
 </body>
 </html>
