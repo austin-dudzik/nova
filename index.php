@@ -221,6 +221,15 @@ include "includes/config.php";
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const site_name = '<?= $site_name ?>';
+    const site_url = '<?= $site_url ?>';
+    const csrf_token = '<?= generate_token() ?>';
+</script>
+
+<script
+<script src="<?= $site_url ?>/assets/libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="<?= $site_url ?>/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="<?= $site_url ?>/assets/js/main.js"></script>
 </body>
 </html>
