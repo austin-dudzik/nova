@@ -51,6 +51,8 @@ if($_GET) {
         'getBoard' => Board::getBoard($_GET["board_slug"]),
         // Get board excerpt
         'getBoardExcerpt' => Board::getBoardExcerpt($_GET["board_id"]),
+        // Get post voters
+        'getVoters' => Voters::getVoters($_GET["post_id"]),
         // Get user details
         'getUser' => User::getUser($_GET["user_slug"]),
         // Revoke user session
