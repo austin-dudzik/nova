@@ -136,10 +136,10 @@ class Posts
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Define new array
-        $posts = array();
-
         if ($result->num_rows > 0) {
+
+            // Define new array
+            $posts = array();
 
             while ($post = $result->fetch_object('Posts')) {
 
