@@ -1,21 +1,19 @@
 <?php
 // Start session
 session_start();
+
 // Include config file
 include "includes/config.php";
 
 // Define required parameters
 $board_slug = $_GET['board_slug'];
 
-require_once "classes/Render.php";
-
 ?>
 <!doctype html>
 <html lang="en">
 <?php echo Render::header(); ?>
 <body>
-
-<?php include "includes/navigation.php" ?>
+<?php echo Render::navigation('board'); ?>
 
 <div class="container-fluid my-5 px-5">
 
@@ -28,8 +26,7 @@ require_once "classes/Render.php";
             <p class="fw-bold">It may have been
                 moved, deleted, or may have never
                 existed.</p>
-            <a href="<?= $site_url ?>"
-               class="btn btn-primary">Go back
+            <a href="<?= $site_url ?>" class="btn btn-primary">Go back
                 home</a>
         </div>
     </div>
@@ -122,7 +119,7 @@ require_once "classes/Render.php";
                     <div class="mb-3 small lz-load">
                         <span class="float-start">
                         <p class="d-inline pe-0 text-muted">
-                            <span class="text-primary">Boards</span>
+                            <a href="<?= $site_url ?>" class="text-primary text-decoration-none">Boards</a>
                             <i class="fas fa-caret-right mx-2"></i>
                         </p>
                         <p class="d-inline pe-0 text-muted board-name">Feature Requests</p>
