@@ -10,7 +10,8 @@ require_once "classes/Render.php";
 <html lang="en">
 <?php echo Render::header('Log in'); ?>
 <body class="bg-light">
-<?php include "includes/navigation.php" ?>
+<?php echo Render::navigation('login'); ?>
+
 <div class="mx-auto border p-5 m-5 rounded bg-white"
      style="width:40%">
     <h1 class="mb-2">👋</h1>
@@ -34,13 +35,13 @@ require_once "classes/Render.php";
         </div>
         <div class="form-group mb-3">
             <button type="button"
-                    class="btn btn-primary w-100"
+                    class="btn btn-accent w-100"
                     id="submitLogin">Log in
             </button>
         </div>
         <p class="text-center">Don't have an
             account? <a
-                    href="register.php">Sign up
+                    href="register.php" class="text-accent">Sign up
                 now</a>.</p>
     </form>
 </div>

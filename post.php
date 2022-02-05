@@ -31,8 +31,7 @@ function slugify ($string) {
 <html lang="en">
 <?php echo Render::header(); ?>
 <body>
-
-<?php include "includes/navigation.php" ?>
+<?php echo Render::navigation('post'); ?>
 
 <div class="container my-5 px-5">
 

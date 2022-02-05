@@ -13,8 +13,7 @@ $user_slug = $_GET['user_slug'];
 <html lang="en">
 <?php echo Render::header(); ?>
 <body>
-
-<?php include "includes/navigation.php" ?>
+<?php echo Render::navigation('user'); ?>
 
 <div class="container my-5 px-5">
 
