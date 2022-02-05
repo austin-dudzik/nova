@@ -9,7 +9,7 @@
             <div>
 
         <?php if(isset($_SESSION['user'])) { ?>
-        <span class="fa-stack fa-2x"
+        <span class="fa-stack fa-2x" id="openSearchModal"
               style="font-size:18px">
   <i class="fas fa-circle fa-stack-2x"
      style="color:hsla(0,0%,39.2%,.1)"></i>
@@ -85,8 +85,7 @@
                  id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item me-2">
-                        <a class="nav-link"
-                           href="#">
+                        <a class="nav-link" href="<?= $site_url ?>">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="d-inline"
                                  style="height:20px;width:20px"

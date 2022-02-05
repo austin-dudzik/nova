@@ -36,7 +36,7 @@ class Render
                      alt="Logo">
             </a>
             <div>' . (isset($_SESSION['user']) ?
-            '<span class="fa-stack fa-2x"
+            '<span class="fa-stack fa-2x" id="openSearchModal"
               style="font-size:18px">
   <i class="fas fa-circle fa-stack-2x"
      style="color:hsla(0,0%,39.2%,.1)"></i>
