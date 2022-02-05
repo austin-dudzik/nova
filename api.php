@@ -1,6 +1,6 @@
 <?php
-// Start the session
-session_start();
+// Include configuration
+require_once "includes/config.php";
 
 // Set content type to JSON
 header('Content-Type: application/json');
@@ -25,12 +25,9 @@ header('Content-Type: application/json');
 //    }
 //}
 
-// Include configuration
-require_once "includes/config.php";
-
 $result = array();
 
-if($_GET) {
+if ($_GET) {
     $type = $_GET["type"] ?? "";
     // Determine call type
     $result = match ($type) {
@@ -61,7 +58,7 @@ if($_GET) {
         // Default response
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
-} else if($_POST) {
+} else if ($_POST) {
     $type = $_POST["type"] ?? "";
     // Determine call type
     $result = match ($type) {
@@ -72,6 +69,8 @@ if($_GET) {
         // Default response
         default => Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method")
     };
+} else {
+    $result = Response::throwResponse(404, "Requested API endpoint does not exist or inaccessible from this method");
 }
 
 // Return API interface
