@@ -6,11 +6,7 @@ $("#toggle-sidebar").on("click", () => {
 // Hide all lazy load elements
 $(".lz-load").hide();
 
-let isLoading = false;
-
 function getBoard() {
-
-    isLoading = true;
 
     $.ajax({
         url: "http://localhost/feedback/api.php",
@@ -21,8 +17,6 @@ function getBoard() {
             board_slug: boardSlug
         },
         success: (data) => {
-
-            isLoading = false;
 
             // If board is not found
             if (data.code && data.code === 204) {
@@ -72,8 +66,8 @@ function getPosts(offset = 0, loadMore = false) {
         url: "http://localhost/feedback/api.php",
         method: "GET",
         data: {
-            csrf_token: csrf_token,
             type: "getPostsByBoard",
+            csrf_token: csrf_token,
             board_id: boardId,
             limit: 10,
             offset: offset
