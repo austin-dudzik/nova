@@ -100,7 +100,7 @@ function getPosts(offset = 0, loadMore = false) {
                     $(".posts-list").append(`<li class="list-group-item post-listing">
                             <div class="d-flex">
                                 <div class="upvote" data-id="${data[i].post_id}" data-voted="${data[i].hasUpvoted}">
-                                    <button class="btn ${data[i].hasUpvoted ? "btn-primary" : "btn-light"} border px-3">
+                                    <button class="btn ${data[i].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
                                         <i class="fas fa-caret-up d-block"></i>
                                         <p class="mb-0">${data[i].upvotes}</p>
                                     </button>

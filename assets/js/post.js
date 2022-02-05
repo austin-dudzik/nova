@@ -28,7 +28,7 @@ $(document).ready(() => {
             } else {
 
                 $(".upvote").data("id", data.post_id).data("voted", data.hasUpvoted);
-                $(".upvote button").addClass(data.hasUpvoted ? "btn-primary" : "btn-light");
+                $(".upvote button").addClass(data.hasUpvoted ? "btn-accent" : "btn-light");
                 $(".upvote p").text(data.upvotes);
 
                 window.post_id = data.post_id;

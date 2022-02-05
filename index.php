@@ -10,8 +10,7 @@ include "includes/config.php";
 <body>
 <?php echo Render::navigation('feed'); ?>
 
-<div class="bg-primary text-white p-md-5 p-3"
-     sstyle="background:#a8138a">
+<div class="bg-accent text-white p-md-5 p-3">
     <div class="container p-5 py-3">
         <h1 class="text-center">Your Feedback
             Matters to Us!</h1>

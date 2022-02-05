@@ -2,19 +2,6 @@ body {
     font-family: 'Be Vietnam Pro', sans-serif;
 }
 
-.text-primary {
-    color: #f0513c !important;
-}
-
-.bg-primary {
-    background-color: #f0513c !important;
-}
-
-.btn-primary {
-    background-color: #f0513c !important;
-    border-color: #f0513c !important;
-}
-
 .btn {
     box-shadow: none !important
 }
@@ -25,8 +12,8 @@ body {
 }
 
 .form-check-input:checked {
-    background-color: #f0513c !important;
-    border-color: #f0513c !important;
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
 }
 
 .post-listing {
@@ -366,4 +353,18 @@ body {
 
 .sans-serif {
     font-family: 'SF UI Display', sans-serif;
+}
+
+.bg-accent {
+    background: var(--accent-color);
+}
+
+.text-accent {
+    color: var(--accent-color);
+}
+
+.btn-accent {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
 }

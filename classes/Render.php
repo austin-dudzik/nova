@@ -20,6 +20,11 @@ class Render
     
     <link rel="stylesheet" href="' . $site_url . '/assets/css/styles.css">
     </head>
+    <style>
+    :root {
+      --accent-color: #6207ff;
+    }
+</style>
     ';
     }
 
@@ -37,7 +42,7 @@ class Render
                      alt="Logo">
             </a>
             <div>' . (isset($_SESSION['user']) ?
-            '<span class="fa-stack fa-2x" id="openSearchModal"
+                '<span class="fa-stack fa-2x" id="openSearchModal"
               style="font-size:18px">
   <i class="fas fa-circle fa-stack-2x"
      style="color:hsla(0,0%,39.2%,.1)"></i>
@@ -85,9 +90,9 @@ class Render
                         </li>
                     </ul>
                 </div>' :
-            '<a href="<?= $site_url ?>/login.php" class="btn btn-light border me-2">Log in</a>
+                '<a href="<?= $site_url ?>/login.php" class="btn btn-light border me-2">Log in</a>
                 <a href="<?= $site_url ?>/register.php" class="btn btn-primary">Create account</a>') .
-        '</div>
+            '</div>
         </div>
 
     </nav>
@@ -111,12 +116,12 @@ class Render
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="d-inline"
                                  style="height:20px;width:20px"
-                                 viewBox="0 0 20 20"' . ($page_id === "feed" ? 'fill="#f0513c"' : 'fill="rgba(0, 0, 0, 0.55)"') . '>
+                                 viewBox="0 0 20 20"' . ($page_id === "feed" ? 'fill="var(--accent-color)"' : 'fill="rgba(0, 0, 0, 0.55)"') . '>
                                 <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
                             </svg>
                             </svg>
                             <span class="align-middle ms-2"
-                                  style="font-weight:600;' . ($page_id === "feed" ? 'color:#f0513c' : '') . '">Feed</span>
+                                  style="font-weight:600;' . ($page_id === "feed" ? 'color:var(--accent-color)' : '') . '">Feed</span>
                         </a>
                     </li>
 

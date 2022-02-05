@@ -26,7 +26,7 @@ $board_slug = $_GET['board_slug'];
             <p class="fw-bold">It may have been
                 moved, deleted, or may have never
                 existed.</p>
-            <a href="<?= $site_url ?>" class="btn btn-primary">Go back
+            <a href="<?= $site_url ?>" class="btn btn-accent">Go back
                 home</a>
         </div>
     </div>
@@ -50,7 +50,7 @@ $board_slug = $_GET['board_slug'];
 
                     <span class="fa-stack ms-1"
                           style="font-size:22px">
-                      <i class="fas fa-square fa-stack-2x text-primary"></i>
+                      <i class="fas fa-square fa-stack-2x text-accent"></i>
                       <i class="fas fa-stack-1x fa-inverse board-icon"></i>
                     </span>
 
@@ -62,7 +62,7 @@ $board_slug = $_GET['board_slug'];
                         <div class="row">
                             <div class="col">
                                 <button type="button"
-                                        class="btn btn-primary w-100 border btn-sm mb-2">
+                                        class="btn btn-accent w-100 border btn-sm mb-2">
                                     <i class="far fa-plus me-2"></i>
                                     New post
                                 </button>
@@ -119,7 +119,7 @@ $board_slug = $_GET['board_slug'];
                     <div class="mb-3 small lz-load">
                         <span class="float-start">
                         <p class="d-inline pe-0 text-muted">
-                            <a href="<?= $site_url ?>" class="text-primary text-decoration-none">Boards</a>
+                            <a href="<?= $site_url ?>" class="text-accent text-decoration-none">Boards</a>
                             <i class="fas fa-caret-right mx-2"></i>
                         </p>
                         <p class="d-inline pe-0 text-muted board-name">Feature Requests</p>
@@ -187,7 +187,7 @@ $board_slug = $_GET['board_slug'];
                             <h1>🦄</h1>
                             <h5>No posts to be found here...</h5>
                             <p>It appears no posts have been published to this board yet.</p>
-                            <button type="button" class="btn btn-primary btn-sm px-4 me-2">
+                            <button type="button" class="btn btn-accent btn-sm px-4 me-2">
                                 <i class="far fa-plus"></i>
                                 New post</button>
                             <button type="button" class="btn btn-light border btn-sm px-4">
@@ -333,14 +333,14 @@ $board_slug = $_GET['board_slug'];
             </div>
             <div class="modal-body text-center">
                 <span class="fa-stack ms-1 fa-2x">
-                      <i class="fas fa-square fa-stack-2x text-primary"></i>
+                      <i class="fas fa-square fa-stack-2x text-accent"></i>
                       <i class="fas fa-stack-1x fa-inverse"></i>
                     </span>
                 <h3>Please Sign In</h3>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-accent">Save changes</button>
             </div>
         </div>
     </div>

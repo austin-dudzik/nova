@@ -43,7 +43,7 @@ $.ajax({
                         <div class="row">
                             <div class="col-md-2 my-auto">
                                 <div class="upvote" data-id="${posts[j].post_id}" data-voted="${posts[j].hasUpvoted}">
-                                    <button class="btn ${posts[j].hasUpvoted ? "btn-primary" : "btn-light"} border px-3">
+                                    <button class="btn ${posts[j].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
                                         <i class="fas fa-caret-up d-block"></i>
                                         <p class="mb-0">${posts[j].upvotes}</p>
                                     </button>
@@ -88,7 +88,7 @@ $.ajax({
                         <a href="${data[i].url}" class="text-reset text-decoration-none">
             <div class="card" style="background:#efefef">
                 <div class="card-body text-center">
-                    <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-primary"></i>
+                    <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-accent"></i>
                     <p class="mb-0" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
                     <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} posts</small>
                 </div>
@@ -103,7 +103,7 @@ $.ajax({
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-2 my-auto">
-                                <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-primary"></i>
+                                <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-accent"></i>
                             </div>
                             <div class="col-md-10 ps-3">
                                 <p class="mb-0"
@@ -123,7 +123,7 @@ $.ajax({
                 <div class="card-body py-2">
                     <div class="row mt-1">
                         <div class="col-md-1 my-auto">
-                            <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-primary" style="font-size:20px"></i>
+                            <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-accent" style="font-size:20px"></i>
                         </div>
                         <div class="col-md-8 ps-4">
                             <p class="mb-0" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
