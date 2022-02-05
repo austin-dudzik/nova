@@ -149,7 +149,7 @@ $("#searchPage").autocomplete({
 }).autocomplete("instance")._renderItem = (ul, item) => {
     if (item.code && item.code === 204) {
         return $(`
-    <div class="card rounded-0 border-0 px-4 py-3"> 
+    <div class="card rounded-0 border-0 px-4 py-3 text-dark"> 
         No results found
     </div>
 `).appendTo(ul);
@@ -172,7 +172,7 @@ $("#searchInModal input").autocomplete({
 }).autocomplete("instance")._renderItem = (ul, item) => {
     if (item.code && item.code === 204) {
         return $(`
-    <div class="card rounded-0 border-0 px-4 py-3"> 
+    <div class="card rounded-0 border-0 px-4 py-3 text-dark"> 
         No results found
     </div>
 `).appendTo(ul);
