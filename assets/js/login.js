@@ -7,7 +7,7 @@ $("#submitLogin").on("click", function () {
         $("#msg").hide();
 
         $.ajax({
-            url: "http://localhost/feedback/api.php",
+            url: site_url + "/api.php",
             method: "POST",
             data: {
                 type: "authenticateUser",

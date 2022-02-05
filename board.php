@@ -26,7 +26,7 @@ $board_slug = $_GET['board_slug'];
             <p class="fw-bold">It may have been
                 moved, deleted, or may have never
                 existed.</p>
-            <a href="<?= $site_url ?>" class="btn btn-accent">Go back
+            <a href="<?= Settings::getSettings("site_url") ?>" class="btn btn-accent">Go back
                 home</a>
         </div>
     </div>
@@ -119,7 +119,7 @@ $board_slug = $_GET['board_slug'];
                     <div class="mb-3 small lz-load">
                         <span class="float-start">
                         <p class="d-inline pe-0 text-muted">
-                            <a href="<?= $site_url ?>" class="text-accent text-decoration-none">Boards</a>
+                            <a href="<?= Settings::getSettings("site_url") ?>" class="text-accent text-decoration-none">Boards</a>
                             <i class="fas fa-caret-right mx-2"></i>
                         </p>
                         <p class="d-inline pe-0 text-muted board-name">Feature Requests</p>
@@ -351,6 +351,6 @@ $board_slug = $_GET['board_slug'];
     let boardSlug = '<?= $board_slug ?>';
 </script>
 <?php echo Render::footer(); ?>
-<script src="<?= $site_url ?>/assets/js/board.js"></script>
+<script src="<?= Settings::getSettings("site_url") ?>/assets/js/board.js"></script>
 </body>
 </html>

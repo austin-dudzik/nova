@@ -9,7 +9,7 @@ $(".lz-load").hide();
 function getBoard() {
 
     $.ajax({
-        url: "http://localhost/feedback/api.php",
+        url: site_url + "/api.php",
         method: "GET",
         data: {
             type: "getBoard",
@@ -63,7 +63,7 @@ function getBoard() {
 
 function getPosts(offset = 0, loadMore = false) {
     $.ajax({
-        url: "http://localhost/feedback/api.php",
+        url: site_url + "/api.php",
         method: "GET",
         data: {
             type: "getPostsByBoard",

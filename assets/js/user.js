@@ -5,7 +5,7 @@ $(".ph-item").hide();
 function getUser() {
 
     $.ajax({
-        url: "http://localhost/feedback/api.php",
+        url: site_url + "/api.php",
         method: "GET",
         data: {
             type: "getUser",
@@ -51,7 +51,7 @@ function getUser() {
 
 function getPosts(offset = 0, loadMore = false) {
     $.ajax({
-        url: "http://localhost/feedback/api.php",
+        url: site_url + "/api.php",
         method: "GET",
         data: {
             csrf_token: csrf_token,

@@ -57,7 +57,7 @@ class Boards
     {
 
         global $conn;
-        global $site_url;
+        $site_url = Settings::getSettings("site_url");
 
         $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, (SELECT COUNT(po.id) FROM posts po WHERE po.board_id = bo.id) posts, (SELECT COUNT(su.id) FROM subscribers su WHERE su.board_id = bo.id) subscribers, (SELECT COUNT(up.id) FROM posts po LEFT JOIN upvotes up ON up.post_id = po.id WHERE po.board_id = bo.id) upvotes FROM boards bo");
         $stmt->bind_param("s", $site_url);

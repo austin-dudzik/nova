@@ -3,6 +3,7 @@
 session_start();
 
 include "includes/config.php";
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -40,7 +41,7 @@ include "includes/config.php";
         </svg>
         Boards
         <p class="float-end text-muted">
-            <a href="<?= $site_url ?>/boards" class="text-reset text-decoration-none">
+            <a href="<?= Settings::getSettings("site_url") ?>/boards" class="text-reset text-decoration-none">
             View all <i class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
@@ -61,7 +62,7 @@ include "includes/config.php";
         <span class="align-middle">Changelog</span>
 
         <p class="float-end text-muted">
-            <a href="<?= $site_url ?>/changelog" class="text-reset text-decoration-none">
+            <a href="<?= Settings::getSettings("site_url") ?>/changelog" class="text-reset text-decoration-none">
                 View all <i class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
@@ -113,7 +114,7 @@ include "includes/config.php";
         Roadmap
 
         <p class="float-end text-muted">
-            <a href="<?= $site_url ?>/roadmap" class="text-reset text-decoration-none">
+            <a href="<?= Settings::getSettings("site_url") ?>/roadmap" class="text-reset text-decoration-none">
                 View all <i class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
@@ -127,6 +128,6 @@ include "includes/config.php";
 <script>
     const feedType = 2;
 </script>
-<script src="<?= $site_url ?>/assets/js/feed.js"></script>
+<script src="<?= Settings::getSettings("site_url") ?>/assets/js/feed.js"></script>
 </body>
 </html>

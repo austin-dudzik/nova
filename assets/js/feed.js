@@ -1,5 +1,5 @@
 $.ajax({
-    url: "http://localhost/feedback/api.php",
+    url: site_url + "/api.php",
     method: "GET",
     data: {
         type: "getStatuses",
@@ -26,7 +26,7 @@ $.ajax({
 
 
             $.ajax({
-                url: "http://localhost/feedback/api.php",
+                url: site_url + "/api.php",
                 method: "GET",
                 data: {
                     type: "getPostsByStatus",
@@ -72,7 +72,7 @@ $.ajax({
 
 
 $.ajax({
-    url: "http://localhost/feedback/api.php",
+    url: site_url + "/api.php",
     method: "GET",
     data: {
         type: "getBoards",
@@ -148,7 +148,7 @@ $.ajax({
 })
 
 $("#searchPage").autocomplete({
-    source: "http://localhost/feedback/api.php?type=getResults",
+    source: site_url + "/api.php?type=getResults",
     appendTo: '#searchPageContainer'
 }).autocomplete("instance")._renderItem = (ul, item) => {
     if (item.code && item.code === 204) {

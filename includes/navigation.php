@@ -2,8 +2,8 @@
     <nav class="navbar navbar-light bg-light navbar-expand-lg"
          id="navigation">
         <div class="container py-2">
-            <a class="navbar-brand" href="<?= $site_url ?>">
-                <img src="<?= $site_url ?>/logo.svg"
+            <a class="navbar-brand" href="<?= Settings::getSettings("site_url") ?>">
+                <img src="<?= Settings::getSettings("site_url") ?>/logo.svg"
                      alt="Logo">
             </a>
             <div>
@@ -51,7 +51,7 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item"
-                               href="<?= $site_url ?>/u/<?= $user->username ?>">Profile</a>
+                               href="<?= Settings::getSettings("site_url") ?>/u/<?= $user->username ?>">Profile</a>
                         </li>
                         <li>
                             <a class="dropdown-item logout" href="javascript:void()">Log out</a>
@@ -60,8 +60,8 @@
                 </div>
                 <?php } else { ?>
 
-                <a href="<?= $site_url ?>/login.php" class="btn btn-light border me-2">Log in</a>
-                <a href="<?= $site_url ?>/register.php" class="btn btn-primary">Create account</a>
+                <a href="<?= Settings::getSettings("site_url") ?>/login.php" class="btn btn-light border me-2">Log in</a>
+                <a href="<?= Settings::getSettings("site_url") ?>/register.php" class="btn btn-primary">Create account</a>
 
                 <?php } ?>
 
@@ -85,7 +85,7 @@
                  id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item me-2">
-                        <a class="nav-link" href="<?= $site_url ?>">
+                        <a class="nav-link" href="<?= Settings::getSettings("site_url") ?>">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="d-inline"
                                  style="height:20px;width:20px"

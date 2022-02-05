@@ -82,8 +82,9 @@ class Board
      */
     public static function getBoardExcerpt(int $board_id): object
     {
-        global $site_url;
+
         global $conn;
+        $site_url = Settings::getSettings("site_url");
 
         $stmt = $conn->prepare("SELECT bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url FROM boards bo WHERE bo.id = ?");
         $stmt->bind_param("si", $site_url, $board_id);

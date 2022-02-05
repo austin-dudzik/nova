@@ -8,7 +8,7 @@ $(document).on("click", ".upvote", votePost);
 
 function logOut() {
     $.ajax({
-        url: "http://localhost/feedback/api.php",
+        url: site_url + "/api.php",
         method: "GET",
         data: {
             type: "revokeSession",
@@ -26,7 +26,7 @@ function votePost() {
     $(this).find("button").addClass("disabled");
 
     $.ajax({
-        url: "http://localhost/feedback/api.php",
+        url: site_url + "/api.php",
         method: "POST",
         data: {
             type: "votePost",
@@ -68,7 +68,7 @@ function boldString(str, find) {
 }
 
 $("#searchInModal input").autocomplete({
-    source: "http://localhost/feedback/api.php?type=getResults",
+    source: site_url + "/api.php?type=getResults",
     appendTo: '#searchInModal'
 }).autocomplete("instance")._renderItem = (ul, item) => {
     if (item.code && item.code === 204) {

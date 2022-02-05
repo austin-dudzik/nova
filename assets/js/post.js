@@ -12,7 +12,7 @@ const simplemde = new SimpleMDE({element: $("#comment-area#editor")[0]});
 $(document).ready(() => {
 
     $.ajax({
-        url: "http://localhost/feedback/api.php",
+        url: site_url + "/api.php",
         method: "GET",
         data: {
             type: "getPost",

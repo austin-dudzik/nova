@@ -40,7 +40,7 @@ function slugify ($string) {
             <h5>Post Not Found</h5>
             <p>Sorry, we couldn't find a post located at the specified URL.</p>
             <p class="fw-bold">It may have been moved, deleted, or may have never existed.</p>
-            <a href="<?= $site_url ?>" class="btn btn-accent">Go back home</a>
+            <a href="<?= Settings::getSettings("site_url") ?>" class="btn btn-accent">Go back home</a>
         </div>
     </div>
 
@@ -126,7 +126,7 @@ function slugify ($string) {
 
                     <div class="row d-inline-block mb-3 small">
                         <p class="d-inline pe-0 text-muted">
-                            <a href="<?= $site_url ?>" class="text-accent text-decoration-none">Home</a>
+                            <a href="<?= Settings::getSettings("site_url") ?>" class="text-accent text-decoration-none">Home</a>
                             <i class="fas fa-caret-right ms-2"></i>
                         </p>
                         <p class="d-inline pe-0 text-muted">
@@ -235,6 +235,6 @@ function slugify ($string) {
     let post_slug = '<?= $_GET['post_slug'] ?>';
 </script>
 <?php echo Render::footer(); ?>
-<script src="<?= $site_url ?>/assets/js/post.js"></script>
+<script src="<?= Settings::getSettings("site_url") ?>/assets/js/post.js"></script>
 </body>
 </html>

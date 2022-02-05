@@ -27,7 +27,7 @@ $user_slug = $_GET['user_slug'];
                 been
                 moved, deleted, or may have never
                 existed.</p>
-            <a href="<?= $site_url ?>"
+            <a href="<?= Settings::getSettings("site_url") ?>"
                class="btn btn-primary">Go back
                 home</a>
         </div>
@@ -299,6 +299,6 @@ $user_slug = $_GET['user_slug'];
     let userSlug = '<?= $user_slug ?>';
 </script>
 <?php echo Render::footer(); ?>
-<script src="<?= $site_url ?>/assets/js/user.js"></script>
+<script src="<?= Settings::getSettings("site_url") ?>/assets/js/user.js"></script>
 </body>
 </html>

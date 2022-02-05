@@ -33,7 +33,7 @@ class Search
     {
 
         global $conn;
-        global $site_url;
+        $site_url = Settings::getSettings("site_url");
 
         if(!$term) {
             // Return an empty array

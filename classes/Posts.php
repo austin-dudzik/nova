@@ -76,7 +76,7 @@ class Posts
 
         global $user;
         global $conn;
-        global $site_url;
+        $site_url = Settings::getSettings("site_url");
 
         $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id LEFT JOIN comments co ON po.id = co.post_id WHERE po.board_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $board_id, $offset, $limit);
@@ -131,7 +131,7 @@ class Posts
 
         global $user;
         global $conn;
-        global $site_url;
+        $site_url = Settings::getSettings("site_url");
 
         $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id LEFT JOIN comments co ON po.id = co.post_id WHERE po.user_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $user_id, $offset, $limit);
@@ -187,7 +187,7 @@ class Posts
 
         global $user;
         global $conn;
-        global $site_url;
+        $site_url = Settings::getSettings("site_url");
 
         $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id LEFT JOIN comments co ON po.id = co.post_id WHERE po.status_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $status_id, $offset, $limit);

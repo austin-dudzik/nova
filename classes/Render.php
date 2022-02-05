@@ -6,23 +6,20 @@ class Render
     public static function header(string $title = 'Loading...'): string
     {
 
-        global $site_name;
-        global $site_url;
-
         return '<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>' . $title . ' | ' . $site_name . '</title>
+    <title>' . $title . ' | ' . Settings::getSettings("site_title") . '</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/sf-ui-display" rel="stylesheet">
     
-    <link rel="stylesheet" href="' . $site_url . '/assets/css/styles.css">
+    <link rel="stylesheet" href="' . Settings::getSettings("site_url") . '/assets/css/styles.css">
     </head>
     <style>
     :root {
-      --accent-color: #6207ff;
+      --accent-color: ' . Settings::getSettings("accent_color") . ';
     }
 </style>
     ';
@@ -31,14 +28,12 @@ class Render
     public static function navigation(string $page_id): string
     {
 
-        global $site_url;
-
         return '<div class="sticky-top">
     <nav class="navbar navbar-light bg-light navbar-expand-lg"
          id="navigation">
         <div class="container py-2">
-            <a class="navbar-brand" href="' . $site_url . '">
-                <img src="' . $site_url . '/logo.svg"
+            <a class="navbar-brand" href="' . Settings::getSettings("site_url") . '">
+                <img src="' . Settings::getSettings("site_url") . '/logo.svg"
                      alt="Logo">
             </a>
             <div>' . (isset($_SESSION['user']) ?
@@ -83,15 +78,15 @@ class Render
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item"
-                               href="<?= $site_url ?>/u/<?= $user->username ?>">Profile</a>
+                               href="<?= Settings::getSettings("site_url") ?>/u/<?= $user->username ?>">Profile</a>
                         </li>
                         <li>
                             <a class="dropdown-item logout" href="javascript:void()">Log out</a>
                         </li>
                     </ul>
                 </div>' :
-                '<a href="<?= $site_url ?>/login.php" class="btn btn-light border me-2">Log in</a>
-                <a href="<?= $site_url ?>/register.php" class="btn btn-primary">Create account</a>') .
+                '<a href="<?= Settings::getSettings("site_url") ?>/login.php" class="btn btn-light border me-2">Log in</a>
+                <a href="<?= Settings::getSettings("site_url") ?>/register.php" class="btn btn-primary">Create account</a>') .
             '</div>
         </div>
 
@@ -112,7 +107,7 @@ class Render
                  id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item me-2">
-                        <a class="nav-link" href="' . $site_url . '">
+                        <a class="nav-link" href="' . Settings::getSettings("site_url") . '">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="d-inline"
                                  style="height:20px;width:20px"
@@ -190,12 +185,9 @@ class Render
     public static function footer(): string
     {
 
-        global $site_name;
-        global $site_url;
-
         return '<footer class="bg-light border text-center py-4">
     <div class="container px-5">
-        <p class="float-start mb-0">&copy;' . date('Y') . ' ' . $site_name . ', all rights reserved.</p>
+        <p class="float-start mb-0">&copy;' . date('Y') . ' ' . Settings::getSettings("site_title") . ', all rights reserved.</p>
         <p class="float-end mb-0">🚀 Powered by Nova</p>
         <div class="clearfix"></div>
     </div>
@@ -216,16 +208,16 @@ class Render
 </div>
 
 <script>
-    const site_name = \'' . $site_name . '\';
-    const site_url = \'' . $site_url . '\';
+    const site_name = \'' . Settings::getSettings("site_title") . '\';
+    const site_url = \'' . Settings::getSettings("site_url") . '\';
     const csrf_token = \'' . generate_token() . '\';
 </script>
 
-<script src="' . $site_url . '/assets/libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="' . Settings::getSettings("site_url") . '/assets/libs/jquery/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-<script src="' . $site_url . '/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="' . $site_url . '/assets/libs/simplemde/js/simplemde.min.js"></script>
-<script src="' . $site_url . '/assets/js/main.js"></script>
+<script src="' . Settings::getSettings("site_url") . '/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="' . Settings::getSettings("site_url") . '/assets/libs/simplemde/js/simplemde.min.js"></script>
+<script src="' . Settings::getSettings("site_url") . '/assets/js/main.js"></script>
 ';
     }
 
