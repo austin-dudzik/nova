@@ -143,6 +143,11 @@ $.ajax({
     }
 })
 
+function boldString(str, find) {
+    let reg = new RegExp('('+find+')', 'gi');
+    return str.replace(reg, '<strong>$1</strong>');
+}
+
 $("#searchPage").autocomplete({
     source: "http://localhost/feedback/api.php?type=getResults",
     appendTo: '#searchPageContainer'
@@ -160,7 +165,7 @@ $("#searchPage").autocomplete({
 <a href="${item.url}" class="text-dark text-decoration-none">
     <div class="card rounded-0 border-0"> 
         <div class="border-bottom py-3 px-3">
-            <i class="fas ${(item.type === "post" ? `fa-copy` : ``)} ${(item.type === "user" ? `fa-user` : ``)} ${(item.type === "board" ? `fa-columns-3` : ``)} me-2 text-muted align-middle"></i> <span class="d-inline-block align-middle" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:80%">${orig.replace(term, "<strong>" + term + "</strong>")}</span>
+            <i class="fas ${(item.type === "post" ? `fa-copy` : ``)} ${(item.type === "user" ? `fa-user` : ``)} ${(item.type === "board" ? `fa-columns-3` : ``)} me-2 text-muted align-middle"></i> <span class="d-inline-block align-middle" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:80%">${boldString(orig, term)}</span>
             <span class="float-end"><i class="far fa-arrow-right"></i></span>
     </div>
 </a>
@@ -179,11 +184,13 @@ $("#searchInModal input").autocomplete({
     </div>
 `).appendTo(ul);
     } else {
+        let orig = item.name;
+        let term = $("#searchInModal input").val();
         return $(`
 <a href="${item.url}" class="text-dark text-decoration-none">
     <div class="card rounded-0 border-0"> 
         <div class="border-bottom py-3 px-3">
-            <i class="fas ${(item.type === "post" ? `fa-copy` : ``)} ${(item.type === "user" ? `fa-user` : ``)} ${(item.type === "board" ? `fa-columns-3` : ``)} me-2 text-muted align-middle"></i> <span class="d-inline-block align-middle" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:80%">${item.name}</span>
+            <i class="fas ${(item.type === "post" ? `fa-copy` : ``)} ${(item.type === "user" ? `fa-user` : ``)} ${(item.type === "board" ? `fa-columns-3` : ``)} me-2 text-muted align-middle"></i> <span class="d-inline-block align-middle" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:80%">${boldString(orig, term)}</span>
             <span class="float-end"><i class="far fa-arrow-right"></i></span>
     </div>
 </a>
