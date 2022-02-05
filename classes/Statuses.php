@@ -35,8 +35,9 @@ class Statuses
     public static function getStatuses(): Statuses|Response|array
     {
         global $conn;
+        global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.id AS status_id, st.name, st.slug, st.color, COUNT(po.id) posts FROM statuses st LEFT JOIN posts po ON po.status_id = st.id GROUP BY st.id");
+        $stmt = $conn->prepare("SELECT st.id AS status_id, st.name, st.slug, st.color, COUNT(po.id) posts FROM  ". $prefix . "statuses st LEFT JOIN  ". $prefix . "posts po ON po.status_id = st.id GROUP BY st.id");
         $stmt->execute();
         $result = $stmt->get_result();
 

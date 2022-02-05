@@ -32,8 +32,9 @@ class Status
     public static function getStatus(int $status_id): object
     {
         global $conn;
+        global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.name, st.slug, st.color FROM statuses st WHERE st.id = ?");
+        $stmt = $conn->prepare("SELECT st.name, st.slug, st.color FROM  ". $prefix . "statuses st WHERE st.id = ?");
         $stmt->bind_param("i", $status_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -57,8 +58,9 @@ class Status
     public static function getStatusExcerpt(int $status_id): object
     {
         global $conn;
+        global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.name, st.slug, st.color FROM statuses st WHERE st.id = ?");
+        $stmt = $conn->prepare("SELECT st.name, st.slug, st.color FROM  ". $prefix . "statuses st WHERE st.id = ?");
         $stmt->bind_param("i", $status_id);
         $stmt->execute();
         $result = $stmt->get_result();

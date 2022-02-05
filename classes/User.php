@@ -32,7 +32,9 @@ class User
     public static function getUser(string $user_slug): object
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username, (SELECT COUNT(po.id) FROM posts po WHERE us.id = po.user_id) posts, (SELECT COUNT(up.id) FROM upvotes up WHERE us.id = up.user_id) upvotes, us.created_at joined FROM users us WHERE us.username = ?");
+        global $prefix;
+
+        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username, (SELECT COUNT(po.id) FROM  ". $prefix . "posts po WHERE us.id = po.user_id) posts, (SELECT COUNT(up.id) FROM  ". $prefix . "upvotes up WHERE us.id = up.user_id) upvotes, us.created_at joined FROM  ". $prefix . "users us WHERE us.username = ?");
         $stmt->bind_param("s", $user_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -44,6 +46,7 @@ class User
             // Return 204 response
             return Response::throwResponse(204, "Data not found");
         }
+
     }
 
     /**
@@ -56,7 +59,9 @@ class User
     public static function getUserExcerpt(string $user_id): object
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username FROM users us WHERE us.id = ?");
+        global $prefix;
+
+        $stmt = $conn->prepare("SELECT CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username FROM  ". $prefix . "users us WHERE us.id = ?");
         $stmt->bind_param("s", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -68,6 +73,7 @@ class User
             // Return 204 response
             return Response::throwResponse(204, "Data not found");
         }
+
     }
 
 }

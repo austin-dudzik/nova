@@ -20,8 +20,9 @@ class Settings
     {
 
         global $conn;
+        global $prefix;
 
-        $stmt = $conn->prepare("SELECT se.value FROM settings se WHERE se.setting = ? LIMIT 1");
+        $stmt = $conn->prepare("SELECT se.value FROM ". $prefix . "settings se WHERE se.setting = ? LIMIT 1");
         $stmt->bind_param("s", $setting);
         $stmt->execute();
         $result = $stmt->get_result();

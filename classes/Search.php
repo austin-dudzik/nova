@@ -33,6 +33,8 @@ class Search
     {
 
         global $conn;
+        global $prefix;
+
         $site_url = Settings::getSettings("site_url");
 
         if(!$term) {
@@ -49,7 +51,7 @@ class Search
             return array();
         }
 
-        $stmt = $conn->prepare("SELECT po.title AS name, 'post' AS type, CONCAT(?, '/p/', po.slug) url FROM posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, CONCAT(?, '/u/', us.username) url FROM users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, CONCAT(?, '/b/', bo.slug) url FROM boards bo WHERE bo.name LIKE ?");
+        $stmt = $conn->prepare("SELECT po.title AS name, 'post' AS type, CONCAT(?, '/p/', po.slug) url FROM  ". $prefix . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, CONCAT(?, '/u/', us.username) url FROM  ". $prefix . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, CONCAT(?, '/b/', bo.slug) url FROM  ". $prefix . "boards bo WHERE bo.name LIKE ?");
         $stmt->bind_param("ssssss", $site_url, $term, $site_url, $term, $site_url, $term);
         $stmt->execute();
         $result = $stmt->get_result();

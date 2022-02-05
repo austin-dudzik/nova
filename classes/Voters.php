@@ -19,7 +19,9 @@ class Voters
     public static function getVoters(int $post_id): Voters|Response|array
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT CONCAT(us.first_name, ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar FROM upvotes up LEFT JOIN users us ON up.user_id = us.id WHERE post_id = ? GROUP BY us.id ORDER BY RAND() LIMIT 5");
+        global $prefix;
+
+        $stmt = $conn->prepare("SELECT CONCAT(us.first_name, ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar FROM  ". $prefix . "upvotes up LEFT JOIN  ". $prefix . "users us ON up.user_id = us.id WHERE post_id = ? GROUP BY us.id ORDER BY RAND() LIMIT 5");
         $stmt->bind_param("i", $post_id);
         $stmt->execute();
         $result = $stmt->get_result();

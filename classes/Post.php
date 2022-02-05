@@ -61,8 +61,9 @@ class Post
     {
         global $user;
         global $conn;
+        global $prefix;
 
-        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM posts po LEFT JOIN upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
+        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  ". $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
         $stmt->bind_param("s", $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();

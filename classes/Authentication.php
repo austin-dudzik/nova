@@ -42,8 +42,9 @@ class Authentication
     {
 
         global $conn;
+        global $prefix;
 
-        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name, ' ', us.last_name) name, us.email, us.username, us.password FROM users us WHERE us.email = ?");
+        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name, ' ', us.last_name) name, us.email, us.username, us.password FROM  ". $prefix . "users us WHERE us.email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();

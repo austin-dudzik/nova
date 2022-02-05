@@ -21,6 +21,7 @@ class Upvote
 
         global $user;
         global $conn;
+        global $prefix;
 
         // If user is not authenticated
         if (!isset($user)) {
@@ -28,7 +29,7 @@ class Upvote
             return Response::throwResponse(401, "You must be authenticated in order to vote");
         }
 
-        $stmt = $conn->prepare("SELECT COUNT(up.id) count FROM upvotes up WHERE up.post_id = ? AND up.user_id = ? GROUP BY up.id");
+        $stmt = $conn->prepare("SELECT COUNT(up.id) count FROM  ". $prefix . "upvotes up WHERE up.post_id = ? AND up.user_id = ? GROUP BY up.id");
         $stmt->bind_param("ii", $post_id, $user->id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -37,7 +38,7 @@ class Upvote
         if ($result->num_rows > 0) {
 
             // Delete upvote from database
-            $stmt = $conn->prepare("DELETE up FROM upvotes up WHERE up.post_id = ? AND up.user_id = ?");
+            $stmt = $conn->prepare("DELETE up FROM  ". $prefix . "upvotes up WHERE up.post_id = ? AND up.user_id = ?");
             $stmt->bind_param("ii", $post_id, $user->id);
             $stmt->execute();
 
@@ -54,7 +55,7 @@ class Upvote
         } else {
 
             // Insert upvote into database
-            $stmt = $conn->prepare("INSERT INTO upvotes (post_id, user_id) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO  ". $prefix . "upvotes (post_id, user_id) VALUES (?, ?)");
             $stmt->bind_param("ii", $post_id, $user->id);
             $stmt->execute();
 
@@ -82,11 +83,14 @@ class Upvote
     {
         global $user;
         global $conn;
-        $stmt = $conn->prepare("SELECT COUNT(up.id) FROM upvotes up WHERE up.user_id = ? AND up.post_id = ? GROUP BY up.id");
+        global $prefix;
+
+        $stmt = $conn->prepare("SELECT COUNT(up.id) FROM  ". $prefix . "upvotes up WHERE up.user_id = ? AND up.post_id = ? GROUP BY up.id");
         $stmt->bind_param("ii", $user->id, $post_id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->num_rows;
+
     }
 
 }

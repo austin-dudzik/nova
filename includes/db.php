@@ -6,6 +6,8 @@ $username = "root";
 $password = "";
 $dbname = "feedback";
 
+$prefix = "nova_";
+
 // Open new connection to database
 @$conn = new mysqli($servername, $username, $password, $dbname);
 
