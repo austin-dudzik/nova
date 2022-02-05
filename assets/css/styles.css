@@ -119,6 +119,16 @@ body {
     color: #3a3c4c;
 }
 
+.input-icons .fa-magnifying-glass {
+    position: absolute;
+    padding: 17px 10px 10px 15px;
+    z-index: 999;
+}
+
+.search {
+    padding-top: 13px
+}
+
 .ui-autocomplete {
     max-height: 300px;
     overflow-y: auto;

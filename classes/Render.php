@@ -195,6 +195,20 @@ class Render
     </div>
 </footer>
 
+<!-- Search modal -->
+<div class="modal fade mt-5" id="searchModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0">
+                <div class="input-icons input-group" id="searchInModal">
+                    <i class="far fa-magnifying-glass text-white"></i>
+                    <input type="text" class="search form-control ps-5" placeholder="Search for ideas, updates, users, and more...">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     const site_name = \'' . $site_name . '\';
     const site_url = \'' . $site_url . '\';

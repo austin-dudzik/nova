@@ -19,19 +19,6 @@ include "includes/config.php";
             build a
             better experience for you.</p>
 
-        <style>
-            .input-icons .fa-magnifying-glass {
-                position: absolute;
-                padding: 17px 10px 10px 15px;
-                z-index: 999;
-            }
-
-            .search {
-                padding-top: 13px
-            }
-        </style>
-
-
         <div class="input-icons input-group mb-3 w-50 mx-auto"
              id="searchPageContainer">
             <i class="far fa-magnifying-glass text-white"></i>
@@ -86,32 +73,10 @@ include "includes/config.php";
 
 </div>
 
-<!-- Modal -->
-<div class="modal fade mt-5" id="searchModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-transparent border-0">
-            <div class="modal-body p-0">
-                <div class="input-icons input-group" id="searchInModal">
-                    <i class="far fa-magnifying-glass text-white"></i>
-                    <input type="text" class="search form-control ps-5" placeholder="Search for ideas, updates, users, and more...">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 ><?php echo Render::footer(); ?>
 <script>
     const feedType = 1;
 </script>
 <script src="<?= $site_url ?>/assets/js/feed.js"></script>
-<script>
-    $(".input-icons input").on("focus", function () {
-        $(this).prev("i").toggleClass("text-white text-dark");
-    });
-    $(".input-icons input").on("blur", function () {
-        $(this).prev("i").toggleClass("text-white text-dark");
-    });
-</script>
 </body>
 </html>
