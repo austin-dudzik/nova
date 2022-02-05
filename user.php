@@ -1,9 +1,6 @@
 <?php
-// Start session
-session_start();
 // Include config file
 include "includes/config.php";
-require_once "classes/Render.php";
 
 // Define required parameters
 $user_slug = $_GET['user_slug'];

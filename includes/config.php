@@ -1,12 +1,14 @@
 <?php
+// Start the session
+session_start();
 
+// Include DB config
 include "db.php";
 
 // Autoload classes
 spl_autoload_register(function ($class_name) {
     require_once 'classes/' . $class_name . '.php';
 });
-
 
 // Generate CSRF token
 function generate_token()
@@ -20,7 +22,8 @@ function generate_token()
     return $token;
 }
 
-function isAdmin() {
+function isAdmin(): bool
+{
     if (isset($_SESSION["admin"])) {
         return true;
     } else {

@@ -1,10 +1,6 @@
 <?php
-// Start session
-session_start();
 // Include config file
 include "includes/config.php";
-require_once "classes/Render.php";
-
 ?>
 <!doctype html>
 <html lang="en">

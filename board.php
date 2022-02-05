@@ -1,7 +1,4 @@
 <?php
-// Start session
-session_start();
-
 // Include config file
 include "includes/config.php";
 
