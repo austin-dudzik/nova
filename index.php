@@ -7,7 +7,7 @@ include "includes/config.php";
 ?>
 <!doctype html>
 <html lang="en">
-<?php echo Render::header('Home'); ?>
+<?php echo Render::header('Feed'); ?>
 <body>
 <?php echo Render::navigation('feed'); ?>
 
@@ -124,10 +124,7 @@ include "includes/config.php";
 
 </div>
 
-><?php echo Render::footer(); ?>
-<script>
-    const feedType = 2;
-</script>
+<?php echo Render::footer(); ?>
 <script src="<?= Settings::getSettings("site_url") ?>/assets/js/feed.js"></script>
 </body>
 </html>

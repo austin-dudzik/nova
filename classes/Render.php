@@ -210,6 +210,7 @@ class Render
 <script>
     const site_name = \'' . Settings::getSettings("site_title") . '\';
     const site_url = \'' . Settings::getSettings("site_url") . '\';
+    const feed_type = ' . Settings::getSettings("feed_type") . ';
     const csrf_token = \'' . generate_token() . '\';
 </script>
 

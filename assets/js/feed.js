@@ -82,7 +82,7 @@ $.ajax({
 
         for (let i = 0; i < data.length; i++) {
 
-            if (feedType === 1) {
+            if (feed_type === 1) {
                 $("#boards-container").append(`
                         <div class="col-md-3 mb-4">
                         <a href="${data[i].url}" class="text-reset text-decoration-none">
@@ -95,7 +95,7 @@ $.ajax({
             </div>
             </a>
         </div>`);
-            } else if (feedType === 2) {
+            } else if (feed_type === 2) {
 
                 $("#boards-container").append(`
                         <div class="col-md-3">
@@ -117,7 +117,7 @@ $.ajax({
                 </div>
                 </a>
             </div>`);
-            } else if (feedType === 3) {
+            } else if (feed_type === 3) {
 
                 $("#boards-container").append(`
                         <div class="col-md-3">
