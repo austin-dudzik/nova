@@ -42,6 +42,8 @@ if($_GET) {
         'getPostsByUser' => Posts::getPostsByUser($_GET["user_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
         // Get posts by status
         'getPostsByStatus' => Posts::getPostsByStatus($_GET["status_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
+        // Get search results
+        'getResults' => Search::getResults($_GET["term"]),
         // Get single post
         'getPost' => Post::getPost($_GET["post_slug"]),
         // Get board details
