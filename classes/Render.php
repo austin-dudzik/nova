@@ -16,6 +16,7 @@ class Render
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/sf-ui-display" rel="stylesheet">
     
     <link rel="stylesheet" href="' . $site_url . '/assets/css/styles.css">
     </head>

@@ -10,7 +10,7 @@ include "includes/config.php";
 <body>
 <?php echo Render::navigation('feed'); ?>
 
-<div class="bg-primary text-white p-5"
+<div class="bg-primary text-white p-md-5 p-3"
      sstyle="background:#a8138a">
     <div class="container p-5 py-3">
         <h1 class="text-center">Your Feedback
@@ -19,7 +19,7 @@ include "includes/config.php";
             build a
             better experience for you.</p>
 
-        <div class="input-icons input-group mb-3 w-50 mx-auto"
+        <div class="input-icons input-group mb-3 w-50-auto mx-auto"
              id="searchPageContainer">
             <i class="far fa-magnifying-glass text-white"></i>
             <input class="search form-control ps-5"
@@ -46,10 +46,61 @@ include "includes/config.php";
             </a>
         </p>
     </h6>
-    <div class="row mb-5"
+    <div class="row"
          id="boards-container"></div>
 
-    <h6 class="mb-4 mt-4">
+
+    <h6 class="my-4">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="d-inline me-2 align-middle"
+             style="height:24px;width:24px"
+             viewBox="0 0 20 20"
+             fill="currentColor">
+            <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"/>
+        </svg>
+        <span class="align-middle">Changelog</span>
+
+        <p class="float-end text-muted">
+            <a href="<?= $site_url ?>/changelog" class="text-reset text-decoration-none">
+                View all <i class="fas fa-angle-right ms-2"></i>
+            </a>
+        </p>
+    </h6>
+
+    <div class="row mb-5">
+        <div class="col-md-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5>Discord Integration</h5>
+                    <p class="small text-muted mb-2">Our Discord Integration is live! Your team can connect Canny with Discord text channels to get instant notifications from specific boards and select events.
+                    </p>
+                    <div class="badge bg-danger text-white">Updates</div>
+                </div>
+                <div class="card-footer py-3 text-center">
+                    <p class="text-muted mb-0" style="font-size:12px">
+                        <i class="fas fa-calendar-alt me-2"></i> December 15th 2021
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5>Test</h5>
+                    <p class="small text-muted mb-2">Lorem ipsum blah blah blah</p>
+                    <div class="badge bg-success text-white">Fixes</div>
+                </div>
+                <div class="card-footer py-3 text-center">
+                    <p class="text-muted mb-0" style="font-size:12px">
+                        <i class="fas fa-calendar-alt me-2"></i> February 20th 2022
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h6 class="my-4">
 
         <svg xmlns="http://www.w3.org/2000/svg"
              class="d-inline me-2"
@@ -75,7 +126,7 @@ include "includes/config.php";
 
 ><?php echo Render::footer(); ?>
 <script>
-    const feedType = 1;
+    const feedType = 3;
 </script>
 <script src="<?= $site_url ?>/assets/js/feed.js"></script>
 </body>
