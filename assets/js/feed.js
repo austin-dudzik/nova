@@ -99,6 +99,7 @@ $.ajax({
 
                 $("#boards-container").append(`
                         <div class="col-md-3">
+                        <a href="${data[i].url}" class="text-reset text-decoration-none">
                 <div class="card" style="background:#efefef">
                     <div class="card-body">
                         <div class="row">
@@ -114,12 +115,14 @@ $.ajax({
                         </div>
                     </div>
                 </div>
+                </a>
             </div>`);
             } else if (feedType === 3) {
 
                 $("#boards-container").append(`
                         <div class="col-md-3">
             <div class="card" style="background:#efefef">
+            <a href="${data[i].url}" class="text-reset text-decoration-none">
                 <div class="card-body py-2">
                     <div class="row mt-1">
                         <div class="col-md-1 my-auto">
@@ -134,6 +137,7 @@ $.ajax({
                     </div>
                 </div>
             </div>
+            </a>
         </div>`);
 
             }

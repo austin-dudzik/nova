@@ -125,7 +125,7 @@ include "includes/config.php";
 
 ><?php echo Render::footer(); ?>
 <script>
-    const feedType = 3;
+    const feedType = 2;
 </script>
 <script src="<?= $site_url ?>/assets/js/feed.js"></script>
 </body>
