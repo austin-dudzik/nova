@@ -142,3 +142,61 @@ $.ajax({
 
     }
 })
+
+$("#searchPage").autocomplete({
+    source: "http://localhost/feedback/api.php?type=getResults",
+    appendTo: '#searchPageContainer'
+}).autocomplete("instance")._renderItem = (ul, item) => {
+    if (item.code && item.code === 204) {
+        return $(`
+    <div class="card rounded-0 border-0 px-4 py-3"> 
+        No results found
+    </div>
+`).appendTo(ul);
+    } else {
+        return $(`
+<a href="${item.url}" class="text-dark text-decoration-none">
+    <div class="card rounded-0 border-0"> 
+        <div class="border-bottom py-3 px-3">
+            <i class="fas ${(item.type === "post" ? `fa-copy` : ``)} ${(item.type === "user" ? `fa-user` : ``)} ${(item.type === "board" ? `fa-columns-3` : ``)} me-2 text-muted align-middle"></i> <span class="d-inline-block align-middle" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:80%">${item.name}</span>
+            <span class="float-end"><i class="far fa-arrow-right"></i></span>
+    </div>
+</a>
+`).appendTo(ul);
+    }
+};
+
+$("#searchInModal input").autocomplete({
+    source: "http://localhost/feedback/api.php?type=getResults",
+    appendTo: '#searchInModal'
+}).autocomplete("instance")._renderItem = (ul, item) => {
+    if (item.code && item.code === 204) {
+        return $(`
+    <div class="card rounded-0 border-0 px-4 py-3"> 
+        No results found
+    </div>
+`).appendTo(ul);
+    } else {
+        return $(`
+<a href="${item.url}" class="text-dark text-decoration-none">
+    <div class="card rounded-0 border-0"> 
+        <div class="border-bottom py-3 px-3">
+            <i class="fas ${(item.type === "post" ? `fa-copy` : ``)} ${(item.type === "user" ? `fa-user` : ``)} ${(item.type === "board" ? `fa-columns-3` : ``)} me-2 text-muted align-middle"></i> <span class="d-inline-block align-middle" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:80%">${item.name}</span>
+            <span class="float-end"><i class="far fa-arrow-right"></i></span>
+    </div>
+</a>
+`).appendTo(ul);
+    }
+};
+
+$("#openSearchModal").on("click", () => {
+    $("#searchModal").modal("show");
+    $("#searchInModal input").trigger("focus");
+});
+
+$('#searchModal input').on('blur',function () {
+    var blurEl = $(this);
+    setTimeout(function() {
+        blurEl.focus()
+    }, .5);
+});
