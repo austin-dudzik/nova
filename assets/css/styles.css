@@ -409,3 +409,7 @@ nav .page-icon span {
     color: #ab6a00;
     text-align: center;
 }
+
+.board-name {
+    font-weight: 700;
+}
