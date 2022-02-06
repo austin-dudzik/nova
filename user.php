@@ -25,7 +25,7 @@ $user_slug = $_GET['user_slug'];
                 moved, deleted, or may have never
                 existed.</p>
             <a href="<?= Settings::getSettings("site_url") ?>"
-               class="btn btn-primary">Go back
+               class="btn btn-accent">Go back
                 home</a>
         </div>
     </div>
@@ -226,7 +226,7 @@ $user_slug = $_GET['user_slug'];
                                 published to this
                                 board yet.</p>
                             <button type="button"
-                                    class="btn btn-primary btn-sm px-4 me-2">
+                                    class="btn btn-accent btn-sm px-4 me-2">
                                 <i class="far fa-plus"></i>
                                 New post
                             </button>
@@ -283,7 +283,7 @@ $user_slug = $_GET['user_slug'];
                     Close
                 </button>
                 <button type="button"
-                        class="btn btn-primary">
+                        class="btn btn-accent">
                     Save changes
                 </button>
             </div>

@@ -52,7 +52,7 @@ function votePost() {
 
                 }
 
-                $(this).find("button").toggleClass("btn-primary btn-light");
+                $(this).find("button").toggleClass("btn-accent btn-light");
 
             }
 
@@ -92,7 +92,7 @@ $("#searchInModal input").autocomplete({
     }
 };
 
-$("#openSearchModal").on("click", () => {
+$("#openSearch").on("click", () => {
     $("#searchModal").modal("show");
     $("#searchInModal input").trigger("focus");
 });
