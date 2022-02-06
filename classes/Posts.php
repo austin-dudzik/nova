@@ -97,6 +97,9 @@ class Posts
                     $post->status = Status::getStatusExcerpt($post->status_id);
                 }
 
+                // Get post board details
+                $post->board = Board::getBoardExcerpt($post->board_id);
+
                 // If user is signed in
                 if (isset($user)) {
                     $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
@@ -153,6 +156,9 @@ class Posts
                 if ($post->status_id) {
                     $post->status = Status::getStatusExcerpt($post->status_id);
                 }
+
+                // Get post board details
+                $post->board = Board::getBoardExcerpt($post->board_id);
 
                 // If user is signed in
                 if (isset($user)) {
@@ -211,6 +217,9 @@ class Posts
                 if ($post->status_id) {
                     $post->status = Status::getStatusExcerpt($post->status_id);
                 }
+
+                // Get post board details
+                $post->board = Board::getBoardExcerpt($post->board_id);
 
                 // If user is signed in
                 if (isset($user)) {
