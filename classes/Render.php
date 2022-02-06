@@ -126,12 +126,12 @@ class Render
             </div>
         </div>
     </nav>
-</div>
-
-<div class="read-only py-3 small">
+</div>' .
+            (Settings::getSettings("read_only") ?
+'<div class="read-only py-3 small">
     <i class="fas fa-exclamation-triangle me-2"></i>
     ' . __('readonly_mode') . '
-</div>';
+</div>' : '');
 
     }
 
@@ -175,6 +175,7 @@ class Render
 <script src="' . Settings::getSettings("site_url") . '/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
 <script src="' . Settings::getSettings("site_url") . '/assets/libs/simplemde/js/simplemde.min.js"></script>
 <script src="' . Settings::getSettings("site_url") . '/assets/js/main.js"></script>
+<script src="' . Settings::getSettings("site_url") . '/assets/js/login.js"></script>
 ';
     }
 
