@@ -413,3 +413,26 @@ nav .page-icon span {
 .board-name {
     font-weight: 700;
 }
+
+.statusGroup .card-header {
+    border: 0;
+    background: #efefef;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.statusGroup .fa-circle {
+    font-size: 10px;
+    vertical-align: middle;
+}
+
+.statusGroup .card-body {
+    background: #efefef;
+    height: 250px;
+    overflow-y: auto
+}
+
+.statusGroup p.noPosts {
+    font-weight: 500;
+    color: #999;
+}

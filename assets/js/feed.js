@@ -1,44 +1,45 @@
-$.ajax({
-    url: site_url + "/api.php",
-    method: "GET",
-    data: {
-        type: "getStatuses",
-        csrf_token: csrf_token
-    },
-    success: (data) => {
+$(document).ready(() => {
+    getStatuses();
+})
 
-        for (let i = 0; i < data.length; i++) {
+function getStatuses() {
+    $.ajax({
+        url: site_url + "/api.php",
+        method: "GET",
+        data: {
+            type: "getStatuses",
+            csrf_token: csrf_token
+        },
+        success: (data) => {
 
-            $("#feed-container").append(`
-                        <div class="col-md-4">
-        <div class="card h-100">
-            <div class="card-header py-3" style="border:0;background:#efefef;font-weight:700;font-size:15px">
-                <i class="fas fa-circle me-2" style="font-size:10px;vertical-align:middle;color:${data[i].color}"></i> ${data[i].name}
-            </div>` +
-                ((data[i].posts) ?
+            // Loop through the statuses
+            for (let i = 0; i < data.length; i++) {
 
-                    `<div class="card-body p-0" style="background:#efefef;height:250px;overflow-y:auto">
-                <ul class="list-group list-group-flush" id="status-${data[i].status_id}-posts"></ul>
-            </div>` : `<div class="card-body pt-1" style="background:#efefef;height:250px;overflow-y:auto"><p style="font-weight:500;color:#999" class="ms-4 my-auto">` + terms.nothing_here + `</p></div>`) +
-
-                `</div>
-    </div>`);
+                $("#feed-container").append(`<div class="col-md-4 statusGroup">
+                <div class="card h-100">
+                    <div class="card-header py-3">
+                        <i class="fas fa-circle me-2" style="color:${data[i].color}"></i> ${data[i].name}
+                    </div>` + (data[i].posts ? `<div class="card-body p-0">
+                        <ul class="list-group list-group-flush" id="status-${data[i].status_id}-posts"></ul>
+                    </div>` : `<div class="card-body pt-1"><p class="ms-4 my-auto noPosts">` + terms.nothing_here + `</p></div>`) + `</div>
+            </div>`);
 
 
-            $.ajax({
-                url: site_url + "/api.php",
-                method: "GET",
-                data: {
-                    type: "getPostsByStatus",
-                    csrf_token: csrf_token,
-                    status_id: data[i].status_id
-                },
-                success: (posts) => {
+                $.ajax({
+                    url: site_url + "/api.php",
+                    method: "GET",
+                    data: {
+                        type: "getPostsByStatus",
+                        csrf_token: csrf_token,
+                        status_id: data[i].status_id
+                    },
+                    success: (posts) => {
 
-                    if (!posts.code) {
+                        if (!posts.code) {
 
-                        for (let j = 0; j < posts.length; j++) {
-                            $("#status-" + data[i].status_id + "-posts").append(`
+                            // Loop through the posts
+                            for (let j = 0; j < posts.length; j++) {
+                                $("#status-" + data[i].status_id + "-posts").append(`
                         <li class="list-group-item">
                         <div class="row">
                             <div class="col-md-2 my-auto">
@@ -56,19 +57,21 @@ $.ajax({
                         </div>
                     </li>`);
 
+                            }
+
                         }
 
                     }
 
-                }
+                });
 
-            });
 
+            }
 
         }
+    })
 
-    }
-})
+}
 
 
 $.ajax({
