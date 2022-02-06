@@ -19,7 +19,7 @@ $.ajax({
 
                     `<div class="card-body p-0" style="background:#efefef;height:250px;overflow-y:auto">
                 <ul class="list-group list-group-flush" id="status-${data[i].status_id}-posts"></ul>
-            </div>` : `<div class="card-body pt-1" style="background:#efefef;height:250px;overflow-y:auto"><p style="font-weight:500;color:#999" class="ms-4 my-auto">Nothing here, yet. Check back soon!</p></div>`) +
+            </div>` : `<div class="card-body pt-1" style="background:#efefef;height:250px;overflow-y:auto"><p style="font-weight:500;color:#999" class="ms-4 my-auto">` + terms.nothing_here + `</p></div>`) +
 
                 `</div>
     </div>`);
@@ -90,7 +90,7 @@ $.ajax({
                 <div class="card-body text-center">
                     <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-accent"></i>
                     <p class="mb-0" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
-                    <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} posts</small>
+                    <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} ${terms.posts}</small>
                 </div>
             </div>
             </a>
@@ -110,7 +110,7 @@ $.ajax({
                                 <p class="mb-0"
                                    style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
                                 <small
-                                    style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} posts</small>
+                                    style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} ${terms.posts}</small>
                             </div>
                         </div>
                     </div>

@@ -46,9 +46,9 @@ function getBoard() {
                 $(".board-name").text(data.name);
                 $(".board-desc").text(data.description);
                 $(".board-icon").addClass("fa-" + data.icon);
-                $(".board-posts").text(data.posts + (data.posts === 1 ? " post" : " posts"));
-                $(".board-subscribers").text(data.subscribers + (data.subscribers === 1 ? " subscriber" : " subscribers"));
-                $(".board-upvotes").text(data.upvotes + (data.upvotes === 1 ? " upvote" : " upvotes"));
+                $(".board-posts").text(data.posts + (data.posts === 1 ? " " + terms.post : " " + terms.posts));
+                $(".board-subscribers").text(data.subscribers + (data.subscribers === 1 ? " " + terms.subscriber : " " + terms.subscribers));
+                $(".board-upvotes").text(data.upvotes + (data.upvotes === 1 ? " " + terms.upvote : " " + terms.upvotes));
 
                 // Hide placeholders
                 $(".ph-item").hide();

@@ -61,14 +61,14 @@ $board_slug = $_GET['board_slug'];
                                 <button type="button"
                                         class="btn btn-accent w-100 border btn-sm mb-2">
                                     <i class="far fa-plus me-2"></i>
-                                    New post
+                                    <?= __("new_post") ?>
                                 </button>
                             </div>
                             <div class="col">
                                 <button type="button"
                                         class="btn btn-light w-100 border btn-sm mb-2">
                                     <i class="far fa-rss me-2"></i>
-                                    Subscribe
+                                    <?= __("subscribe") ?>
                                 </button>
                             </div>
                         </div>
@@ -116,7 +116,9 @@ $board_slug = $_GET['board_slug'];
                     <div class="mb-3 small lz-load">
                         <span class="float-start">
                         <p class="d-inline pe-0 text-muted">
-                            <a href="<?= Settings::getSettings("site_url") ?>" class="text-accent text-decoration-none">Boards</a>
+                            <a href="<?= Settings::getSettings("site_url") ?>" class="text-accent text-decoration-none">
+                                <?= __("boards") ?>
+                            </a>
                             <i class="fas fa-caret-right mx-2"></i>
                         </p>
                         <p class="d-inline pe-0 text-muted board-name">Feature Requests</p>
@@ -126,7 +128,7 @@ $board_slug = $_GET['board_slug'];
                            id="toggle-sidebar"
                            role="button">
                             <i class="fas fa-right-from-line me-2"></i>
-                            Options
+                            <?= __("options") ?>
                         </p>
 
                     </div>
@@ -198,7 +200,7 @@ $board_slug = $_GET['board_slug'];
                     <button type="button"
                             class="btn btn-light px-5 border btn-sm mb-2 loadMore lz-load">
                         <i class="fas fa-plus me-2"></i>
-                        Load more
+                        <?= __("load_more") ?>
                         </button>
                         <p class="text-muted small fst-italic">🎈 You've reached the end</p>
                 </div>
@@ -232,7 +234,8 @@ $board_slug = $_GET['board_slug'];
                             <div class="card-body">
                                 <p class="fw-bold mb-2">
                                     <i class="fas fa-filter text-muted me-2"></i>
-                                    Filter</p>
+                                    <?= __("filter") ?>
+                                </p>
 
                                 <div class="form-check">
                                     <input class="form-check-input"
@@ -274,7 +277,8 @@ $board_slug = $_GET['board_slug'];
                             <div class="card-body">
                                 <p class="fw-bold mb-2">
                                     <i class="fas fa-circle-sort text-muted me-2"></i>
-                                    Sort</p>
+                                    <?= __("sort") ?>
+                                </p>
 
                                 <div class="form-check">
                                     <input class="form-check-input"

@@ -5,24 +5,19 @@ include "includes/config.php";
 ?>
 <!doctype html>
 <html lang="en">
-<?php echo Render::header('Feed'); ?>
+<?php echo Render::header(__('feed')); ?>
 <body>
 <?php echo Render::navigation('feed'); ?>
 
 <div class="bg-accent text-white p-md-5 p-3">
     <div class="container p-5 py-3">
-        <h1 class="text-center">Your Feedback
-            Matters to Us!</h1>
-        <p class="mb-4 text-center">We're here to
-            build a
-            better experience for you.</p>
+        <h1 class="text-center">Your Feedback Matters to Us!</h1>
+        <p class="mb-4 text-center">We're here to build a better experience for you.</p>
 
         <div class="input-icons input-group mb-3 w-50-auto mx-auto"
              id="searchPageContainer">
             <i class="far fa-magnifying-glass text-white"></i>
-            <input class="search form-control ps-5"
-                   type="text" id="searchPage"
-                   placeholder="Search for ideas, updates, users, and more...">
+            <input class="search form-control ps-5" type="text" id="searchPage" placeholder="<?= __('search_text') ?>">
         </div>
 
     </div>
@@ -37,10 +32,10 @@ include "includes/config.php";
              fill="currentColor">
             <path d="M2 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V4zM8 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H9a1 1 0 01-1-1V4zM15 3a1 1 0 00-1 1v12a1 1 0 001 1h2a1 1 0 001-1V4a1 1 0 00-1-1h-2z"/>
         </svg>
-        Boards
+        <?= __('boards') ?>
         <p class="float-end text-muted">
             <a href="<?= Settings::getSettings("site_url") ?>/boards" class="text-reset text-decoration-none">
-            View all <i class="fas fa-angle-right ms-2"></i>
+                <?= __('view_all') ?> <i class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
     </h6>
@@ -57,11 +52,11 @@ include "includes/config.php";
              fill="currentColor">
             <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"/>
         </svg>
-        <span class="align-middle">Changelog</span>
+        <span class="align-middle"><?= __('changelog') ?></span>
 
         <p class="float-end text-muted">
             <a href="<?= Settings::getSettings("site_url") ?>/changelog" class="text-reset text-decoration-none">
-                View all <i class="fas fa-angle-right ms-2"></i>
+                <?= __('view_all') ?> <i class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
     </h6>
@@ -109,11 +104,11 @@ include "includes/config.php";
                   d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z"
                   clip-rule="evenodd"/>
         </svg>
-        Roadmap
+        <?= __('roadmap') ?>
 
         <p class="float-end text-muted">
             <a href="<?= Settings::getSettings("site_url") ?>/roadmap" class="text-reset text-decoration-none">
-                View all <i class="fas fa-angle-right ms-2"></i>
+                <?= __('view_all') ?> <i class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
     </h6>
