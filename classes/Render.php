@@ -126,8 +126,7 @@ class Render
             </div>
         </div>
     </nav>
-</div>' .
-            (Settings::getSettings("read_only") ?
+</div>' . (Settings::getSettings("read_only") ?
 '<div class="read-only py-3 small">
     <i class="fas fa-exclamation-triangle me-2"></i>
     ' . __('readonly_mode') . '
