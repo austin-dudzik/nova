@@ -74,7 +74,7 @@ body {
     outline: none;
     color: rgba(255, 255, 255, 0.7);
     font-size: 16px;
-    border-radius: 4px!important;
+    border-radius: 4px !important;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%);
     transition: background .4s, box-shadow .2s;
     clip-path: inset(-2px 0px -2px -2px);
@@ -93,6 +93,7 @@ body {
     background: white;
     color: #3a3c4c;
 }
+
 .input-group-text {
     background: rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.7);
@@ -177,12 +178,12 @@ body {
 
 .ui-menu {
     width: 70%;
-    border-bottom-left-radius: .25rem!important;
+    border-bottom-left-radius: .25rem !important;
 }
 
 .input-group-text {
-    border-top-right-radius: .25rem!important;
-    border-bottom-right-radius: .25rem!important;
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
 }
 
 
@@ -367,4 +368,44 @@ body {
     background: var(--accent-color);
     border-color: var(--accent-color);
     color: #fff;
+}
+
+.btn-accent:hover {
+    color: #fff;
+}
+
+#openSearch, #openNotifications {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#openSearch .fa-stack-2x, #openNotifications .fa-stack-2x {
+    color: hsla(0, 0%, 39.2%, .1);
+}
+
+#openSearch .fa-stack-1x, #openNotifications .fa-stack-1x {
+    color: #aaa;
+}
+
+nav .avatar {
+    border-radius: 100%;
+    width: 35px;
+    cursor: pointer;
+}
+
+nav .page-icon svg {
+    height: 20px;
+    width: 20px;
+    display: inline;
+}
+
+nav .page-icon span {
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+.read-only {
+    background: #FFE8C3;
+    color: #ab6a00;
+    text-align: center;
 }
