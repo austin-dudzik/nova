@@ -20,25 +20,50 @@ function getBoard() {
 
             // If board is not found
             if (data.code && data.code === 204) {
-                // Show 404 holder
-                $("#404-holder").show();
+
                 // Remove board holder
                 $("#board-holder").remove();
+
+                // Show 404 screen
+                $(".container-fluid").append(`
+                    <div class="card w-50 mx-auto p-4">
+                        <div class="card-body">
+                            <h5>${terms.board_not_found}</h5>
+                            <p>${terms.board_not_found_msg}</p>
+                            <p class="fw-bold">${terms.not_found_reason}</p>
+                            <a href="${site_url}" class="btn btn-accent">${terms.return_home}</a>
+                        </div>
+                    </div>`);
+
             } else {
 
                 // Set the board ID
                 window.boardId = data.board_id;
 
-                // Remove 404 holder
-                $("#404-holder").remove();
-
                 // Get board posts
                 if (data.posts !== 0) {
                     getPosts();
-                    $(".no-posts-holder").remove();
                 } else {
-                    // Show no posts holder
-                    $(".btm-hold, #sidebar, #toggle-sidebar").remove();
+                    // Remove elements
+                    $(".btm-hold, #sidebar, #toggle-sidebar .ph-item").remove();
+
+                    // Show no posts card
+                    $("#posts-wrapper").append(`<div class="card mt-3">
+                        <div class="card-body p-5">
+                            <h1>🦄</h1>
+                            <h5>No posts to be found here...</h5>
+                            <p>It appears no posts have been published to this board yet.</p>
+                            <button type="button" class="btn btn-accent btn-sm px-4 me-2">
+                                <i class="far fa-plus"></i>
+                                New post
+                            </button>
+                            <button type="button" class="btn btn-light border btn-sm px-4">
+                                Go back
+                            </button>
+                        </div>
+                    </div>`);
+
+
                 }
 
                 // Set board information
@@ -51,7 +76,7 @@ function getBoard() {
                 $(".board-upvotes").text(data.upvotes + (data.upvotes === 1 ? " " + terms.upvote : " " + terms.upvotes));
 
                 // Hide placeholders
-                $(".ph-item").hide();
+                $(".ph-item").not("#post-wrapper .ph-item").hide();
                 // Show lazy load elements
                 $(".lz-load").show();
 
@@ -76,27 +101,42 @@ function getPosts(offset = 0, loadMore = false) {
 
             $(document).ready(() => {
 
+                // Hide placeholders
+                $(".ph-item").hide();
+
                 if (loadMore) {
+                    // Remove disabled class
                     $(".loadMore").removeClass("disabled");
+                    // Remove loading class
                     $(".loadMore i").removeClass("fa-spin").toggleClass("fa-plus fa-spinner-third");
 
+                    // If no more posts
                     if (data.code && data.code === 204) {
+                        // Hide load more btn
                         $(".btm-hold button").hide();
+                        // Show no more posts message
                         $(".btm-hold p").show();
                     }
 
                 }
 
+                // If another full page available
                 if (data.length === 10) {
+                    // Show load more btn
                     $(".btm-hold .loadMore").show();
+                    // Hide no more posts message
                     $(".btm-hold p").hide();
                 } else {
+                    // Hide load more btn
                     $(".btm-hold .loadMore").hide();
+                    // Show no more posts message
                     $(".btm-hold p").show();
                 }
 
+                // Loop through all posts
                 for (let i = 0; i < data.length; i++) {
 
+                    // Append post to posts list
                     $(".posts-list").append(`<li class="list-group-item post-listing">
                             <div class="d-flex">
                                 <div class="upvote" data-id="${data[i].post_id}" data-voted="${data[i].hasUpvoted}">
@@ -136,10 +176,15 @@ $(document).ready(() => {
     getBoard();
 });
 
+// Set initial offset
 let offset = 10;
 $(".loadMore").on("click", function () {
+    // Add disabled class
     $(this).addClass("disabled");
+    // Add loading class
     $(".loadMore i").addClass("fa-spin").toggleClass("fa-plus fa-spinner-third");
+    // Get posts
     getPosts(offset, true);
+    // Increase offset
     offset += 10;
 });
