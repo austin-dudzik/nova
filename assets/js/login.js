@@ -20,7 +20,7 @@ $("#submitLogin").on("click", function () {
                     $("#msg").show().text("Sorry, the login details you entered are incorrect. Please try again.");
                 } else {
                     $("#msg").hide();
-                    window.location = site_url;
+                    window.location = window.location;
                 }
             }
         })
