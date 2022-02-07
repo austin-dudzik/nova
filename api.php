@@ -64,6 +64,8 @@ if ($_GET) {
     $result = match ($type) {
         // Authenticate user
         'authenticateUser' => Authentication::authenticateUser($_POST["email"], $_POST["password"]),
+        // Create user
+        'createUser' => Authentication::createUser($_POST["firstName"], $_POST["lastName"], $_POST["username"], $_POST["email"], $_POST["password"], $_POST["confirm_password"]),
         // Add/remove post upvote
         'votePost' => Upvote::votePost($_POST["post_id"]),
         // Default response
