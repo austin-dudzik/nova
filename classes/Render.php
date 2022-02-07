@@ -161,6 +161,118 @@ class Render
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="mustSignInModal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title"
+                    id="exampleModalLabel"></h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-5">
+                <div class="row pb-4">
+                    <div class="col-md-5 d-none">
+                        <div class="card mx-auto">
+                            <div class="card-body">
+                                <p class="mb-3">Do more with an account...</p>
+                                <ul class="list-group small no-gutters m-0 p-0">
+
+
+                                    <li class="list-group-item bg-white p-0 m-0">
+                            <span class="fa-stack me-1">
+                          <i class="fas fa-square fa-stack-2x text-accent"></i>
+                          <i class="fas fa-message fa-stack-1x fa-inverse"></i>
+                        </span>Post comments
+                                    </li>
+                                    <li class="list-group-item bg-white p-0 m-0 mt-2">
+                              <span class="fa-stack me-1">
+                              <i class="fas fa-square fa-stack-2x text-accent"></i>
+                              <i class="fas fa-caret-up fa-stack-1x fa-inverse"></i>
+                            </span>Upvote posts
+                                    </li>
+                                    <li class="list-group-item bg-white p-0 m-0 mt-2">
+                              <span class="fa-stack me-1">
+                              <i class="fas fa-square fa-stack-2x text-accent"></i>
+                              <i class="fas fa-copy fa-stack-1x fa-inverse"></i>
+                            </span>Share ideas
+                                    </li>
+                                    <li class="list-group-item bg-white p-0 m-0 mt-2">
+                              <span class="fa-stack me-1">
+                              <i class="fas fa-square fa-stack-2x text-accent"></i>
+                              <i class="fas fa-bell fa-stack-1x fa-inverse"></i>
+                            </span>Receive notifications
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-md-12 mx-auto">
+                        <img src="' . Settings::getSettings("site_url") . '/logo.svg" width="180" class="mb-4">
+
+                        <h5 class="mb-3">Please log in to continue...</h5>
+
+                            <div class="alert alert-danger" id="msg"></div>
+
+                        <form>
+                            <div class="form-group mb-3">
+                                <label for="email">' . __('email') . '</label>
+                                <input type="email" id="email" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="password">' . __('password') . '</label>
+                                <input type="password" id="password" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <button type="button" class="btn btn-accent w-100" id="submitLogin">' . __('login') . '
+                                </button>
+                            </div>
+                        </form>
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="mb-3">Do more with an account...</p>
+                                <div class="row small">
+                                    <div class="col-6 mb-2">
+                                        <span class="fa-stack me-1">
+                          <i class="fas fa-square fa-stack-2x text-accent"></i>
+                          <i class="fas fa-message fa-stack-1x fa-inverse"></i>
+                        </span>Post comments
+                                    </div>
+                                    <div class="col-6 mb-2">
+                            <span class="fa-stack me-1">
+                              <i class="fas fa-square fa-stack-2x text-accent"></i>
+                              <i class="fas fa-caret-up fa-stack-1x fa-inverse"></i>
+                            </span>Upvote posts
+                                    </div>
+                                    <div class="col-6 mb-2">
+                            <span class="fa-stack me-1">
+                              <i class="fas fa-square fa-stack-2x text-accent"></i>
+                              <i class="fas fa-copy fa-stack-1x fa-inverse"></i>
+                            </span>Share ideas
+                                    </div>
+                                    <div class="col-6 mb-2">
+                            <span class="fa-stack me-1">
+                              <i class="fas fa-square fa-stack-2x text-accent"></i>
+                              <i class="fas fa-bell fa-stack-1x fa-inverse"></i>
+                            </span>Get notifications
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center small py-2">
+                                <a href="register.php" class="text-accent text-decoration-none">Create account <i class="far fa-long-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     const site_name = \'' . Settings::getSettings("site_title") . '\';
     const site_url = \'' . Settings::getSettings("site_url") . '\';
