@@ -23,7 +23,7 @@ include "includes/config.php";
     </div>
 </div>
 
-<div class="container mt-5 px-5">
+<div class="container mt-5 px-3 px-md-5">
     <h6 class="mb-4 mt-4">
         <svg xmlns="http://www.w3.org/2000/svg"
              class="d-inline me-2"
@@ -62,31 +62,37 @@ include "includes/config.php";
     </h6>
 
     <div class="row mb-5">
-        <div class="col-md-3">
+        <div class="col-md-3 mb-3">
             <div class="card h-100">
-                <div class="card-body">
-                    <h5>Discord Integration</h5>
-                    <p class="small text-muted mb-2">Our Discord Integration is live! Your team can connect Canny with Discord text channels to get instant notifications from specific boards and select events.
+                <div class="card-body p-4">
+                    <div class="small text-muted mb-3" style="font-size:12px">
+                        <i class="fas fa-calendar-alt me-2"></i> December 15th 2021
+                    </div>
+                    <h6>Discord Integration</h6>
+                    <p class="small text-muted mb-2 clamp-3">Our Discord Integration is live! Your team can connect Canny with Discord text channels to get instant notifications from specific boards and select events.
                     </p>
                     <div class="badge bg-danger text-white">Updates</div>
                 </div>
-                <div class="card-footer py-3 text-center">
+                <div class="card-footer py-2 text-center" style="background:#efefef">
                     <p class="text-muted mb-0" style="font-size:12px">
-                        <i class="fas fa-calendar-alt me-2"></i> December 15th 2021
+                        Read more <i class="far fa-long-arrow-right ms-2"></i>
                     </p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 mb-3">
             <div class="card h-100">
-                <div class="card-body">
-                    <h5>Test</h5>
-                    <p class="small text-muted mb-2">Lorem ipsum blah blah blah</p>
+                <div class="card-body p-4">
+                    <div class="small text-muted mb-3" style="font-size:12px">
+                        <i class="fas fa-calendar-alt me-2"></i> December 15th 2021
+                    </div>
+                    <h6>Test</h6>
+                    <p class="small text-muted mb-2 clamp-3">Lorem ipsum blah blah blah</p>
                     <div class="badge bg-success text-white">Fixes</div>
                 </div>
-                <div class="card-footer py-3 text-center">
+                <div class="card-footer py-2 text-center" style="background:#efefef">
                     <p class="text-muted mb-0" style="font-size:12px">
-                        <i class="fas fa-calendar-alt me-2"></i> February 20th 2022
+                        Read more <i class="far fa-long-arrow-right ms-2"></i>
                     </p>
                 </div>
             </div>
