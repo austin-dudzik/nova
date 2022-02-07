@@ -21,6 +21,11 @@ class Search
      * @var string The result type
      */
     public string $type;
+    /**
+     * @var string The result slug
+     */
+    private string $slug;
+
 
     /**
      * getResults
@@ -37,7 +42,7 @@ class Search
 
         $site_url = Settings::getSettings("site_url");
 
-        if(!$term) {
+        if (!$term) {
             // Return an empty array
             return array(Response::throwResponse(204, "No results found"));
         }
@@ -45,36 +50,49 @@ class Search
         $term = trim($term);
 
 
-        if($term) {
+        if ($term) {
             $term = "%" . trim($term) . "%";
         } else {
             return array();
         }
 
-        $stmt = $conn->prepare("SELECT po.title AS name, 'post' AS type, CONCAT(?, '/p/', po.slug) url FROM  ". $prefix . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, CONCAT(?, '/u/', us.username) url FROM  ". $prefix . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, CONCAT(?, '/b/', bo.slug) url FROM  ". $prefix . "boards bo WHERE bo.name LIKE ?");
+        $stmt = $conn->prepare("SELECT po.title AS name, 'post' AS type, po.slug, CONCAT(?, '/p/', po.slug) url FROM  " . $prefix . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, us.username, CONCAT(?, '/u/', us.username) url FROM  " . $prefix . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, bo.slug, CONCAT(?, '/b/', bo.slug) url FROM  " . $prefix . "boards bo WHERE bo.name LIKE ?");
         $stmt->bind_param("ssssss", $site_url, $term, $site_url, $term, $site_url, $term);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
+        // Define new array
+        $searchResults = array();
 
-            // Define new array
-            $searchResults = array();
+        while ($searchResult = $result->fetch_object('Search')) {
 
-            while ($searchResult = $result->fetch_object('Search')) {
-
+            if ($searchResult->type === "post") {
+                // Determine result visibility
+                if (Rules::verifyRulesByPost($searchResult->slug)) {
+                    // Add result to array
+                    $searchResults[] = $searchResult;
+                }
+            } else if ($searchResult->type === "user") {
                 // Add result to array
                 $searchResults[] = $searchResult;
-
+            } else if ($searchResult->type === "board") {
+                // Determine result visibility
+                if (Rules::verifyRulesByBoard($searchResult->slug)) {
+                    // Add result to array
+                    $searchResults[] = $searchResult;
+                }
             }
 
+        }
+
+        if (count($searchResults) > 0) {
             // Return the results
             return $searchResults;
-
         } else {
-            // Return an empty array
-            return array(Response::throwResponse(204, "No results found"));
+            // Return 204 response
+            return Response::throwResponse(204, "No results found");
         }
+
 
     }
 

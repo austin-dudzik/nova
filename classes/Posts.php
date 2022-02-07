@@ -80,17 +80,18 @@ class Posts
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  ". $prefix . "posts po LEFT JOIN  ". $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  ". $prefix . "comments co ON po.id = co.post_id WHERE po.board_id = ? GROUP BY po.id DESC LIMIT ?, ?");
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id WHERE po.board_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $board_id, $offset, $limit);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
+        // Define new array
+        $posts = array();
 
-            // Define new array
-            $posts = array();
+        while ($post = $result->fetch_object('Posts')) {
 
-            while ($post = $result->fetch_object('Posts')) {
+            // Determine post visibility
+            if (Rules::verifyRulesByPost($post->slug)) {
 
                 // If post has assigned status
                 if ($post->status_id) {
@@ -112,9 +113,11 @@ class Posts
 
             }
 
+        }
+
+        if (count($posts) > 0) {
             // Return the posts
             return $posts;
-
         } else {
             // Return 204 response
             return Response::throwResponse(204, "No posts found");
@@ -140,17 +143,18 @@ class Posts
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  ". $prefix . "posts po LEFT JOIN  ". $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  ". $prefix . "comments co ON po.id = co.post_id WHERE po.user_id = ? GROUP BY po.id DESC LIMIT ?, ?");
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id WHERE po.user_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $user_id, $offset, $limit);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
+        // Define new array
+        $posts = array();
 
-            // Define new array
-            $posts = array();
+        while ($post = $result->fetch_object('Posts')) {
 
-            while ($post = $result->fetch_object('Posts')) {
+            // Determine post visibility
+            if (Rules::verifyRulesByPost($post->slug)) {
 
                 // If post has assigned status
                 if ($post->status_id) {
@@ -173,9 +177,11 @@ class Posts
 
             }
 
+        }
+
+        if (count($posts) > 0) {
             // Return the posts
             return $posts;
-
         } else {
             // Return 204 response
             return Response::throwResponse(204, "No posts found");
@@ -201,17 +207,18 @@ class Posts
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  ". $prefix . "posts po LEFT JOIN  ". $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  ". $prefix . "comments co ON po.id = co.post_id WHERE po.status_id = ? GROUP BY po.id DESC LIMIT ?, ?");
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id WHERE po.status_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $status_id, $offset, $limit);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
+        // Define new array
+        $posts = array();
 
-            // Define new array
-            $posts = array();
+        while ($post = $result->fetch_object('Posts')) {
 
-            while ($post = $result->fetch_object('Posts')) {
+            // Determine post visibility
+            if (Rules::verifyRulesByPost($post->slug)) {
 
                 // If post has assigned status
                 if ($post->status_id) {
@@ -234,13 +241,16 @@ class Posts
 
             }
 
+        }
+
+        if (count($posts) > 0) {
             // Return the posts
             return $posts;
-
         } else {
             // Return 204 response
             return Response::throwResponse(204, "No posts found");
         }
+
 
     }
 

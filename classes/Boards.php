@@ -75,71 +75,27 @@ class Boards
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
+        // Define new array
+        $boards = array();
 
-            // Define new array
-            $boards = array();
+        while ($board = $result->fetch_object('Boards')) {
 
-            while ($board = $result->fetch_object('Boards')) {
-
-                // If board is private
-                if ($board->visibility === 2) {
-
-                    // Convert string to array
-                    $rules = json_decode($board->rules);
-
-                    $check_array = array();
-
-                    // Loop through the rules
-                    foreach ($rules as $rule) {
-
-                        // If rule is a wildcard
-                        if (str_starts_with($rule, "*")) {
-
-                            // The rule's email domain
-                            $rule_domain = str_replace("*@", "", $rule);
-                            // The user's email domain
-                            $user_domain = explode('@', $user->email, 2)[1];
-
-                            // If user's email domain matches the rule's domain
-                            if ($rule_domain === $user_domain) {
-                                array_push($check_array, true);
-                            } else {
-                                array_push($check_array, false);
-                            }
-
-                        } else {
-
-                            // If rule is a specific email
-                            if ($rule === $user->email) {
-                                array_push($check_array, true);
-                            } else {
-                                array_push($check_array, false);
-                            }
-
-                        }
-
-                    }
-
-                    if(in_array(true, $check_array)) {
-                        $boards[] = $board;
-                    }
-
-
-                } else {
-                    // Add post to array
-                    $boards[] = $board;
-                }
-
+            // Determine board visibility
+            if (Rules::verifyRulesByBoard($board->slug)) {
+                // Add board to array
+                $boards[] = $board;
             }
 
-            // Return the boards
-            return $boards;
+        }
 
+        if (count($boards) > 0) {
+            // Return the posts
+            return $boards;
         } else {
             // Return 204 response
-            return Response::throwResponse(204, 'No data found');
+            return Response::throwResponse(204, "No boards found");
         }
+
     }
 
 }

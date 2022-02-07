@@ -73,24 +73,31 @@ class Post
             // Assign variable to Posts object
             $post = $result->fetch_object('Post');
 
-            // If post has assigned status
-            if ($post->status_id) {
-                $post->status = Status::getStatusExcerpt($post->status_id);
+            if(Rules::verifyRulesByPost($post->post_id)) {
+
+                // If post has assigned status
+                if ($post->status_id) {
+                    $post->status = Status::getStatusExcerpt($post->status_id);
+                }
+
+                // If user is signed in
+                if (isset($user)) {
+                    $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
+                }
+
+                // Get post board details
+                $post->board = Board::getBoardExcerpt($post->board_id);
+
+                // Get post user details
+                $post->user = User::getUserExcerpt($post->user_id);
+
+                // Return the post
+                return $post;
+
+            } else {
+                // Return 204 response
+                return Response::throwResponse(204, 'No data found');
             }
-
-            // If user is signed in
-            if (isset($user)) {
-                $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
-            }
-
-            // Get post board details
-            $post->board = Board::getBoardExcerpt($post->board_id);
-
-            // Get post user details
-            $post->user = User::getUserExcerpt($post->user_id);
-
-            // Return the post
-            return $post;
 
         } else {
             // Return 204 response
