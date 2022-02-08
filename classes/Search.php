@@ -56,7 +56,7 @@ class Search
             return array();
         }
 
-        $stmt = $conn->prepare("SELECT po.title AS name, 'post' AS type, po.slug, CONCAT(?, '/p/', po.slug) url FROM  " . $prefix . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, us.username, CONCAT(?, '/u/', us.username) url FROM  " . $prefix . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, bo.slug, CONCAT(?, '/b/', bo.slug) url FROM  " . $prefix . "boards bo WHERE bo.name LIKE ?");
+        $stmt = $conn->prepare("SELECT name, type, slug, url FROM (SELECT po.title AS name, 'post' AS type, po.slug, CONCAT(?, '/p/', po.slug) url FROM  " . $prefix . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, us.username, CONCAT(?, '/u/', us.username) url FROM  " . $prefix . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, bo.slug, CONCAT(?, '/b/', bo.slug) url FROM  " . $prefix . "boards bo WHERE bo.name LIKE ?) AS search ORDER BY name LIMIT 10");
         $stmt->bind_param("ssssss", $site_url, $term, $site_url, $term, $site_url, $term);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -72,9 +72,11 @@ class Search
                     // Add result to array
                     $searchResults[] = $searchResult;
                 }
+
             } else if ($searchResult->type === "user") {
                 // Add result to array
                 $searchResults[] = $searchResult;
+
             } else if ($searchResult->type === "board") {
                 // Determine result visibility
                 if (Rules::verifyRulesByBoard($searchResult->slug)) {
@@ -90,7 +92,7 @@ class Search
             return $searchResults;
         } else {
             // Return 204 response
-            return Response::throwResponse(204, "No results found");
+            return array(Response::throwResponse(204, "No results found"));
         }
 
 
