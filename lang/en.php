@@ -44,3 +44,4 @@ $lang["board_not_found_msg"] = 'Sorry, we couldn\'t find a board located at the 
 $lang["not_found_reason"] = 'The page may have been moved, deleted, or may have never existed.';
 $lang["return_home"] = 'Go back home';
 $lang["reached_end"] = 'You\'ve reached the end';
+$lang["powered_by"] = 'Powered by';
