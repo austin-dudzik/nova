@@ -35,9 +35,17 @@ class Render
         return '<div class="sticky-top">
     <nav class="navbar navbar-light bg-light navbar-expand-lg" id="navigation">
         <div class="container py-2">
+        
+        <div>
+        <span class="fa-stack fa-2x d-inline-block me-2 d-lg-none" id="openNav" data-bs-toggle="collapse" data-bs-target="#navExtra">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="far fa-bars fa-stack-1x fa-inverse"></i>
+                </span>
+                
             <a class="navbar-brand" href="' . Settings::getSettings("site_url") . '">
                 <img src="' . Settings::getSettings("site_url") . '/logo.svg" alt="">
             </a>
+            </div>
             <div>' . (isset($_SESSION['user']) ?
                 '<span class="fa-stack fa-2x" id="openSearch">
                       <i class="fas fa-circle fa-stack-2x"></i>
@@ -79,10 +87,8 @@ class Render
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light pt-0 border-bottom">
         <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+            <div class="collapse navbar-collapse" id="navExtra">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item me-2">
                         <a class="nav-link page-icon" href="' . Settings::getSettings("site_url") . '">
@@ -142,7 +148,7 @@ class Render
         return '<footer class="bg-light border text-center py-4">
     <div class="container px-5">
         <p class="float-start mb-0">&copy;' . date('Y') . ' ' . Settings::getSettings("site_title") . ', all rights reserved.</p>
-        <p class="float-end mb-0">🚀 Powered by Nova</p>
+        <p class="float-end mb-0">🚀 ' . __('powered_by') . ' <a href="https://github.com/austin-dudzik/nova" class="text-accent text-decoration-none">Nova</a></p>
         <div class="clearfix"></div>
     </div>
 </footer>
