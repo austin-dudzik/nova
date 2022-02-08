@@ -29,16 +29,7 @@ function slugify ($string) {
 <body>
 <?php echo Render::navigation('post'); ?>
 
-<div class="container my-5 px-5">
-
-    <div class="card w-75 mx-auto p-4" id="404-holder" style="display:none">
-        <div class="card-body">
-            <h5>Post Not Found</h5>
-            <p>Sorry, we couldn't find a post located at the specified URL.</p>
-            <p class="fw-bold">It may have been moved, deleted, or may have never existed.</p>
-            <a href="<?= Settings::getSettings("site_url") ?>" class="btn btn-accent">Go back home</a>
-        </div>
-    </div>
+<div class="container my-3 my-md-5 px-3 px-md-5" id="post-container">
 
     <div class="row" id="post-holder">
 

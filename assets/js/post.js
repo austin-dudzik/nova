@@ -23,8 +23,25 @@ $(document).ready(() => {
 
             // If post is not found
             if (data.code && data.code === 204) {
-                $("#404-holder").show();
+
+                // Remove post holder
                 $("#post-holder").remove();
+
+                $("#post-container").append(`<div class="row">
+            <div class="col"></div>
+            <div class="col-xl-6">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <h5>Post Not Found</h5>
+                        <p>Sorry, we couldn't find a post located at the specified URL.</p>
+                        <p class="fw-bold">It may have been moved, deleted, or may have never existed.</p>
+                        <a href="${site_url}" class="btn btn-accent">Go back home</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>`);
+
             } else {
 
                 $(".upvote").data("id", data.post_id).data("voted", data.hasUpvoted);
