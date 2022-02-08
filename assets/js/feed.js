@@ -13,7 +13,7 @@ function getBoards() {
         },
         success: (data) => {
 
-            if(!data.length) {
+            if (!data.length) {
                 $("#boards-container").append(`
                 <div class="col-md-12">
                  <p class="text-muted">` + "No boards here, yet." + `</p>
@@ -164,25 +164,28 @@ function getStatuses() {
 
 $("#searchPage").autocomplete({
     source: site_url + "/api.php?type=getResults",
-    appendTo: '#searchPageContainer'
+    appendTo: '#searchPageContainer',
+    select: (e, ui) => {
+        e.preventDefault();
+        if (!ui.item.code) {
+            window.location.href = ui.item.url;
+        }
+    },
+    focus: (e) => {
+        e.preventDefault();
+    }
 }).autocomplete("instance")._renderItem = (ul, item) => {
     if (item.code && item.code === 204) {
-        return $(`
-    <div class="card rounded-0 border-0 px-4 py-3 text-dark"> 
-        No results found
-    </div>
-`).appendTo(ul);
+        return $(`<div class="card rounded-0 border-0 px-4 py-3 text-dark">No results found</div>`).appendTo(ul);
     } else {
         let orig = item.name;
         let term = $(".search").val();
         return $(`
-<a href="${item.url}" class="text-dark text-decoration-none">
-    <div class="card rounded-0 border-0"> 
+    <div class="card text-dark rounded-0 border-0" role="button"> 
         <div class="border-bottom py-3 px-3">
             <i class="fas ${(item.type === "post" ? `fa-copy` : ``)} ${(item.type === "user" ? `fa-user` : ``)} ${(item.type === "board" ? `fa-columns-3` : ``)} me-2 text-muted align-middle"></i> <span class="d-inline-block align-middle" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:80%">${boldString(orig, term)}</span>
             <span class="float-end"><i class="far fa-arrow-right"></i></span>
     </div>
-</a>
 `).appendTo(ul);
     }
-};
+}
