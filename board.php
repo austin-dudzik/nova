@@ -4,7 +4,7 @@ include "includes/config.php";
 
 // Define required parameters
 $board_slug = $_GET['board_slug'];
-$sort_by = $_GET['sort'];
+//$sort_by = $_GET['sort'];
 
 ?>
 <!doctype html>
