@@ -11,13 +11,20 @@ include "includes/config.php";
 
 <div class="bg-accent text-white p-md-5 p-3">
     <div class="container p-5 py-3">
-        <h1 class="text-center">Your Feedback Matters to Us!</h1>
-        <p class="mb-4 text-center">We're here to build a better experience for you.</p>
+        <h1 class="text-center">Your Feedback
+            Matters to Us!</h1>
+        <p class="mb-4 text-center">We're here to
+            build a better experience for you.</p>
 
-        <div class="input-icons input-group mb-3 w-50-auto mx-auto"
-             id="searchPageContainer">
-            <i class="far fa-magnifying-glass text-white"></i>
-            <input class="search form-control ps-5" type="text" id="searchPage" placeholder="<?= __('search_text') ?>">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                <div class="input-icons input-group mb-3" id="searchPageContainer">
+                    <i class="far fa-magnifying-glass text-white"></i>
+                    <input class="search form-control ps-5" type="text" id="searchPage" placeholder="<?= __('search_text') ?>">
+                </div>
+            </div>
+            <div class="col"></div>
         </div>
 
     </div>
@@ -34,8 +41,10 @@ include "includes/config.php";
         </svg>
         <?= __('boards') ?>
         <p class="float-end text-muted">
-            <a href="<?= Settings::getSettings("site_url") ?>/boards" class="text-reset text-decoration-none">
-                <?= __('view_all') ?> <i class="fas fa-angle-right ms-2"></i>
+            <a href="<?= Settings::getSettings("site_url") ?>/boards"
+               class="text-reset text-decoration-none">
+                <?= __('view_all') ?> <i
+                        class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
     </h6>
@@ -55,8 +64,10 @@ include "includes/config.php";
         <span class="align-middle"><?= __('changelog') ?></span>
 
         <p class="float-end text-muted">
-            <a href="<?= Settings::getSettings("site_url") ?>/changelog" class="text-reset text-decoration-none">
-                <?= __('view_all') ?> <i class="fas fa-angle-right ms-2"></i>
+            <a href="<?= Settings::getSettings("site_url") ?>/changelog"
+               class="text-reset text-decoration-none">
+                <?= __('view_all') ?> <i
+                        class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
     </h6>
@@ -65,17 +76,31 @@ include "includes/config.php";
         <div class="col-md-3 mb-3">
             <div class="card h-100">
                 <div class="card-body p-4">
-                    <div class="small text-muted mb-3" style="font-size:12px">
-                        <i class="fas fa-calendar-alt me-2"></i> December 15th 2021
+                    <div class="small text-muted mb-3"
+                         style="font-size:12px">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        December 15th 2021
                     </div>
                     <h6>Discord Integration</h6>
-                    <p class="small text-muted mb-2 clamp-3">Our Discord Integration is live! Your team can connect Canny with Discord text channels to get instant notifications from specific boards and select events.
+                    <p class="small text-muted mb-2 clamp-3">
+                        Our Discord Integration is
+                        live! Your team can
+                        connect Canny with Discord
+                        text channels to get
+                        instant notifications from
+                        specific boards and select
+                        events.
                     </p>
-                    <div class="badge bg-danger text-white">Updates</div>
+                    <div class="badge bg-danger text-white">
+                        Updates
+                    </div>
                 </div>
-                <div class="card-footer py-2 text-center" style="background:#efefef">
-                    <p class="text-muted mb-0" style="font-size:12px">
-                        Read more <i class="far fa-long-arrow-right ms-2"></i>
+                <div class="card-footer py-2 text-center"
+                     style="background:#efefef">
+                    <p class="text-muted mb-0"
+                       style="font-size:12px">
+                        Read more <i
+                                class="far fa-long-arrow-right ms-2"></i>
                     </p>
                 </div>
             </div>
@@ -83,16 +108,25 @@ include "includes/config.php";
         <div class="col-md-3 mb-3">
             <div class="card h-100">
                 <div class="card-body p-4">
-                    <div class="small text-muted mb-3" style="font-size:12px">
-                        <i class="fas fa-calendar-alt me-2"></i> December 15th 2021
+                    <div class="small text-muted mb-3"
+                         style="font-size:12px">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        December 15th 2021
                     </div>
                     <h6>Test</h6>
-                    <p class="small text-muted mb-2 clamp-3">Lorem ipsum blah blah blah</p>
-                    <div class="badge bg-success text-white">Fixes</div>
+                    <p class="small text-muted mb-2 clamp-3">
+                        Lorem ipsum blah blah
+                        blah</p>
+                    <div class="badge bg-success text-white">
+                        Fixes
+                    </div>
                 </div>
-                <div class="card-footer py-2 text-center" style="background:#efefef">
-                    <p class="text-muted mb-0" style="font-size:12px">
-                        Read more <i class="far fa-long-arrow-right ms-2"></i>
+                <div class="card-footer py-2 text-center"
+                     style="background:#efefef">
+                    <p class="text-muted mb-0"
+                       style="font-size:12px">
+                        Read more <i
+                                class="far fa-long-arrow-right ms-2"></i>
                     </p>
                 </div>
             </div>
@@ -113,13 +147,16 @@ include "includes/config.php";
         <?= __('roadmap') ?>
 
         <p class="float-end text-muted">
-            <a href="<?= Settings::getSettings("site_url") ?>/roadmap" class="text-reset text-decoration-none">
-                <?= __('view_all') ?> <i class="fas fa-angle-right ms-2"></i>
+            <a href="<?= Settings::getSettings("site_url") ?>/roadmap"
+               class="text-reset text-decoration-none">
+                <?= __('view_all') ?> <i
+                        class="fas fa-angle-right ms-2"></i>
             </a>
         </p>
     </h6>
 
-    <div class="row mb-5" id="feed-container"></div>
+    <div class="row mb-5"
+         id="feed-container"></div>
 
 </div>
 
