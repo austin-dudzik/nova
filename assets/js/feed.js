@@ -3,75 +3,6 @@ $(document).ready(() => {
     getStatuses();
 })
 
-function getStatuses() {
-    $.ajax({
-        url: site_url + "/api.php",
-        method: "GET",
-        data: {
-            type: "getStatuses",
-            csrf_token: csrf_token
-        },
-        success: (data) => {
-
-            // Loop through the statuses
-            for (let i = 0; i < data.length; i++) {
-
-                $("#feed-container").append(`<div class="col-md-4 statusGroup mb-3">
-                <div class="card h-100">
-                    <div class="card-header py-3">
-                        <i class="fas fa-circle me-2" style="color:${data[i].color}"></i> ${data[i].name}
-                    </div>` + (data[i].posts ? `<div class="card-body p-0">
-                        <ul class="list-group list-group-flush" id="status-${data[i].status_id}-posts"></ul>
-                    </div>` : `<div class="card-body pt-1"><p class="ms-4 my-auto noPosts">` + terms.nothing_here + `</p></div>`) + `</div>
-            </div>`);
-
-
-                $.ajax({
-                    url: site_url + "/api.php",
-                    method: "GET",
-                    data: {
-                        type: "getPostsByStatus",
-                        csrf_token: csrf_token,
-                        status_id: data[i].status_id
-                    },
-                    success: (posts) => {
-
-                        if (!posts.code) {
-
-                            // Loop through the posts
-                            for (let j = 0; j < posts.length; j++) {
-                                $("#status-" + data[i].status_id + "-posts").append(`
-                        <li class="list-group-item">
-                        <div class="d-flex">
-                                <div class="me-4" data-id="${posts[j].post_id}" data-voted="${posts[j].hasUpvoted}">
-                                    <button class="btn ${posts[j].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
-                                        <i class="fas fa-caret-up d-block"></i>
-                                        <p class="mb-0">${posts[j].upvotes}</p>
-                                    </button>
-                                </div>
-                            <a href="${posts[j].url}" class="text-reset text-decoration-none">
-                                <p class="mb-0 clamp-2" style="font-weight: 600; font-size: 15px; line-height: 22px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word">${posts[j].title}</p>
-                                <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${posts[j].board.name}</small>
-                            </a>
-                        </div>
-                    </li>`);
-
-                            }
-
-                        }
-
-                    }
-
-                });
-
-
-            }
-
-        }
-    })
-
-}
-
 function getBoards() {
     $.ajax({
         url: site_url + "/api.php",
@@ -152,6 +83,77 @@ function getBoards() {
                     }
 
                 }
+
+            }
+
+        }
+    })
+
+}
+
+function getStatuses() {
+    $.ajax({
+        url: site_url + "/api.php",
+        method: "GET",
+        data: {
+            type: "getStatuses",
+            csrf_token: csrf_token
+        },
+        success: (data) => {
+
+            // Loop through the statuses
+            for (let i = 0; i < data.length; i++) {
+
+                $("#feed-container").append(`<div class="col-md-4 mb-3 statusGroup" id="statusGroup-${data[i].status_id}">
+                <div class="card h-100">
+                    <div class="card-header py-3">
+                        <i class="fas fa-circle me-2" style="color:${data[i].color}"></i> ${data[i].name}
+                    </div><div class="card-body p-0">
+                        <ul class="list-group list-group-flush"></ul>
+                    </div></div>
+            </div>`);
+
+
+                $.ajax({
+                    url: site_url + "/api.php",
+                    method: "GET",
+                    data: {
+                        type: "getPostsByStatus",
+                        csrf_token: csrf_token,
+                        status_id: data[i].status_id
+                    },
+                    success: (posts) => {
+
+                        if (!posts.code) {
+
+                            // Loop through the posts
+                            for (let j = 0; j < posts.length; j++) {
+                                $("#statusGroup-" + data[i].status_id + " .list-group").append(`
+                        <li class="list-group-item">
+                        <div class="d-flex">
+                                <div class="me-4 upvote mt-1" data-id="${posts[j].post_id}" data-voted="${posts[j].hasUpvoted}">
+                                    <button class="btn ${posts[j].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
+                                        <i class="fas fa-caret-up d-block"></i>
+                                        <p class="mb-0">${posts[j].upvotes}</p>
+                                    </button>
+                                </div>
+                            <a href="${posts[j].url}" class="text-reset text-decoration-none">
+                                <p class="mb-0 clamp-2" style="font-weight: 600; font-size: 15px; line-height: 22px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word">${posts[j].title}</p>
+                                <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${posts[j].board.name}</small>
+                            </a>
+                        </div>
+                    </li>`);
+
+                            }
+
+                        } else {
+                            $("#statusGroup-" + data[i].status_id + " .card-body").append(`<div class="card-body pt-1"><p class="ms-4 my-auto noPosts">` + terms.nothing_here + `</p></div>`)
+                        }
+
+                    }
+
+                });
+
 
             }
 
