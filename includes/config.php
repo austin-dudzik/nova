@@ -7,11 +7,11 @@ include "db.php";
 
 // Autoload classes
 spl_autoload_register(function ($class_name) {
-    require_once 'classes/' . $class_name . '.php';
+    require_once dirname(__DIR__, 1) . '/classes/' . $class_name . '.php';
 });
 
 // Load the language file
-require_once "lang/" . Settings::getSettings('language') . ".php";
+require_once dirname(__DIR__, 1) . "/lang/" . Settings::getSettings('language') . ".php";
 
 function __($term) {
     global $lang;
