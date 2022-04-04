@@ -57,6 +57,10 @@ class Authentication
             if (password_verify($password, $auth->password)) {
                 // Set session to user details
                 $_SESSION["user"] = json_encode($auth);
+                // Set admin status
+                if($auth->is_admin) {
+                    $_SESSION["admin"] = true;
+                }
                 // Return 200 response
                 return Response::throwResponse(200, "User has been successfully logged in");
             } else {
