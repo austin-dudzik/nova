@@ -1,6 +1,10 @@
 $("#msg").hide();
 
-$("#submitLogin").on("click", function () {
+$("#login").on("submit", function (e) {
+
+    $(this).find("button[type=submit]").prop("disabled", true).html("<i class='fa fa-spinner-third fa-spin'></i>");
+
+    e.preventDefault();
 
     if ($("#email").val() || $("#password").val()) {
 
@@ -16,6 +20,7 @@ $("#submitLogin").on("click", function () {
                 password: $("#password").val()
             },
             success: (data) => {
+                $(this).find("button[type=submit]").prop("disabled", false).html("Log in");
                 if (data.code === 204) {
                     $("#msg").show().text("Sorry, the login details you entered are incorrect. Please try again.");
                 } else {
@@ -25,6 +30,7 @@ $("#submitLogin").on("click", function () {
             }
         })
     } else {
+        $(this).find("button[type=submit]").prop("disabled", false).html("Log in");
         $("#msg").show().text("Both email and password are required fields.");
     }
 
