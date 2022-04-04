@@ -11,25 +11,26 @@ class Voters
 
     /**
      * getVoters
-     * Returns >=5 random users who have upvoted a given post
+     * Returns users who have upvoted a given post
      *
      * @param int $post_id The post ID
+     * @param int $limit The number of users to return
      * @return Voters|Response|array The voters or response object
      */
-    public static function getVoters(int $post_id): Voters|Response|array
+    public static function getVoters(int $post_id, int $limit = 18446744073709551610): Voters|Response|array
     {
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT CONCAT(us.first_name, ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar FROM  ". $prefix . "upvotes up LEFT JOIN  ". $prefix . "users us ON up.user_id = us.id WHERE post_id = ? GROUP BY us.id ORDER BY RAND() LIMIT 5");
-        $stmt->bind_param("i", $post_id);
+        $stmt = $conn->prepare("SELECT CONCAT(us.first_name, ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar FROM  ". $prefix . "upvotes up LEFT JOIN  ". $prefix . "users us ON up.user_id = us.id WHERE post_id = ? GROUP BY us.id LIMIT ?");
+        $stmt->bind_param("ii", $post_id, $limit);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
 
             // Define new array
-            $voters = array();
+            $voters = [];
 
             while ($voter = $result->fetch_object('Voters')) {
                 // Add voter to array
