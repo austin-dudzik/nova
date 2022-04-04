@@ -44,7 +44,7 @@ class Authentication
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name, ' ', us.last_name) name, us.email, us.username, us.password FROM  " . $prefix . "users us WHERE us.email = ?");
+        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name, ' ', us.last_name) name, us.email, us.username, us.password, us.is_admin FROM  " . $prefix . "users us WHERE us.email = ? LIMIT 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -58,7 +58,7 @@ class Authentication
                 // Set session to user details
                 $_SESSION["user"] = json_encode($auth);
                 // Return 200 response
-                return Response::throwResponse(200, "User has successfully been logged in");
+                return Response::throwResponse(200, "User has been successfully logged in");
             } else {
                 // Return 204 response
                 return Response::throwResponse(204, "User credentials are invalid");
@@ -80,7 +80,7 @@ class Authentication
      * @param string $username The user's username
      * @param string $email The email
      * @param string $password The password
-     * @param string $confirm_password The confirm password
+     * @param string $confirm_password The confirmation password
      * @return Response The response object
      */
     public static function createUser(string $firstName, string $lastName, string $username, string $email, string $password, string $confirm_password): Response
@@ -157,16 +157,7 @@ class Authentication
         // Unset the session variable
         unset($_SESSION["user"]);
         // Return 200 response
-        return Response::throwResponse(200, "User has successfully been logged out");
-    }
-
-
-    public static function verifyRules(): Response
-    {
-        // Unset the session variable
-        unset($_SESSION["user"]);
-        // Return 200 response
-        return Response::throwResponse(200, "User has successfully been logged out");
+        return Response::throwResponse(200, "User has been successfully logged out");
     }
 
 }
