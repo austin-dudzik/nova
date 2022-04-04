@@ -3,10 +3,14 @@ $("#toggle-sidebar").on("click", () => {
     $("#toggle-sidebar i").toggleClass("fa-right-from-line fa-left-from-line");
 });
 
+let currentFilter = [];
+let currentSort = "";
+
 // Hide all lazy load elements
 $(".lz-load").hide();
 
 function getBoard() {
+
 
     $.ajax({
         url: site_url + "/api.php",
@@ -14,7 +18,7 @@ function getBoard() {
         data: {
             type: "getBoard",
             csrf_token: csrf_token,
-            board_slug: boardSlug
+            board_slug: boardSlug,
         },
         success: (data) => {
 
@@ -42,7 +46,7 @@ function getBoard() {
 
                 // Get board posts
                 if (data.posts !== 0) {
-                    getPosts();
+                    getPosts(currentFilter, currentSort);
                 } else {
                     // Remove elements
                     $(".btm-hold, #sidebar, #toggle-sidebar .ph-item").remove();
@@ -86,7 +90,19 @@ function getBoard() {
     })
 }
 
-function getPosts(offset = 0, loadMore = false) {
+function getPosts(filter, sort, offset = 0, loadMore = false) {
+
+
+    if($("input[name=filter]:checked")) {
+        filter = $("input[name=filter]:checked").map(function () {
+            return this.value;
+        }).get();
+        console.log(filter);
+    } else {
+        filter = [];
+        console.log("No filter selected");
+    }
+
     $.ajax({
         url: site_url + "/api.php",
         method: "GET",
@@ -94,6 +110,8 @@ function getPosts(offset = 0, loadMore = false) {
             type: "getPostsByBoard",
             csrf_token: csrf_token,
             board_id: boardId,
+            filter: filter,
+            sort: sort,
             limit: 10,
             offset: offset
         },
@@ -137,7 +155,7 @@ function getPosts(offset = 0, loadMore = false) {
                 for (let i = 0; i < data.length; i++) {
 
                     // Append post to posts list
-                    $(".posts-list").append(`<li class="list-group-item post-listing">
+                    $(".posts-list").append(`<li class="list-group-item post-listing px-2 px-md-0">
                             <div class="d-flex">
                                 <div class="upvote" data-id="${data[i].post_id}" data-voted="${data[i].hasUpvoted}">
                                     <button class="btn ${data[i].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
@@ -146,7 +164,7 @@ function getPosts(offset = 0, loadMore = false) {
                                     </button>
                                 </div>
                                 <a href="${data[i].url}" class="text-reset text-decoration-none w-100">
-                                    <p class="title">${data[i].title}</p>
+                                    <p class="title clamp-1" style="width:90%">${data[i].title}</p>
                                     <span class="float-end small">
                                         <i class="far fa-message me-1 text-muted"></i> ${data[i].comments}
                                     </span>
@@ -171,6 +189,14 @@ function getPosts(offset = 0, loadMore = false) {
     });
 }
 
+$(document).on("change", "input[name='sort'], input[name='filter']", function () {
+    currentSort = $(this).val();
+    offset = 0;
+    $(".posts-list").html("");
+    getPosts(currentFilter, currentSort);
+
+
+});
 
 $(document).ready(() => {
     getBoard();
@@ -184,7 +210,7 @@ $(".loadMore").on("click", function () {
     // Add loading class
     $(".loadMore i").addClass("fa-spin").toggleClass("fa-plus fa-spinner-third");
     // Get posts
-    getPosts(offset, true);
+    getPosts(currentFilter, currentSort, offset, true);
     // Increase offset
     offset += 10;
 });

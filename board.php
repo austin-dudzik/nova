@@ -13,7 +13,7 @@ $board_slug = $_GET['board_slug'];
 <body>
 <?php echo Render::navigation('board'); ?>
 
-<div class="container-fluid my-5 px-5">
+<div class="container-fluid p-0 my-md-5 px-md-5">
 
     <div class="row" id="board-holder">
 
@@ -27,7 +27,7 @@ $board_slug = $_GET['board_slug'];
                 </div>
             </div>
 
-            <div class="card sticky-top lz-load" style="top:150px">
+            <div class="card sticky-top lz-load p-3 p-md-2 mb-4 mb-md-0" style="top:150px">
                 <div class="card-body">
 
                     <span class="fa-stack ms-1"
@@ -79,7 +79,7 @@ $board_slug = $_GET['board_slug'];
             </div>
 
         </div>
-        <div class="col ms-3">
+        <div class="col m-3 m-md-0 ms-md-3">
 
             <div class="row">
 
@@ -206,40 +206,27 @@ $board_slug = $_GET['board_slug'];
                          style="top:150px">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <p class="fw-bold mb-2">
+                                <p class="fw-bold mb-2 small">
                                     <i class="fas fa-filter text-muted me-2"></i>
                                     <?= __("filter") ?>
                                 </p>
 
                                 <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios1"
-                                           value="option1"
-                                           checked>
-                                    <label class="form-check-label"
-                                           for="exampleRadios1">
+                                    <input class="form-check-input" type="checkbox" id="one" value="1" name="filter">
+                                    <label class="form-check-label" for="one">
                                         Under
                                         Review
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios2"
-                                           value="option2">
-                                    <label class="form-check-label"
-                                           for="exampleRadios2">
+                                    <input class="form-check-input" type="checkbox" id="two" value="2" name="filter">
+                                    <label class="form-check-label" for="two">
                                         Planned
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios2"
-                                           value="option2">
-                                    <label class="form-check-label"
-                                           for="exampleRadios2">
+                                    <input class="form-check-input" type="checkbox" id="three" value="3" name="filter">
+                                    <label class="form-check-label" for="three">
                                         Fixed
                                     </label>
                                 </div>
@@ -249,7 +236,7 @@ $board_slug = $_GET['board_slug'];
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <p class="fw-bold mb-2">
+                                <p class="fw-bold mb-2 small">
                                     <i class="fas fa-circle-sort text-muted me-2"></i>
                                     <?= __("sort") ?>
                                 </p>
@@ -258,7 +245,8 @@ $board_slug = $_GET['board_slug'];
                                     <input class="form-check-input"
                                            type="radio"
                                            id="exampleRadios1"
-                                           value="option1"
+                                           value="new"
+                                           name="sort"
                                            checked>
                                     <label class="form-check-label"
                                            for="exampleRadios1">
@@ -269,20 +257,11 @@ $board_slug = $_GET['board_slug'];
                                     <input class="form-check-input"
                                            type="radio"
                                            id="exampleRadios2"
-                                           value="option2">
+                                           name="sort"
+                                           value="top">
                                     <label class="form-check-label"
                                            for="exampleRadios2">
                                         Top
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="exampleRadios2"
-                                           value="option2">
-                                    <label class="form-check-label"
-                                           for="exampleRadios2">
-                                        Fixed
                                     </label>
                                 </div>
 
