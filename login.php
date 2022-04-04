@@ -20,7 +20,7 @@ include "includes/config.php";
             <div class="alert alert-danger"
                  id="msg"></div>
 
-            <form>
+            <form method="post" id="login">
                 <div class="form-group mb-3">
                     <label for="email">Email</label>
                     <input type="email" id="email"
@@ -33,9 +33,8 @@ include "includes/config.php";
                            class="form-control">
                 </div>
                 <div class="form-group mb-3">
-                    <button type="button"
-                            class="btn btn-accent w-100"
-                            id="submitLogin">Log
+                    <button type="submit"
+                            class="btn btn-accent w-100">Log
                         in
                     </button>
                 </div>
