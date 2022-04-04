@@ -30,15 +30,11 @@ function generate_token()
     return $token;
 }
 
+// Check admin status
 function isAdmin(): bool
 {
-    if (isset($_SESSION["admin"])) {
-        return true;
-    } else {
-        return false;
-    }
+    return isset($_SESSION["admin"]);
 }
 
-if (isset($_SESSION['user'])) {
-    $user = json_decode($_SESSION["user"]);
-}
+// Retrieve user details
+$user = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
