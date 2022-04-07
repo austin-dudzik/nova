@@ -82,26 +82,13 @@ class Posts
 
         $site_url = Settings::getSettings("site_url");
 
-        if(!empty($filter)) {
-            $filter = "AND status_id IN (" . implode(",", $filter) . ")";
-        } else {
-            $filter = "";
-        }
+        $filter = (!empty($filter)) ? "AND status_id IN (" . implode(",", $filter) . ")" : "";
 
-
-        if($sort === "new")
-        {
-            $sort = "created_at DESC";
-        }
-        else if($sort === "top")
-        {
-            $sort = "upvotes DESC, created_at DESC";
-        }
-        else
-        {
-            $sort = "created_at DESC";
-        }
-
+        $sort = match ($sort) {
+            "new" => "created_at DESC",
+            "top" => "upvotes DESC, created_at DESC",
+            default => "created_at DESC",
+        };
 
         $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id WHERE po.board_id = ? $filter GROUP BY po.id ORDER BY $sort LIMIT ?, ?");
 
@@ -110,7 +97,7 @@ class Posts
         $result = $stmt->get_result();
 
         // Define new array
-        $posts = array();
+        $posts = [];
 
         while ($post = $result->fetch_object('Posts')) {
 
@@ -150,6 +137,71 @@ class Posts
     }
 
     /**
+     * getAllPosts
+     * Returns all posts
+     *
+     * @param int $board_id The board ID
+     * @param int $filter The filter to apply to the posts
+     * @param string $sort The sort to apply to the posts
+     * @param int $offset The offset of the posts (default = 0)
+     * @param int $limit The limit of the posts (default = 10)
+     * @return Posts|Response|array The posts or response object
+     */
+    public static function getAllPosts(array $filter = [], string $sort = "", int $offset = 0, int $limit = 10): Posts|Response|array
+    {
+
+        global $conn;
+        global $prefix;
+
+        $site_url = Settings::getSettings("site_url");
+
+        $filter = (!empty($filter)) ? "WHERE status_id IN (" . implode(",", $filter) . ")" : "";
+
+        $sort = match ($sort) {
+            "new" => "created_at DESC",
+            "top" => "upvotes DESC, created_at DESC",
+            default => "created_at DESC",
+        };
+
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id $filter GROUP BY po.id ORDER BY $sort LIMIT ?, ?");
+
+        $stmt->bind_param("sii", $site_url, $offset, $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Define new array
+        $posts = [];
+
+        while ($post = $result->fetch_object('Posts')) {
+
+            // If post has assigned status
+            $post->status = ($post->status_id) ? Status::getStatusExcerpt($post->status_id) : null;
+
+            // Get post board details
+            $post->board = Board::getBoardExcerpt($post->board_id);
+
+            // If user is signed in
+            $post->hasUpvoted = isset($user) ? Upvote::hasUpvoted($post->post_id) : false;
+
+            // Get post user details
+            $post->user = User::getUserExcerpt($post->user_id);
+
+            // Add post to array
+            $posts[] = $post;
+
+        }
+
+        if (count($posts) > 0) {
+            // Return the posts
+            return $posts;
+        } else {
+            // Return 204 response
+            return Response::throwResponse(204, "No posts found");
+        }
+
+    }
+
+    /**
      * getPostsByUser
      * Returns all posts for a given user
      *
@@ -173,7 +225,7 @@ class Posts
         $result = $stmt->get_result();
 
         // Define new array
-        $posts = array();
+        $posts = [];
 
         while ($post = $result->fetch_object('Posts')) {
 
@@ -237,7 +289,7 @@ class Posts
         $result = $stmt->get_result();
 
         // Define new array
-        $posts = array();
+        $posts = [];
 
         while ($post = $result->fetch_object('Posts')) {
 
