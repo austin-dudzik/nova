@@ -11,7 +11,6 @@ $(".lz-load").hide();
 
 function getBoard() {
 
-
     $.ajax({
         url: site_url + "/api.php",
         method: "GET",
@@ -79,10 +78,8 @@ function getBoard() {
                 $(".board-subscribers").text(data.subscribers + (data.subscribers === 1 ? " " + terms.subscriber : " " + terms.subscribers));
                 $(".board-upvotes").text(data.upvotes + (data.upvotes === 1 ? " " + terms.upvote : " " + terms.upvotes));
 
-                // Hide placeholders
-                $(".ph-item").not("#post-wrapper .ph-item").hide();
-                // Show lazy load elements
-                $(".lz-load").show();
+                $("#loading").hide();
+                $("#page").show();
 
             }
 
@@ -93,7 +90,7 @@ function getBoard() {
 function getPosts(filter, sort, offset = 0, loadMore = false) {
 
 
-    if($("input[name=filter]:checked")) {
+    if ($("input[name=filter]:checked")) {
         filter = $("input[name=filter]:checked").map(function () {
             return this.value;
         }).get();

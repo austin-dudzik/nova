@@ -13,194 +13,87 @@ $board_slug = $_GET['board_slug'];
 <body>
 <?php echo Render::navigation('board'); ?>
 
+
+<div class="row mt-5">
+    <div class="col"></div>
+    <div class="col-md-6">
+
+        <div class="card border-0" id="loading">
+            <div class="card-body p-4 text-center">
+                Loading...
+            </div>
+        </div>
+
+        <div id="page">
+            <p class="d-inline-block pe-0 text-muted mb-3">
+                <a href="<?= Settings::getSettings("site_url") ?>"
+                   class="text-accent text-decoration-none">
+                    Home
+                </a>
+                <i class="fas fa-caret-right mx-2"></i>
+            </p>
+            <p class="d-inline pe-0 text-muted board-name"></p>
+        <div class="card shadow rounded-lg" style="border-radius:8px">
+            <div class="card-header bg-accent text-white p-5" style="border-top-left-radius:8px;border-top-right-radius:8px">
+                <?php if(isAdmin()) { ?>
+                <div class="d-flex justify-content-end small">
+                    <div><i class="fas fa-gear me-1"></i> Manage board</div>
+                </div>
+                <?php } ?>
+                <i class="fas fa-2x mb-3 board-icon"></i>
+                <h1 class="h5 board-name"></h1>
+                <p class="board-desc small mb-0"></p>
+            </div>
+
+
+            <div class="bg-light border-bottom px-5 py-3 d-flex justify-content-between">
+                    <div class="nav nav-pills">
+                        <button class="nav-link small active" style="border-radius:8px">
+                            <i class="far fa-plus me-2"></i> New suggestion
+                        </button>
+                    </div>
+                <a href="#" id="toggleSearch" class="my-auto text-dark">
+                     <span class="fa-stack" data-toggle="tooltip" data-bs-placement="left"
+                           title="Search <?= Settings::getSettings('site_title') ?>">
+    <i class="fa-solid fa-circle fa-stack-2x"></i>
+    <i class="far fa-magnifying-glass fa-stack-1x text-white"></i>
+  </span>
+                </a>
+            </div>
+
+
+            <div class="card-body px-5">
+                    <ul class="list-group list-group-flush posts-list"></ul>
+
+
+                <div id="posts-wrapper">
+
+                    <div class="btm-hold text-center">
+                        <button type="button" class="btn btn-light px-5 border btn-sm mb-2 loadMore">
+                            <i class="fas fa-plus me-2"></i>
+                            <?= __("load_more") ?>
+                        </button>
+                        <p class="text-muted small fst-italic">
+                            🎈 <?= __('reached_end') ?></p>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
 <div class="container-fluid p-0 my-md-5 px-md-5">
 
     <div class="row" id="board-holder">
 
-        <div class="col-md-3">
-
-            <div class="ph-item mb-3">
-                <div class="ph-col-12">
-                    <div class="ph-row">
-                        <div class="ph-col-12" style="height:300px"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card sticky-top lz-load p-3 p-md-2 mb-4 mb-md-0" style="top:150px">
-                <div class="card-body">
-
-                    <span class="fa-stack ms-1"
-                          style="font-size:22px">
-                      <i class="fas fa-square fa-stack-2x text-accent"></i>
-                      <i class="fas fa-stack-1x fa-inverse board-icon"></i>
-                    </span>
-
-                    <div class="mx-2 mt-2">
-                        <h6 class="board-name"></h6>
-                        <p class="small text-muted board-desc"></p>
-
-                        <div class="row">
-                            <div class="col">
-                                <button type="button"
-                                        class="btn btn-accent w-100 border btn-sm mb-2">
-                                    <i class="far fa-plus me-2"></i>
-                                    <?= __("new_post") ?>
-                                </button>
-                            </div>
-                            <div class="col">
-                                <button type="button"
-                                        class="btn btn-light w-100 border btn-sm mb-2">
-                                    <i class="far fa-rss me-2"></i>
-                                    <?= __("subscribe") ?>
-                                </button>
-                            </div>
-                        </div>
-
-                        <p class="small mt-2 mb-0"
-                           style="font-size:11px">
-                            <i class="fas fa-copy me-2"></i>
-                            <span class="board-posts">
-                        </p>
-                        <p class="small mt-2 mb-0"
-                           style="font-size:11px">
-                            <i class="fas fa-users me-2"></i>
-                            <span class="board-subscribers">
-                        </p>
-                        <p class="small mt-2 mb-0"
-                           style="font-size:11px">
-                            <i class="fas fa-caret-up me-2"></i>
-                            <span class="board-upvotes">
-                        </p>
-
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
         <div class="col m-3 m-md-0 ms-md-3">
 
-            <div class="row">
-
-                <div class="col">
-
-                    <div class="ph-item mb-3">
-                        <div class="ph-col-12">
-                            <div class="ph-row">
-                                <div class="ph-col-12"
-                                     style="height:30px"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Breadcrumbs -->
-                    <div class="mb-3 small lz-load">
-                        <span class="float-start">
-                        <p class="d-inline pe-0 text-muted">
-                            <a href="<?= Settings::getSettings("site_url") ?>"
-                               class="text-accent text-decoration-none">
-                                <?= __("boards") ?>
-                            </a>
-                            <i class="fas fa-caret-right mx-2"></i>
-                        </p>
-                        <p class="d-inline pe-0 text-muted board-name"></p>
-                            </span>
-
-                        <p class="float-end"
-                           id="toggle-sidebar"
-                           role="button">
-                            <i class="fas fa-right-from-line me-2"></i>
-                            <?= __("options") ?>
-                        </p>
-
-                    </div>
-
-                    <div class="clearfix"></div>
-
-
-                    <div id="posts-wrapper">
-
-                        <div class="ph-item mb-3">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-12"
-                                         style="height:96px"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ph-item mb-3">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-12"
-                                         style="height:96px"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ph-item mb-3">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-12"
-                                         style="height:96px"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ph-item mb-3">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-12"
-                                         style="height:96px"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ph-item mb-3">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-12"
-                                         style="height:96px"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <ul class="list-group list-group-flush posts-list w-100 lz-load"></ul>
-
-                        <div class="btm-hold text-center">
-                            <button type="button" class="btn btn-light px-5 border btn-sm mb-2 loadMore lz-load">
-                                <i class="fas fa-plus me-2"></i>
-                                <?= __("load_more") ?>
-                            </button>
-                            <p class="text-muted small fst-italic">
-                                🎈 <?= __('reached_end') ?></p>
-                        </div>
-
-                    </div>
-
-                </div>
-
                 <div class="col-md-4" id="sidebar">
-
-                    <div class="ph-item mb-3">
-                        <div class="ph-col-12">
-                            <div class="ph-row">
-                                <div class="ph-col-12"
-                                     style="height:200px"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ph-item mb-3">
-                        <div class="ph-col-12">
-                            <div class="ph-row">
-                                <div class="ph-col-12"
-                                     style="height:200px"></div>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <div class="sticky-top lz-load"
                          style="top:150px">
@@ -275,7 +168,7 @@ $board_slug = $_GET['board_slug'];
         </div>
 
     </div>
-</div>
+
 
 <script>
     let board_id = null;

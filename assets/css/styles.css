@@ -1,6 +1,6 @@
-body {
-    font-family: 'Be Vietnam Pro', sans-serif;
-}
+/*body {*/
+/*    font-family: 'Be Vietnam Pro', sans-serif;*/
+/*}*/
 
 .btn {
     box-shadow: none !important
@@ -98,19 +98,21 @@ body {
 .search {
     width: 100%;
     padding: 15px 32px 15px 10px;
-    background: rgba(255, 255, 255, 0.2);
+    /*background: rgba(255, 255, 255, 0.2);*/
     border: none;
     outline: none;
-    color: rgba(255, 255, 255, 0.7);
+    /*color: rgba(255, 255, 255, 0.7);*/
+    color: gray;
     font-size: 16px;
-    border-radius: 4px !important;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%);
+    /*border-radius: 4px !important;*/
+    /*box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%);*/
     transition: background .4s, box-shadow .2s;
-    clip-path: inset(-2px 0px -2px -2px);
+    /*clip-path: inset(-2px 0px -2px -2px);*/
 }
 
 .search::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    /*color: rgba(255, 255, 255, 0.7);*/
+    color: gray;
 }
 
 .search:focus::placeholder {
@@ -118,7 +120,8 @@ body {
 }
 
 .search:focus {
-    box-shadow: 0 10px 20px rgb(0 0 0 / 14%);
+    /*box-shadow: 0 10px 20px rgb(0 0 0 / 14%);*/
+    box-shadow: none;
     background: white;
     color: #3a3c4c;
 }
@@ -144,6 +147,10 @@ body {
 
 .search {
     padding-top: 13px
+}
+
+#page {
+    display: none;
 }
 
 .ui-autocomplete {
@@ -391,12 +398,12 @@ body {
     font-family: 'SF UI Display', sans-serif;
 }
 
-.bg-accent {
-    background: var(--accent-color);
+.bg-accent, .nav-pills .active {
+    background-color: var(--accent-color)!important;
 }
 
-.text-accent {
-    color: var(--accent-color);
+.text-accent, .nav-link:not(.active) {
+    color: var(--accent-color)!important;
 }
 
 .btn-accent {
@@ -445,9 +452,9 @@ nav .page-icon span {
     text-align: center;
 }
 
-.board-name {
-    font-weight: 700;
-}
+/*.board-name {*/
+/*    font-weight: 700;*/
+/*}*/
 
 .statusGroup .card-header {
     border: 0;

@@ -48,7 +48,7 @@ class Boards
     /**
      * @var int The board visibility
      */
-    private int $visibility;
+    public int $visibility;
     /**
      * @var string The board rules
      */
@@ -66,17 +66,16 @@ class Boards
 
         global $conn;
         global $prefix;
-        global $user;
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE po.board_id = bo.id) posts, (SELECT COUNT(su.id) FROM  " . $prefix . "subscribers su WHERE su.board_id = bo.id) subscribers, (SELECT COUNT(up.id) FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON up.post_id = po.id WHERE po.board_id = bo.id) upvotes FROM  " . $prefix . "boards bo WHERE bo.visibility = 1 OR bo.visibility = 2");
+        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE po.board_id = bo.id) posts, (SELECT COUNT(su.id) FROM  " . $prefix . "subscribers su WHERE su.board_id = bo.id) subscribers, (SELECT COUNT(up.id) FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON up.post_id = po.id WHERE po.board_id = bo.id) upvotes FROM  " . $prefix . "boards bo WHERE bo.visibility IN (1, 2)");
         $stmt->bind_param("s", $site_url);
         $stmt->execute();
         $result = $stmt->get_result();
 
         // Define new array
-        $boards = array();
+        $boards = [];
 
         while ($board = $result->fetch_object('Boards')) {
 
@@ -85,6 +84,45 @@ class Boards
                 // Add board to array
                 $boards[] = $board;
             }
+
+        }
+
+        if (count($boards) > 0) {
+            // Return the posts
+            return $boards;
+        } else {
+            // Return 204 response
+            return Response::throwResponse(204, "No boards found");
+        }
+
+    }
+
+    /**
+     * getAdminBoards
+     * Returns *all* boards for admins
+     *
+     * @return Boards|Response|array The board or response object
+     */
+    public static function getAdminBoards(): Boards|Response|array
+    {
+
+        global $conn;
+        global $prefix;
+
+        $site_url = Settings::getSettings("site_url");
+
+        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE po.board_id = bo.id) posts, (SELECT COUNT(su.id) FROM  " . $prefix . "subscribers su WHERE su.board_id = bo.id) subscribers, (SELECT COUNT(up.id) FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON up.post_id = po.id WHERE po.board_id = bo.id) upvotes FROM  " . $prefix . "boards bo");
+        $stmt->bind_param("s", $site_url);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Define new array
+        $boards = [];
+
+        while ($board = $result->fetch_object('Boards')) {
+
+            // Add board to array
+            $boards[] = $board;
 
         }
 

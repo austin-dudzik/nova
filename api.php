@@ -25,16 +25,16 @@ header('Content-Type: application/json');
 //    }
 //}
 
-$result = array();
+$result = [];
 
 if ($_GET) {
     $type = $_GET["type"] ?? "";
     // Determine call type
     $result = match ($type) {
-        // Get boards
+        // Get all boards
         'getBoards' => Boards::getBoards(),
         // Get posts by board
-        'getPostsByBoard' => Posts::getPostsByBoard($_GET["board_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
+        'getPostsByBoard' => Posts::getPostsByBoard($_GET["board_id"], $_GET['filter'] ?? [], $_GET['sort'] ?? "", $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
         // Get posts by user
         'getPostsByUser' => Posts::getPostsByUser($_GET["user_id"], $_GET["offset"] ?? 0, $_GET["limit"] ?? 10),
         // Get posts by status
@@ -48,7 +48,7 @@ if ($_GET) {
         // Get board excerpt
         'getBoardExcerpt' => Board::getBoardExcerpt($_GET["board_id"]),
         // Get post voters
-        'getVoters' => Voters::getVoters($_GET["post_id"]),
+        'getVoters' => Voters::getVoters(@$_GET["post_id"]),
         // Get statuses
         'getStatuses' => Statuses::getStatuses(),
         // Get user details

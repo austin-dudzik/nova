@@ -1,7 +1,3 @@
-// Hide all lazy load elements
-//$(".lz-load").hide();
-$(".ph-item").hide();
-
 function getUser() {
 
     $.ajax({
@@ -20,6 +16,7 @@ function getUser() {
                 $("#404-holder").show();
                 // Remove user holder
                 $("#user-holder").remove();
+                $(".no-posts-holder").remove();
             } else {
 
                 // Set the user ID
@@ -30,7 +27,7 @@ function getUser() {
 
                 //Get user posts
                 getPosts();
-                $(".no-posts-holder").remove();
+                //$(".no-posts-holder").remove();
 
                 // Set board information
                 document.title = data.name + " | " + site_name;
@@ -56,13 +53,19 @@ function getPosts(offset = 0, loadMore = false) {
         data: {
             csrf_token: csrf_token,
             type: "getPostsByUser",
-            user_id: user_id,
+            user_id: window.user_id,
             limit: 10,
             offset: offset
         },
         success: (data) => {
 
             $(document).ready(() => {
+
+                if(data.code && data.code === 204) {
+                    $(".no-posts-holder").show();
+                } else {
+                    $(".no-posts-holder").remove();
+                }
 
                 if (loadMore) {
                     $(".loadMore").removeClass("disabled");
