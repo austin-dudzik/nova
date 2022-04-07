@@ -18,6 +18,10 @@ class Post
      */
     public string $title;
     /**
+     * @var string The post slug
+     */
+    public string $slug;
+    /**
      * @var string The post content
      */
     public string $content;
@@ -63,7 +67,7 @@ class Post
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  ". $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
+        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.slug, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  ". $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
         $stmt->bind_param("s", $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -73,7 +77,7 @@ class Post
             // Assign variable to Posts object
             $post = $result->fetch_object('Post');
 
-            if(Rules::verifyRulesByPost($post->post_id)) {
+            if(Rules::verifyRulesByPost($post->slug)) {
 
                 // If post has assigned status
                 if ($post->status_id) {
