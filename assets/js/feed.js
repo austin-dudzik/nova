@@ -24,9 +24,9 @@ function getBoards() {
 
                     if (feed_type === 1) {
                         $("#boards-container").append(`
-                        <div class="col-12 col-md-3 col-xl-3 mb-3">
+                        <div class="col-12 col-md-3 col-xl-4 mb-3">
                         <a href="${data[i].url}" class="text-reset text-decoration-none">
-            <div class="card" style="background:#efefef">
+            <div class="card" style="background:#f8f8f8;border-radius:8px">
                 <div class="card-body text-center">
                     <i class="fas fa-${data[i].icon} fa-2x d-block mb-2 text-accent"></i>
                     <p class="mb-0 clamp-1" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].name}</p>
@@ -59,7 +59,7 @@ function getBoards() {
                     } else if (feed_type === 3) {
 
                         $("#boards-container").append(`
-                        <div class="col-12 col-md-4 col-xl-3 mb-3">
+                        <div class="col-12 col-md-6 col-xl-6 mb-3">
             <div class="card" style="background:#efefef">
             <a href="${data[i].url}" class="text-reset text-decoration-none">
                 <div class="card-body py-2">
@@ -104,11 +104,11 @@ function getStatuses() {
             // Loop through the statuses
             for (let i = 0; i < data.length; i++) {
 
-                $("#feed-container").append(`<div class="col-md-4 mb-3 statusGroup" id="statusGroup-${data[i].status_id}">
-                <div class="card h-100">
-                    <div class="card-header py-3">
+                $("#feed-container").append(`<div class="col-md-12 mb-3" id="statusGroup-${data[i].status_id}">
+                <div class="card border-0">
+                    <div class="card-header bg-white py-3 border-0">
                         <i class="fas fa-circle me-2" style="color:${data[i].color}"></i> ${data[i].name}
-                    </div><div class="card-body p-0">
+                    </div><div class="card-body p-0 border-0">
                         <ul class="list-group list-group-flush"></ul>
                     </div></div>
             </div>`);
@@ -129,7 +129,7 @@ function getStatuses() {
                             // Loop through the posts
                             for (let j = 0; j < posts.length; j++) {
                                 $("#statusGroup-" + data[i].status_id + " .list-group").append(`
-                        <li class="list-group-item">
+                        <li class="list-group-item bg-white">
                         <div class="d-flex">
                                 <div class="me-4 upvote mt-1" data-id="${posts[j].post_id}" data-voted="${posts[j].hasUpvoted}">
                                     <button class="btn ${posts[j].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
@@ -189,3 +189,8 @@ $("#searchPage").autocomplete({
 `).appendTo(ul);
     }
 }
+
+$(document).ajaxStop(function () {
+    $("#loading").hide();
+    $("#page").show();
+});
