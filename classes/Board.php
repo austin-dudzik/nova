@@ -119,4 +119,26 @@ class Board
 
     }
 
+    /**
+     * checkBoardExistence
+     * Returns existence of board
+     *
+     * @param string $board_slug The board slug
+     * @return bool The board or response object
+     */
+    public static function checkBoardExistence(string $board_slug): bool
+    {
+
+        global $conn;
+        global $prefix;
+
+        $stmt = $conn->prepare("SELECT bo.id FROM " . $prefix . "boards bo WHERE bo.slug = ? LIMIT 1");
+        $stmt->bind_param("s", $board_slug);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->num_rows > 0;
+
+    }
+
 }
