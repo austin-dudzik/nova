@@ -2,4 +2,5 @@ RewriteEngine on
 RewriteRule ^p/(.*) post.php?post_slug=$1 [QSA,L]
 RewriteRule ^b/(.*)/(.*) board.php?board_slug=$1&sort=$2 [QSA,L]
 RewriteRule ^b/(.*) board.php?board_slug=$1 [QSA,L]
+RewriteRule ^new/(.*) new.php?board_slug=$1 [QSA,L]
 RewriteRule ^u/(.*) user.php?user_slug=$1 [QSA,L]
