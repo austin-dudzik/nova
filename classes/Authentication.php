@@ -58,9 +58,7 @@ class Authentication
                 // Set session to user details
                 $_SESSION["user"] = json_encode($auth);
                 // Set admin status
-                if($auth->is_admin) {
-                    $_SESSION["admin"] = true;
-                }
+                $_SESSION["admin"] = $auth->is_admin === 1;
                 // Return 200 response
                 return Response::throwResponse(200, "User has been successfully logged in");
             } else {
