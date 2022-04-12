@@ -7,6 +7,8 @@ $board_slug = $_GET['board_slug'];
 
 $board = Board::getBoard($board_slug);
 
+$notFound = (isset($board->code) && $board->code === 204);
+
 include "includes/logic/board.php";
 
 ?>
@@ -31,7 +33,7 @@ include "includes/logic/board.php";
                 <h5><?= __('board_not_found') ?></h5>
                 <p><?= __('board_not_found_msg') ?></p>
                 <p class="fw-bold"><?= __('not_found_reason') ?></p>
-                <a href="<?= Settings::getSettings('site_url') ?>>"
+                <a href="<?= Settings::getSettings('site_url') ?>"
                    class="btn btn-accent"><?= __('return_home') ?></a>
             </div>
         </div>
@@ -70,7 +72,8 @@ include "includes/logic/board.php";
                             <i class="far fa-plus me-2"></i> New suggestion
                         </a>
                         <?php if (isAdmin()) { ?>
-                            <button class="nav-link small mx-0 pe-2 text-dark" data-bs-toggle="modal"
+                            <button class="nav-link small mx-0 pe-2 text-dark"
+                                    data-bs-toggle="modal"
                                     data-bs-target="#manageBoard">
                                 <i class="far fa-gear me-2"></i> Manage board
                             </button>
@@ -78,6 +81,7 @@ include "includes/logic/board.php";
                     </div>
 
 
+                    <?php if (isAdmin()) { ?>
                     <div class="modal fade" id="manageBoard">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content shadow round">
@@ -99,55 +103,88 @@ include "includes/logic/board.php";
                                             <div class="col-md-12">
                                                 <label for="board_name" class="mb-2">Name</label>
                                                 <input type="text" name="name" id="board_name"
-                                                       class="form-control mb-1" value="<?= $_POST['name'] ?? $board->name ?>" required>
+                                                       class="form-control mb-1"
+                                                       value="<?= $_POST['name'] ?? $board->name ?>"
+                                                       required>
                                                 <p class="small text-danger"><?= $name_err ?></p>
 
                                                 <label for="board_icon" class="mb-2">Icon</label>
                                                 <input type="text" name="icon" id="board_icon"
-                                                       class="form-control mb-1" value="<?= $_POST['icon'] ?? $board->icon ?>">
-                                                <p class="small text-muted"> Available icons and their names can be found on <a href="https://fontawesome.com/icons" target="_blank" class="link">Font Awesome</a>. (i.e. <code>comments</code>)</p>
+                                                       class="form-control mb-1"
+                                                       value="<?= $_POST['icon'] ?? $board->icon ?>">
+                                                <p class="small text-muted"> Available icons and
+                                                    their names can be found on <a
+                                                            href="https://fontawesome.com/icons"
+                                                            target="_blank" class="link">Font
+                                                        Awesome</a>. (i.e. <code>comments</code>)
+                                                </p>
 
                                                 <label for="board_slug" class="mb-2">Slug</label>
                                                 <div class="input-group mb-1">
                                                     <span class="input-group-text bg-light small"><?= preg_replace("(^https?://)", "", Settings::getSettings('site_url')) ?>/b/</span>
                                                     <input type="text" name="slug" id="board_slug"
-                                                           class="form-control" value="<?= $_POST['slug'] ?? $board->slug ?>" required>
+                                                           class="form-control"
+                                                           value="<?= $_POST['slug'] ?? $board->slug ?>"
+                                                           required>
                                                 </div>
                                                 <p class="small text-danger"><?= $slug_err ?></p>
 
-                                                <label for="board_desc" class="mb-1">Description</label>
+                                                <label for="board_desc"
+                                                       class="mb-1">Description</label>
                                                 <textarea name="description" id="board_desc"
-                                                          class="form-control mb-3" rows="4"><?= $_POST['description'] ?? $board->description ?></textarea>
+                                                          class="form-control mb-3"
+                                                          rows="4"><?= $_POST['description'] ?? $board->description ?></textarea>
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="feed_type" class="d-block mb-1">Visibility</label>
-                                                <div id="visibility" class="btn-group round mb-3" role="group">
-                                                    <input type="radio" class="btn-check" name="visibility" id="public" value="1" <?= $board->visibility === 1 ? 'checked' : '' ?>>
-                                                    <label class="btn btn-outline-primary me-2" for="public" data-toggle="tooltip" data-bs-placement="top"
+                                                <div id="visibility" class="btn-group round mb-3"
+                                                     role="group">
+                                                    <input type="radio" class="btn-check"
+                                                           name="visibility" id="public"
+                                                           value="1" <?= $board->visibility === 1 ? 'checked' : '' ?>>
+                                                    <label class="btn btn-outline-primary me-2"
+                                                           for="public" data-toggle="tooltip"
+                                                           data-bs-placement="top"
                                                            title="Visible & accessible to all users">
                                                         <i class="fas fa-eye me-2"></i> Public
                                                     </label>
 
-                                                    <input type="radio" class="btn-check" name="visibility" id="private" value="2" <?= $board->visibility === 2 ? 'checked' : '' ?>>
-                                                    <label class="btn btn-outline-primary me-2" for="private" data-toggle="tooltip" data-bs-placement="top"
+                                                    <input type="radio" class="btn-check"
+                                                           name="visibility" id="private"
+                                                           value="2" <?= $board->visibility === 2 ? 'checked' : '' ?>>
+                                                    <label class="btn btn-outline-primary me-2"
+                                                           for="private" data-toggle="tooltip"
+                                                           data-bs-placement="top"
                                                            title="Visible & accessible to only specified users">
                                                         <i class="fas fa-lock me-2"></i> Private
                                                     </label>
 
-                                                    <input type="radio" class="btn-check" name="visibility" id="unlisted" value="0" <?= $board->visibility === 0 ? 'checked' : '' ?>>
-                                                    <label class="btn btn-outline-primary" for="unlisted" data-toggle="tooltip" data-bs-placement="top"
+                                                    <input type="radio" class="btn-check"
+                                                           name="visibility" id="unlisted"
+                                                           value="0" <?= $board->visibility === 0 ? 'checked' : '' ?>>
+                                                    <label class="btn btn-outline-primary"
+                                                           for="unlisted" data-toggle="tooltip"
+                                                           data-bs-placement="top"
                                                            title="Accessible by URL, but not visible on homepage">
-                                                        <i class="fas fa-eye-slash me-2"></i> Unlisted
+                                                        <i class="fas fa-eye-slash me-2"></i>
+                                                        Unlisted
                                                     </label>
                                                 </div>
 
 
-                                                <div id="rules-section" style="display:<?= $board->visibility === 2 ? 'block' : 'none' ?>">
-                                                    <label for="rules" class="mb-1">Invite users via email:</label>
+                                                <div id="rules-section"
+                                                     style="display:<?= $board->visibility === 2 ? 'block' : 'none' ?>">
+                                                    <label for="rules" class="mb-1">Invite users via
+                                                        email:</label>
                                                     <input type="text" name="rules" id="rules"
-                                                           class="form-control mb-1" value="<?= $_POST['rules'] ?? implode(',', json_decode($board->rules)) ?>" placeholder="Email addresses, seperated by commas">
+                                                           class="form-control mb-1"
+                                                           value="<?= $_POST['rules'] ?? implode(',', json_decode($board->rules)) ?>"
+                                                           placeholder="Email addresses, seperated by commas">
                                                     <small>
-                                                        <p>Need to allow users from an entire domain? Use an asterisk (*) in place of a name. (i.e. <code>*@acme.io</code>)</p>
+                                                        <p>Need to allow users from an entire
+                                                            domain? Use an asterisk (*) in place of
+                                                            a name. (i.e. <code>*@acme.io</code>)
+                                                        </p>
                                                     </small>
                                                 </div>
 
@@ -175,8 +212,10 @@ include "includes/logic/board.php";
                         </div>
                     </div>
                 </div>
+                <?php } ?>
 
 
+                <?php if(!$notFound) { ?>
                 <div>
 
                     <div class="dropdown d-inline-block">
@@ -243,7 +282,9 @@ include "includes/logic/board.php";
                     </a>
 
                 </div>
+                <?php } ?>
             </div>
+
 
 
             <div class="bg-white border-bottom" id="searchHolder" style="display:none">

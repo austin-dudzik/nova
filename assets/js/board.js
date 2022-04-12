@@ -16,6 +16,7 @@ function getBoard() {
             // If board is not found
             if (data.code && data.code === 204) {
                 $("#loading").remove();
+                $("#page").remove();
                 $("#board-not-found").show();
             } else {
 
