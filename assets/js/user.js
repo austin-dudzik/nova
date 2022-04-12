@@ -35,11 +35,6 @@ function getUser() {
                 $(".user-avatar").attr("src", data.avatar);
                 $(".user-username").text("@" + data.username);
 
-                // Hide placeholders
-                $(".ph-item").hide();
-                // Show lazy load elements
-                $(".lz-load").show();
-
             }
 
         }
