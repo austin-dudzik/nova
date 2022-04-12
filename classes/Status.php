@@ -92,7 +92,7 @@ class Status
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.name, st.color FROM  ". $prefix . "statuses st WHERE st.id = ?");
+        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  ". $prefix . "statuses st WHERE st.id = ?");
         $stmt->bind_param("i", $status_id);
         $stmt->execute();
         $result = $stmt->get_result();

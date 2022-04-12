@@ -13,6 +13,10 @@ if (isset($_POST['deletePost'])) {
     die(Post::deletePost($post_slug));
 }
 
+if(isset($_POST['changeStatus'])) {
+    Post::changeStatus($_POST['status'], $post_slug);
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -78,9 +82,7 @@ if (isset($_POST['deletePost'])) {
 
                             <p class="small d-inline-block"><span class="post-date"></span></p>
 
-                            <span class="mx-1">&centerdot;</span>
-
-                        <p class="small text-decoration-none d-inline-block" id="post-status"></p>
+                        <p class="badge bg-light small text-decoration-none d-inline-block ms-2" id="post-status"></p>
 
 
                             <div class="mb-0">
@@ -103,8 +105,9 @@ if (isset($_POST['deletePost'])) {
                             <i class="far fa-pencil me-2"></i> Edit post
                         </button>
                         <div class="d-inline-flex">
-                            <button class="nav-link small mx-0 pe-2" style="border-radius:8px">
-                                <i class="far fa-tag me-2"></i> Status
+                            <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
+                                    data-bs-target="#changeStatus" style="border-radius:8px">
+                                <i class="far fa-tag fa-flip-horizontal me-2"></i> Status
                             </button>
                             <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
                                     data-bs-target="#movePost" style="border-radius:8px">
@@ -121,6 +124,56 @@ if (isset($_POST['deletePost'])) {
                         </div>
                     </div>
                 </div>
+
+                <!-- Change status modal -->
+                <div class="modal fade" id="changeStatus">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content shadow">
+                            <div class="modal-header border-0 pb-0">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-5">
+                                <span class="fa-stack h6">
+                                <i class="fa-solid fa-circle fa-stack-2x text-accent"></i>
+                                <i class="far fa-tag fa-flip-horizontal fa-stack-1x text-white"></i>
+                              </span>
+                                <h5>Change status</h5>
+                                <p class="small">Add a status to this post to add it to the feedback roadmap.</p>
+
+                                <form method="post">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="status"
+                                               id="default_status" value="0" <?= !isset(Post::getPost($_GET['post_slug'])->status->id) ? "checked" : "" ?>>
+                                        <label class="form-check-label" for="default_status">
+                                            No status
+                                        </label>
+                                    </div>
+                                    <?php foreach(Statuses::getStatuses() as $status) { ?>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="status"
+                                                   id="<?= $status->status_id ?>" value="<?= $status->status_id ?>" <?= isset(Post::getPost($_GET['post_slug'])->status->id) ? (($status->status_id === Post::getPost($_GET['post_slug'])->status->id) ? "checked" : "") : "" ?>>
+                                            <label class="form-check-label" for="<?= $status->status_id ?>">
+                                                <?= $status->name ?>
+                                            </label>
+                                        </div>
+                                    <?php } ?>
+
+                                    <div class="my-4">
+                                        <button type="submit" name="changeStatus"
+                                                class="btn bg-accent text-white me-1"
+                                                style="border-radius:8px">Change status
+                                        </button>
+                                        <button type="button" class="btn btn-white border"
+                                                style="border-radius:8px">Cancel
+                                        </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
                 <!-- Move post modal -->
                 <div class="modal fade" id="movePost">
