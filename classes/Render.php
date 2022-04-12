@@ -14,6 +14,7 @@ class Render
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>' . $title . ' | ' . Settings::getSettings("site_title") . '</title>
+    <link rel="icon" type="image/png" href="' . Settings::getSettings("site_url") . '/uploads/favicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap">    
@@ -22,6 +23,7 @@ class Render
     <style>
     :root {
       --accent-color: ' . Settings::getSettings("accent_color") . ';
+      --accent-color-light: ' . Settings::getSettings("accent_color") . '20;
     }
 </style>
     ';
@@ -43,31 +45,20 @@ class Render
                 </span>
                 
             <a class="navbar-brand" href="' . Settings::getSettings("site_url") . '">
-                <img src="' . Settings::getSettings("site_url") . '/logo.svg" alt="">
+                <img src="' . Settings::getSettings("site_url") . '/uploads/logo.png" alt="" style="height:30px">
             </a>
             </div>
-            <div>
-            <span class="fa-stack fa-2x" id="openSearch">
+            <div>'
+            . (isset($_SESSION['user']) && isAdmin() ?
+            '<a href="' . Settings::getSettings("site_url") . '/users.php" class="nav-link d-inline btn-sm pe-2 text-dark" style="font-weight:500">Users</a>
+            <a href="' . Settings::getSettings("site_url") . '/settings.php" class="nav-link d-inline btn-sm pe-4 text-dark" style="font-weight:500">Settings</a>' : null) .
+            '<span class="fa-stack fa-2x" id="openSearch">
                       <i class="fas fa-circle fa-stack-2x"></i>
                       <i class="far fa-magnifying-glass fa-stack-1x fa-inverse"></i>
                 </span>
             ' . (isset($_SESSION['user']) ?
                 '<div class="dropdown d-inline-block">
-                 <span class="fa-stack fa-2x" id="openNotifications" data-bs-toggle="dropdown">
-                      <i class="fas fa-circle fa-stack-2x"></i>
-                      <i class="fas fa-bell fa-stack-1x fa-inverse"></i>
-                 </span>
-
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <p>test</p>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">New around here? Sign up</a>
-                        <a class="dropdown-item" href="#">Forgot password?</a>
-                    </div>
-                </div>
-
-                <div class="dropdown d-inline-block">
-                    <img src="https://gravatar.com/avatar/' . md5($user->email) . '" alt="" class="avatar" data-bs-toggle="dropdown">
+                    <img src="https://gravatar.com/avatar/' . md5($user->email) . '?d=mp" alt="" class="avatar" data-bs-toggle="dropdown">
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item"
@@ -97,7 +88,7 @@ class Render
 
         global $lang;
 
-        return '<footer class="text-center py-4">
+        return '<footer class="text-center pb-4">
         <p class="mb-0">&copy; ' . date('Y') . ' ' . Settings::getSettings("site_title") . ', all rights reserved.</p>
         <p class="mb-0 badge bg-secondary text-white">🚀 ' . __('powered_by') . ' <a href="https://github.com/austin-dudzik/nova" class="text-white text-decoration-none">Nova</a></p>
 </footer>
@@ -108,8 +99,8 @@ class Render
         <div class="modal-content bg-transparent border-0">
             <div class="modal-body p-0">
                 <div class="input-icons input-group" id="searchInModal">
-                    <i class="far fa-magnifying-glass text-white"></i>
-                    <input type="text" class="search form-control ps-5" placeholder="' . __('search_text') . '">
+                    <i class="far fa-magnifying-glass"></i>
+                    <input type="text" class="search form-control ps-5 round" placeholder="' . __('search_text') . '">
                 </div>
             </div>
         </div>

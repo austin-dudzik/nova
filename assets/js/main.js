@@ -117,13 +117,6 @@ $('#searchModal input').on('blur', function () {
     }, .5);
 });
 
-// $(".input-icons input").on("focus", function () {
-//     $(this).prev("i").toggleClass("text-white text-dark");
-// });
-// $(".input-icons input").on("blur", function () {
-//     $(this).prev("i").toggleClass("text-white text-dark");
-// });
-
 
 $("#searchPage").autocomplete({
     source: site_url + "/api.php?type=getResults",

@@ -33,7 +33,7 @@ function generate_token()
 // Check admin status
 function isAdmin(): bool
 {
-    return isset($_SESSION["admin"]);
+    return isset($_SESSION["admin"]) && $_SESSION["admin"] === true;
 }
 
 // Retrieve user details

@@ -45,7 +45,7 @@ if (isset($_POST['deletePost'])) {
         </div>
 
         <!-- Page content -->
-        <div id="page" style="display:none">
+        <div id="page">
             <p class="d-inline-block pe-0 text-muted mb-3">
                 <a href="<?= Settings::getSettings("site_url") ?>"
                    class="text-accent text-decoration-none">Home</a>
@@ -55,12 +55,11 @@ if (isset($_POST['deletePost'])) {
                 <a href="#" class="text-accent post-board text-decoration-none"></a>
                 <i class="fas fa-caret-right mx-2"></i>
             </p>
-            <p class="d-inline pe-0 text-muted post-title"></p>
+            <p class="d-inline-block pe-0 text-muted post-title"></p>
 
             <p class="d-inline pe-0 text-muted board-name"></p>
-            <div class="card shadow rounded-lg" style="border-radius:8px">
-                <div class="card-header bg-accent text-white p-5"
-                     style="border-top-left-radius:8px;border-top-right-radius:8px">
+            <div class="card shadow round">
+                <div class="card-header bg-accent text-white p-5 round-top">
 
                     <div class="d-flex" id="post-wrapper">
                         <div class="me-1">
@@ -68,7 +67,7 @@ if (isset($_POST['deletePost'])) {
                             <div class="upvote">
                                 <button class="btn border px-3">
                                     <i class="fas fa-caret-up d-block"></i>
-                                    <p class="mb-0">0</p>
+                                    <p class="mb-0"></p>
                                 </button>
                             </div>
 

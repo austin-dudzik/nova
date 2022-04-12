@@ -4,9 +4,9 @@ include "includes/config.php";
 ?>
 <!doctype html>
 <html lang="en">
-<?php echo Render::header('Create account'); ?>
+<?= Render::header('Create account'); ?>
 <body class="bg-light">
-<?php echo Render::navigation('register'); ?>
+<?= Render::navigation('register'); ?>
 
 <div class="mx-auto border p-5 m-5 rounded bg-white"
      style="width:40%">
@@ -69,7 +69,7 @@ include "includes/config.php";
                     href="login.php" class="text-accent text-decoration-none">Log in</a></p>
     </form>
 </div>
-<?php echo Render::footer(); ?>
+<?= Render::footer(); ?>
 <script src="assets/js/register.js"></script>
 </body>
 </html>

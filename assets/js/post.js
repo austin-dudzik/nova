@@ -1,6 +1,3 @@
-// Hide all lazy load elements
-$(".lz-load").hide();
-
 new SimpleMDE({element: $("#comment-area#editor")[0]});
 $(".toggle-co-area").click(function () {
     $("#comment-area, #leave-comment").toggle();
@@ -21,23 +18,10 @@ $(document).ready(() => {
             // If post is not found
             if (data.code && data.code === 204) {
 
-                // Remove post holder
-                $("#post-holder").remove();
+                $("#loading").hide();
+                $("#post-not-found").show();
+                $("#page").remove();
 
-                $("#post-container").append(`<div class="row">
-            <div class="col"></div>
-            <div class="col-xl-6">
-                <div class="card p-4">
-                    <div class="card-body">
-                        <h5>Post Not Found</h5>
-                        <p>Sorry, we couldn't find a post located at the specified URL.</p>
-                        <p class="fw-bold">It may have been moved, deleted, or may have never existed.</p>
-                        <a href="${site_url}" class="btn btn-accent">Go back home</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col"></div>
-        </div>`);
 
             } else {
 
@@ -78,9 +62,6 @@ $(document).ready(() => {
 
                 $(".post-content").html(data.content);
 
-                $("#post-wrapper .ph-item").hide();
-                $(".lz-load").show();
-
 
                 $.ajax({
                     url: site_url + "/api.php",
@@ -92,15 +73,22 @@ $(document).ready(() => {
                         limit: 10
                     },
                     success: (data) => {
+
+                        // If there are voters...
                         if(data.length) {
-                            // Loop through all voters
+                            // Loop through all voters...
                             for (let i = 0; i < data.length; i++) {
-                                // Append voter to voter list
-                                $("#voterList").append(`<img src="${data[i].avatar}" class="rounded-circle me-2" style="width:30px;height:30px">`);
+                                // Append voter to voter list...
+                                $("#voterList").append(`<a href="${data[i].url}" class="a-tooltip" data-toggle="tooltip" data-bs-placement="top" title="${data[i].name}"><img src="${data[i].avatar}" class="rounded-circle me-2" style="width:30px;height:30px" alt="${data[i].name}"></a>`);
                             }
                         } else {
                             $("#voterList").append(`<p class="small text-muted">No one has voted yet!</p>`);
                         }
+
+                        $("#loading").hide();
+                        $("#post-not-found").hide();
+                        $("#page").show();
+
                     }
                 });
 

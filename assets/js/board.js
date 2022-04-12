@@ -1,13 +1,5 @@
-$("#toggle-sidebar").on("click", () => {
-    $("#sidebar").toggle();
-    $("#toggle-sidebar i").toggleClass("fa-right-from-line fa-left-from-line");
-});
-
 let currentFilter = [];
 let currentSort = "";
-
-// Hide all lazy load elements
-$(".lz-load").hide();
 
 function getBoard() {
 
@@ -23,21 +15,8 @@ function getBoard() {
 
             // If board is not found
             if (data.code && data.code === 204) {
-
-                // Remove board holder
-                $("#board-holder").remove();
-
-                // Show 404 screen
-                $(".container-fluid").append(`
-                    <div class="card w-50 mx-auto p-4">
-                        <div class="card-body">
-                            <h5>${terms.board_not_found}</h5>
-                            <p>${terms.board_not_found_msg}</p>
-                            <p class="fw-bold">${terms.not_found_reason}</p>
-                            <a href="${site_url}" class="btn btn-accent">${terms.return_home}</a>
-                        </div>
-                    </div>`);
-
+                $("#loading").remove();
+                $("#board-not-found").show();
             } else {
 
                 // Set the board ID
@@ -48,23 +27,16 @@ function getBoard() {
                     getPosts(currentFilter, currentSort);
                 } else {
                     // Remove elements
-                    $(".btm-hold, #sidebar, #toggle-sidebar .ph-item").remove();
+                    $(".btm-hold, #sidebar, #toggle-sidebar").remove();
 
                     // Show no posts card
-                    $("#posts-wrapper").append(`<div class="card mt-3">
-                        <div class="card-body p-5">
-                            <h1>🦄</h1>
-                            <h5>No posts to be found here...</h5>
-                            <p>It appears no posts have been published to this board yet.</p>
-                            <button type="button" class="btn btn-accent btn-sm px-4 me-2">
-                                <i class="far fa-plus"></i>
-                                New post
-                            </button>
-                            <button type="button" class="btn btn-light border btn-sm px-4">
-                                Go back
-                            </button>
+                    $("#posts-wrapper").append(`
+                        <div class="p-5 text-center">
+                        <i class="far fa-comments fa-3x text-muted mb-3"></i>
+                            <h6>Looks like there's no feedback yet</h6>
+                            <p>Looks like there's no feedback yet</p>
                         </div>
-                    </div>`);
+                    `);
 
 
                 }
@@ -74,9 +46,13 @@ function getBoard() {
                 $(".board-name").text(data.name);
                 $(".board-desc").text(data.description);
                 $(".board-icon").addClass("fa-" + data.icon);
-                $(".board-posts").text(data.posts + (data.posts === 1 ? " " + terms.post : " " + terms.posts));
-                $(".board-subscribers").text(data.subscribers + (data.subscribers === 1 ? " " + terms.subscriber : " " + terms.subscribers));
-                $(".board-upvotes").text(data.upvotes + (data.upvotes === 1 ? " " + terms.upvote : " " + terms.upvotes));
+                $(".board-visibility").html((data.visibility === 2 ? '<i class="fas fa-lock me-1"></i> Private' : '') + (data.visibility === 0 ? '<i class="fas fa-eye-slash me-1"></i> Unlisted' : ''));
+
+                // Set edit board details
+                $("#board_name").val(data.name);
+                $("#board_icon").val(data.icon);
+                $("#board_slug").val(data.slug);
+                $("#board_desc").val(data.description);
 
                 $("#loading").hide();
                 $("#page").show();
@@ -115,9 +91,6 @@ function getPosts(filter, sort, offset = 0, loadMore = false) {
         success: (data) => {
 
             $(document).ready(() => {
-
-                // Hide placeholders
-                $(".ph-item").hide();
 
                 if (loadMore) {
                     // Remove disabled class
@@ -210,4 +183,12 @@ $(".loadMore").on("click", function () {
     getPosts(currentFilter, currentSort, offset, true);
     // Increase offset
     offset += 10;
+});
+
+$("#visibility input").on("change", function () {
+    if ($("#private").is(":checked")) {
+        $("#rules-section").show();
+    } else {
+        $("#rules-section").hide();
+    }
 });

@@ -58,9 +58,9 @@ class Posts
      */
     private int $board_id;
     /**
-     * @var int The post status ID
+     * @var int|null The post status ID
      */
-    private int $status_id;
+    private int|null $status_id;
 
     /**
      * getPostsByBoard

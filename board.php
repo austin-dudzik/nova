@@ -7,16 +7,14 @@ $board_slug = $_GET['board_slug'];
 
 $board = Board::getBoard($board_slug);
 
-if (isset($_POST['updateBoard'])) {
-    Board::updateBoard($board->board_id, $_POST['name'], $_POST['icon'], $_POST['description']);
-}
+include "includes/logic/board.php";
 
 ?>
 <!doctype html>
 <html lang="en">
-<?php echo Render::header() ?>
+<?= Render::header() ?>
 <body>
-<?php echo Render::navigation() ?>
+<?= Render::navigation() ?>
 <div class="row mt-5">
     <div class="col"></div>
     <div class="col-md-6">
@@ -33,7 +31,8 @@ if (isset($_POST['updateBoard'])) {
                 <h5><?= __('board_not_found') ?></h5>
                 <p><?= __('board_not_found_msg') ?></p>
                 <p class="fw-bold"><?= __('not_found_reason') ?></p>
-                <a href="<?= Settings::getSettings('site_url') ?>>" class="btn btn-accent"><?= __('return_home') ?></a>
+                <a href="<?= Settings::getSettings('site_url') ?>>"
+                   class="btn btn-accent"><?= __('return_home') ?></a>
             </div>
         </div>
 
@@ -50,18 +49,29 @@ if (isset($_POST['updateBoard'])) {
             <div class="card shadow rounded-lg" style="border-radius:8px">
                 <div class="card-header bg-accent text-white p-5"
                      style="border-top-left-radius:8px;border-top-right-radius:8px">
-                    <i class="fas fa-2x mb-3 board-icon"></i>
-                    <h1 class="h5 board-name"></h1>
-                    <p class="board-desc small mb-0"></p>
+
+                    <div class="d-flex">
+                        <div class="me-4">
+                            <i class="fas fa-2x mb-3 board-icon mt-1"></i>
+                        </div>
+                        <div>
+                            <h1 class="h5 board-name"></h1>
+                            <p class="board-desc small mb-0"></p>
+                            <p class="board-visibility mb-0 small mt-2"></p>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="bg-light border-bottom px-5 py-3 d-flex justify-content-between">
                     <div class="nav nav-pills">
-                        <a href="<?= Settings::getSettings('site_url') ?>/new/<?= $_GET['board_slug'] ?>" class="round nav-link small active">
+                        <a href="<?= Settings::getSettings('site_url') ?>/new/<?= $_GET['board_slug'] ?>"
+                           class="round nav-link small active">
                             <i class="far fa-plus me-2"></i> New suggestion
                         </a>
                         <?php if (isAdmin()) { ?>
-                            <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal" data-bs-target="#manageBoard">
+                            <button class="nav-link small mx-0 pe-2 text-dark" data-bs-toggle="modal"
+                                    data-bs-target="#manageBoard">
                                 <i class="far fa-gear me-2"></i> Manage board
                             </button>
                         <?php } ?>
@@ -70,7 +80,7 @@ if (isset($_POST['updateBoard'])) {
 
                     <div class="modal fade" id="manageBoard">
                         <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content shadow">
+                            <div class="modal-content shadow round">
                                 <div class="modal-header border-0 pb-0">
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
@@ -78,69 +88,124 @@ if (isset($_POST['updateBoard'])) {
                                 <div class="modal-body px-5">
                                 <span class="fa-stack h6">
                                 <i class="fa-solid fa-circle fa-stack-2x text-accent"></i>
-                                <i class="far fa-pencil fa-stack-1x text-white"></i>
+                                <i class="far fa-gear fa-stack-1x text-white"></i>
                               </span>
-                                    <h5>Edit Board</h5>
+                                    <h5>Manage Board</h5>
                                     <p class="small">Deleting a post is permanent and cannot be
                                         reversed. All upvotes and comments will also be removed.</p>
-                                    <form method="post">
-                                        <label for="board_name">Name</label>
-                                        <input type="text" name="name" id="board_name" class="form-control mb-2" required>
-                                        <label for="board_icon">Icon</label>
-                                        <input type="text" name="icon" id="board_icon" class="form-control mb-2" required>
-                                        <label for="board_desc">Description</label>
-                                        <textarea name="description" id="board_desc" class="form-control mb-3" rows="4" required></textarea>
-                                    <div class="mb-4 d-flex justify-content-between">
 
-                                        <div>
+                                    <form method="post">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="board_name" class="mb-2">Name</label>
+                                                <input type="text" name="name" id="board_name"
+                                                       class="form-control mb-1" value="<?= $_POST['name'] ?? $board->name ?>" required>
+                                                <p class="small text-danger"><?= $name_err ?></p>
+
+                                                <label for="board_icon" class="mb-2">Icon</label>
+                                                <input type="text" name="icon" id="board_icon"
+                                                       class="form-control mb-1" value="<?= $_POST['icon'] ?? $board->icon ?>">
+                                                <p class="small text-muted"> Available icons and their names can be found on <a href="https://fontawesome.com/icons" target="_blank" class="link">Font Awesome</a>. (i.e. <code>comments</code>)</p>
+
+                                                <label for="board_slug" class="mb-2">Slug</label>
+                                                <div class="input-group mb-1">
+                                                    <span class="input-group-text bg-light small"><?= preg_replace("(^https?://)", "", Settings::getSettings('site_url')) ?>/b/</span>
+                                                    <input type="text" name="slug" id="board_slug"
+                                                           class="form-control" value="<?= $_POST['slug'] ?? $board->slug ?>" required>
+                                                </div>
+                                                <p class="small text-danger"><?= $slug_err ?></p>
+
+                                                <label for="board_desc" class="mb-1">Description</label>
+                                                <textarea name="description" id="board_desc"
+                                                          class="form-control mb-3" rows="4"><?= $_POST['description'] ?? $board->description ?></textarea>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="feed_type" class="d-block mb-1">Visibility</label>
+                                                <div id="visibility" class="btn-group round mb-3" role="group">
+                                                    <input type="radio" class="btn-check" name="visibility" id="public" value="1" <?= $board->visibility === 1 ? 'checked' : '' ?>>
+                                                    <label class="btn btn-outline-primary me-2" for="public" data-toggle="tooltip" data-bs-placement="top"
+                                                           title="Visible & accessible to all users">
+                                                        <i class="fas fa-eye me-2"></i> Public
+                                                    </label>
+
+                                                    <input type="radio" class="btn-check" name="visibility" id="private" value="2" <?= $board->visibility === 2 ? 'checked' : '' ?>>
+                                                    <label class="btn btn-outline-primary me-2" for="private" data-toggle="tooltip" data-bs-placement="top"
+                                                           title="Visible & accessible to only specified users">
+                                                        <i class="fas fa-lock me-2"></i> Private
+                                                    </label>
+
+                                                    <input type="radio" class="btn-check" name="visibility" id="unlisted" value="0" <?= $board->visibility === 0 ? 'checked' : '' ?>>
+                                                    <label class="btn btn-outline-primary" for="unlisted" data-toggle="tooltip" data-bs-placement="top"
+                                                           title="Accessible by URL, but not visible on homepage">
+                                                        <i class="fas fa-eye-slash me-2"></i> Unlisted
+                                                    </label>
+                                                </div>
+
+
+                                                <div id="rules-section" style="display:<?= $board->visibility === 2 ? 'block' : 'none' ?>">
+                                                    <label for="rules" class="mb-1">Invite users via email:</label>
+                                                    <input type="text" name="rules" id="rules"
+                                                           class="form-control mb-1" value="<?= $_POST['rules'] ?? implode(',', json_decode($board->rules)) ?>" placeholder="Email addresses, seperated by commas">
+                                                    <small>
+                                                        <p>Need to allow users from an entire domain? Use an asterisk (*) in place of a name. (i.e. <code>*@acme.io</code>)</p>
+                                                    </small>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 d-flex justify-content-between">
+
                                             <button type="submit" name="updateBoard"
                                                     class="btn bg-accent text-white me-1"
                                                     style="border-radius:8px">Update board
                                             </button>
-                                        </div>
                                     </form>
 
                                     <div>
-                                            <button type="button" class="btn btn-outline-danger border"
-                                                    style="border-radius:8px"><i class="far fa-trash-alt me-2"></i> Delete
-                                            </button>
-                                        </div>
-
+                                        <button type="button" class="btn btn-outline-danger border"
+                                                style="border-radius:8px"><i
+                                                    class="far fa-trash-alt me-2"></i> Delete
+                                        </button>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div>
+                <div>
 
-                        <div class="dropdown d-inline-block">
+                    <div class="dropdown d-inline-block">
                  <span class="fa-stack fa-2x iconCircle" data-bs-toggle="dropdown"
                        data-toggle="tooltip" data-bs-placement="left" title="Filter">
                       <i class="fas fa-circle fa-stack-2x"></i>
                       <i class="fas fa-filter fa-stack-1x fa-inverse"></i>
                  </span>
 
-                            <div class="dropdown-menu dropdown-menu-end p-3">
-                                <p class="mb-2">Filter</p>
+                        <div class="dropdown-menu dropdown-menu-end p-3">
+                            <p class="mb-2">Filter</p>
 
 
-                                <?php foreach (Status::getStatuses() as $filter) { ?>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?= $filter->slug ?>"
-                                               value="<?= $filter->id ?>"
-                                               name="filter">
-                                        <label class="form-check-label" for="<?= $filter->slug ?>">
-                                            <?= $filter->name ?>
-                                        </label>
-                                    </div>
-                                <?php } ?>
+                            <?php foreach (Status::getStatuses() as $filter) { ?>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="<?= $filter->slug ?>"
+                                           value="<?= $filter->id ?>"
+                                           name="filter">
+                                    <label class="form-check-label" for="<?= $filter->slug ?>">
+                                        <?= $filter->name ?>
+                                    </label>
+                                </div>
+                            <?php } ?>
 
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="dropdown d-inline-block">
+                    <div class="dropdown d-inline-block">
                  <span class="fa-stack fa-2x iconCircle" data-bs-toggle="dropdown"
                        data-toggle="tooltip" data-bs-placement="left"
                        title="Sort">
@@ -148,75 +213,82 @@ if (isset($_POST['updateBoard'])) {
                       <i class="fas fa-sort fa-stack-1x fa-inverse"></i>
                  </span>
 
-                            <div class="dropdown-menu dropdown-menu-end p-3">
-                                <p class="mb-2">Sort</p>
+                        <div class="dropdown-menu dropdown-menu-end p-3">
+                            <p class="mb-2">Sort</p>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="new"
-                                           value="new" name="sort" checked>
-                                    <label class="form-check-label" for="new">
-                                        New
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="top"
-                                           value="top" name="sort">
-                                    <label class="form-check-label" for="top">
-                                        Top
-                                    </label>
-                                </div>
-
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="new"
+                                       value="new" name="sort" checked>
+                                <label class="form-check-label" for="new">
+                                    New
+                                </label>
                             </div>
-                        </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="top"
+                                       value="top" name="sort">
+                                <label class="form-check-label" for="top">
+                                    Top
+                                </label>
+                            </div>
 
-                        <a href="#" id="toggleSearch" class="my-auto text-dark">
+                        </div>
+                    </div>
+
+                    <a href="#" id="toggleSearch" class="my-auto text-dark">
                      <span class="fa-stack" data-toggle="tooltip" data-bs-placement="left"
                            title="Search <?= Settings::getSettings('site_title') ?>">
-                        <i class="fa-solid fa-circle fa-stack-2x"></i>
+                        <i class="fa-solid fa-circle fa-stack-2x text-accent"></i>
                         <i class="far fa-magnifying-glass fa-stack-1x text-white"></i>
                       </span>
-                        </a>
-
-                    </div>
-                </div>
-
-
-                <div class="bg-white border-bottom" id="searchHolder" style="display:none">
-                    <div class="input-icons input-group px-5" id="searchPageContainer">
-                        <i class="far fa-magnifying-glass text-dark"></i>
-                        <input class="search form-control ps-5" type="text" id="searchPage"
-                               placeholder="<?= __('search_text') ?>">
-                    </div>
-                </div>
-
-                <div class="card-body px-5">
-                    <ul class="list-group list-group-flush posts-list"></ul>
-
-                    <div id="posts-wrapper">
-
-                        <div class="btm-hold text-center">
-                            <button type="button"
-                                    class="btn btn-light px-5 border btn-sm mb-2 loadMore">
-                                <i class="fas fa-plus me-2"></i>
-                                <?= __("load_more") ?>
-                            </button>
-                        </div>
-
-                    </div>
-
+                    </a>
 
                 </div>
             </div>
+
+
+            <div class="bg-white border-bottom" id="searchHolder" style="display:none">
+                <div class="input-icons input-group px-5" id="searchPageContainer">
+                    <i class="far fa-magnifying-glass text-dark"></i>
+                    <input class="search form-control ps-5" type="text" id="searchPage"
+                           placeholder="<?= __('search_text') ?>">
+                </div>
+            </div>
+
+            <div class="card-body px-5">
+                <ul class="list-group list-group-flush posts-list"></ul>
+
+                <div id="posts-wrapper">
+
+                    <div class="btm-hold text-center">
+                        <button type="button"
+                                class="btn btn-light px-5 border btn-sm mb-2 loadMore">
+                            <i class="fas fa-plus me-2"></i>
+                            <?= __("load_more") ?>
+                        </button>
+                    </div>
+
+                </div>
+
+
+            </div>
         </div>
     </div>
-    <div class="col"></div>
+</div>
+<div class="col"></div>
 </div>
 
 <script>
     let board_id = null;
     let boardSlug = '<?= $board_slug ?>';
 </script>
-<?php echo Render::footer(); ?>
+<?= Render::footer(); ?>
 <script src="<?= Settings::getSettings("site_url") ?>/assets/js/board.js"></script>
+<?php if ($updateError) { ?>
+    <script>
+        $(document).ready(function () {
+            $('#manageBoard').modal('show');
+        });
+    </script>
+<?php } ?>
 </body>
 </html>

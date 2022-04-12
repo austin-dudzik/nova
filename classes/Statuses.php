@@ -10,17 +10,13 @@ class Statuses
 {
 
     /**
-     * @var int The status ID
+     * @var int|null The status ID
      */
-    public int $status_id;
+    public int|null $status_id;
     /**
      * @var string The status name
      */
     public string $name;
-    /**
-     * @var string The status slug
-     */
-    public string $slug;
     /**
      * @var string The status color
      */
@@ -37,7 +33,7 @@ class Statuses
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.id AS status_id, st.name, st.slug, st.color, COUNT(po.id) posts FROM  ". $prefix . "statuses st LEFT JOIN  ". $prefix . "posts po ON po.status_id = st.id GROUP BY st.id");
+        $stmt = $conn->prepare("SELECT st.id AS status_id, st.name, st.color, COUNT(po.id) posts FROM  ". $prefix . "statuses st LEFT JOIN  ". $prefix . "posts po ON po.status_id = st.id GROUP BY st.id");
         $stmt->execute();
         $result = $stmt->get_result();
 

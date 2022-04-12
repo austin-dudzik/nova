@@ -31,11 +31,7 @@ $user_slug = $_GET['user_slug'];
                    class="text-accent text-decoration-none">Home</a>
                 <i class="fas fa-caret-right mx-2"></i>
             </p>
-            <p class="d-inline pe-0 text-muted">
-                <a href="#" class="text-accent post-board text-decoration-none"></a>
-                <i class="fas fa-caret-right mx-2"></i>
-            </p>
-            <p class="d-inline pe-0 text-muted post-title"></p>
+            <p class="d-inline pe-0 text-muted user-name"></p>
 
             <p class="d-inline pe-0 text-muted board-name"></p>
             <div class="card shadow rounded-lg" style="border-radius:8px">
@@ -54,6 +50,16 @@ $user_slug = $_GET['user_slug'];
                 </div>
                 <div class="card-body px-5">
 
+                    <div class="p-5 text-center no-posts-holder d-none-ni">
+                        <i class="far fa-comments fa-3x text-muted mb-3"></i>
+                        <h6>Looks like there's no feedback yet</h6>
+                        <p>Looks like there's no feedback yet</p>
+                        <button type="button" class="btn btn-accent btn-sm px-4 me-2">
+                            <i class="far fa-plus"></i>
+                            New post
+                        </button>
+                    </div>
+
                     <ul class="list-group list-group-flush posts-list"></ul>
 
 
@@ -69,17 +75,6 @@ $user_slug = $_GET['user_slug'];
                                 🎈 <?= __('reached_end') ?></p>
                         </div>
 
-                    </div>
-
-                    <p class="fw-bold mb-2">Description</p>
-                    <p class="post-content mb-3"></p>
-
-                    <p class="fw-bold mb-2">Voters</p>
-                    <div class="d-flex">
-                        <div class="d-inline-block" id="voterList"></div>
-
-                        <div style="width:30px;height:30px;line-height:30px"
-                             class="bg-light other-upvotes rounded-circle text-center small border"></div>
                     </div>
 
                 </div>
@@ -105,26 +100,6 @@ $user_slug = $_GET['user_slug'];
         </div>
 
 
-        <div class="card no-posts-holder">
-            <div class="card-body p-5">
-                <h1>🦄</h1>
-                <h5>No posts to be
-                    found here...</h5>
-                <p>It appears no posts
-                    have been
-                    published to this
-                    board yet.</p>
-                <button type="button"
-                        class="btn btn-accent btn-sm px-4 me-2">
-                    <i class="far fa-plus"></i>
-                    New post
-                </button>
-                <button type="button"
-                        class="btn btn-light border btn-sm px-4">
-                    Go back
-                </button>
-            </div>
-        </div>
 
     </div>
     <div class="col"></div>

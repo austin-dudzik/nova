@@ -38,6 +38,10 @@ class Post
      */
     public int $upvotes;
     /**
+     * @var bool Status of current user upvote
+     */
+    public bool $hasUpvoted;
+    /**
      * @var int The post author ID
      */
     private int $user_id;
@@ -46,13 +50,9 @@ class Post
      */
     private int $board_id;
     /**
-     * @var int The post status ID
+     * @var int|null The post status ID
      */
-    private int $status_id;
-    /**
-     * @var bool Status of current user upvote
-     */
-    public bool $hasUpvoted;
+    private int|null $status_id;
 
     /**
      * getPost
@@ -67,7 +67,7 @@ class Post
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.slug, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  ". $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
+        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.slug, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
         $stmt->bind_param("s", $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -77,7 +77,7 @@ class Post
             // Assign variable to Posts object
             $post = $result->fetch_object('Post');
 
-            if(Rules::verifyRulesByPost($post->slug)) {
+            if (Rules::verifyRulesByPost($post->slug)) {
 
                 // If post has assigned status
                 if ($post->status_id) {
@@ -109,5 +109,69 @@ class Post
         }
 
     }
+
+    /**
+     * deletePost
+     * Deletes a given post
+     *
+     * @param string $post_slug The post ID
+     * @return string The post or response object
+     */
+    public static function deletePost(string $post_slug): string
+    {
+
+        global $conn;
+        global $prefix;
+
+        $stmt = $conn->prepare("DELETE FROM " . $prefix . "posts WHERE slug = ? LIMIT 1");
+        $stmt->bind_param("s", $post_slug);
+        $stmt->execute();
+
+        return $stmt->affected_rows > 0;
+
+    }
+
+    /**
+     * movePost
+     * Moves a given post to another board
+     *
+     * @param string $post_slug The post ID
+     * @return bool Status of the query
+     */
+    public static function movePost(int $board_id, string $post_slug): bool
+    {
+
+        global $conn;
+        global $prefix;
+
+        $stmt = $conn->prepare("UPDATE " . $prefix . "posts SET board_id = ? WHERE slug = ? LIMIT 1");
+        $stmt->bind_param("is", $board_id, $post_slug);
+        $stmt->execute();
+
+        return $stmt->affected_rows > 0;
+
+    }
+
+    /**
+     * createPost
+     * Creates a new post
+     *
+     * @return string Status of the query
+     */
+    public static function createPost(string $title, string $slug, string $content, int $board_id): bool
+    {
+
+        global $conn;
+        global $prefix;
+        global $user;
+
+        $stmt = $conn->prepare("INSERT INTO " . $prefix . "posts (user_id, title, slug, content, board_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssi", $user->id, $title, $slug, $content, $board_id);
+        $stmt->execute();
+
+        return $stmt->affected_rows > 0;
+
+    }
+
 
 }
