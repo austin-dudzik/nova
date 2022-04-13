@@ -7,7 +7,7 @@ $name_err = '';
 $slug_err = '';
 $statusName_err = '';
 
-if (isset($_POST['createBoard'])) {
+if (isset($_POST['createBoard']) && isAdmin()) {
 
     $check_board = Board::getBoard($_POST['slug']);
 
@@ -62,7 +62,7 @@ if (isset($_POST['createBoard'])) {
 
 }
 
-if (isset($_POST['createStatus'])) {
+if (isset($_POST['createStatus']) && isAdmin()) {
 
     // If name is empty
     if (empty(trim($_POST['statusName']))) {
@@ -80,7 +80,7 @@ if (isset($_POST['createStatus'])) {
 
 }
 
-if (isset($_POST['updateStatus'])) {
+if (isset($_POST['updateStatus']) && isAdmin()) {
 
     // If name is empty
     if (empty(trim($_POST['name']))) {
@@ -99,7 +99,7 @@ if (isset($_POST['updateStatus'])) {
 
 }
 
-if (isset($_POST['deleteStatus'])) {
+if (isset($_POST['deleteStatus']) && isAdmin()) {
 
     $id = (int)$_POST['id'];
 
