@@ -17,9 +17,9 @@ $user_slug = $_GET['user_slug'];
     <div class="col-md-6">
 
 
-        <div class="p-4 card shadow rounded-lg d-none" style="border-radius:8px"
-             id="404-holder">
-            <div class="card-body text-center">
+        <!-- Page loader -->
+        <div class="card border-0 bg-transparent" id="loading">
+            <div class="card-body p-4 text-center">
                 Loading...
             </div>
         </div>
@@ -43,7 +43,7 @@ $user_slug = $_GET['user_slug'];
 
                         <div class="my-auto">
                             <h5 class="user-name"></h5>
-                            <p class="user-username small text-muted"></p>
+                            <p class="user-username small"></p>
                         </div>
                     </div>
 
@@ -62,7 +62,6 @@ $user_slug = $_GET['user_slug'];
 
                     <ul class="list-group list-group-flush posts-list"></ul>
 
-
                     <div id="posts-wrapper">
 
                         <div class="btm-hold text-center">
@@ -71,8 +70,6 @@ $user_slug = $_GET['user_slug'];
                                 <i class="fas fa-plus me-2"></i>
                                 <?= __("load_more") ?>
                             </button>
-                            <p class="text-muted small fst-italic">
-                                🎈 <?= __('reached_end') ?></p>
                         </div>
 
                     </div>
@@ -98,7 +95,6 @@ $user_slug = $_GET['user_slug'];
                     home</a>
             </div>
         </div>
-
 
 
     </div>
