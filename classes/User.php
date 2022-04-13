@@ -34,7 +34,7 @@ class User
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username, (SELECT COUNT(po.id) FROM  ". $prefix . "posts po WHERE us.id = po.user_id) posts, (SELECT COUNT(up.id) FROM  ". $prefix . "upvotes up WHERE us.id = up.user_id) upvotes, us.created_at joined FROM  ". $prefix . "users us WHERE us.username = ?");
+        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE us.id = po.user_id) posts, (SELECT COUNT(up.id) FROM  " . $prefix . "upvotes up WHERE us.id = up.user_id) upvotes, us.created_at joined FROM  " . $prefix . "users us WHERE us.username = ?");
         $stmt->bind_param("s", $user_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -61,8 +61,10 @@ class User
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, us.username FROM  ". $prefix . "users us WHERE us.id = ?");
-        $stmt->bind_param("s", $user_id);
+        $site_url = Settings::getSettings("site_url");
+
+        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE us.id = ?");
+        $stmt->bind_param("ss", $site_url, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -73,6 +75,46 @@ class User
             // Return 204 response
             return Response::throwResponse(204, "Data not found");
         }
+
+    }
+
+    /**
+     * updateRole
+     * Updates a given users role
+     *
+     * @param string $user_id The user ID
+     * @return bool The user or response object
+     */
+    public static function updateRole(string $user_id, int $type): bool
+    {
+        global $conn;
+        global $prefix;
+
+        $stmt = $conn->prepare("UPDATE  " . $prefix . "users SET is_admin = ? WHERE id = ?");
+        $stmt->bind_param("ii", $type, $user_id);
+        $stmt->execute();
+
+        return $stmt->affected_rows > 0;
+
+    }
+
+    /**
+     * deleteUser
+     * Deletes a given user account
+     *
+     * @param string $user_id The user ID
+     * @return bool The user or response object
+     */
+    public static function deleteUser(string $user_id): bool
+    {
+        global $conn;
+        global $prefix;
+
+        $stmt = $conn->prepare("DELETE FROM " . $prefix . "users WHERE id = ? LIMIT 1");
+        $stmt->bind_param("i",  $user_id);
+        $stmt->execute();
+
+        return $stmt->affected_rows > 0;
 
     }
 
