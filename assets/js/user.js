@@ -1,5 +1,4 @@
 function getUser() {
-
     $.ajax({
         url: site_url + "/api.php",
         method: "GET",
@@ -9,32 +8,25 @@ function getUser() {
             user_slug: userSlug
         },
         success: (data) => {
-
             // If user is not found
             if (data.code && data.code === 204) {
+                document.title = "User Not Found | " + site_name;
+                // Remove holders
+                $("#user-holder, .no-posts-holder, #loading").remove();
                 // Show 404 holder
                 $("#404-holder").show();
-                // Remove user holder
-                $("#user-holder").remove();
-                $(".no-posts-holder").remove();
             } else {
-
                 // Set the user ID
                 window.user_id = data.user_id;
-
-                // Remove 404 holder
-                $("#404-holder").remove();
-
+                // Remove holders
+                $("#404-holder, #loading").remove();
                 //Get user posts
                 getPosts();
-                //$(".no-posts-holder").remove();
-
                 // Set board information
                 document.title = data.name + " | " + site_name;
                 $(".user-name").text(data.name);
                 $(".user-avatar").attr("src", data.avatar);
                 $(".user-username").text("@" + data.username);
-
             }
 
         }
@@ -56,7 +48,7 @@ function getPosts(offset = 0, loadMore = false) {
 
             $(document).ready(() => {
 
-                if(data.code && data.code === 204) {
+                if (data.code && data.code === 204) {
                     $(".no-posts-holder").show();
                 } else {
                     $(".no-posts-holder").remove();
@@ -102,7 +94,7 @@ function getPosts(offset = 0, loadMore = false) {
                                             <i class="fas fa-circle me-1" style="color:${data[i].status.color}"></i> ${data[i].status.name}
                                         </span>
                                     </p>` : ''}
-                                    <p class="content small text-muted mt-2">${data[i].content}</p>
+                                    <p class="content small text-muted mt-2">${htmlEntities(data[i].content)}</p>
                                 </a>
                             </div>
                         </li>`);

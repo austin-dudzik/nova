@@ -7,7 +7,7 @@ $post_slug = $_GET['post_slug'];
 
 $post = Post::getPost($post_slug);
 
-if (isset($_POST['movePost'])) {
+if (isset($_POST['movePost']) && isAdmin()) {
     Post::movePost($_POST['board'], $post_slug);
 }
 
@@ -15,12 +15,12 @@ if (isset($_POST['deletePost'])) {
     die(Post::deletePost($post_slug));
 }
 
-if (isset($_POST['changeStatus'])) {
+if (isset($_POST['changeStatus']) && isAdmin()) {
     Post::changeStatus($_POST['status'], $post_slug);
 }
 
-if (isset($_POST['postComment'])) {
-    Comment::newComment($post->post_id, $_POST['content']) ;
+if (isset($_POST['postComment']) && isset($_POST['comment'])) {
+    Comment::newComment($post->post_id, $_POST['content']);
 }
 
 if (isset($_POST['deleteComment'])) {
@@ -95,12 +95,10 @@ if (isset($_POST['deleteComment'])) {
                             <span id="post-status"></span>
 
 
-                            <div class="mb-0">
-                                <img src="https://gravatar.com/avatar/<?= md5("austin.dudzik@gmail.com") ?>"
-                                     class="rounded-circle me-1"
-                                     style="width:25px;height:25px;font-weight:700">
-                                <span class="mb-0">Austin Dudzik</span>
-                            </div>
+                            <a href="#" class="mb-0 d-block text-reset text-decoration-none" id="user">
+                                <img class="rounded-circle me-1" style="width:25px;height:25px;font-weight:700">
+                                <span class="mb-0"></span>
+                            </a>
 
                         </div>
 
@@ -109,23 +107,27 @@ if (isset($_POST['deleteComment'])) {
 
                 </div>
 
+                <?php if(isAdmin() || $post->user->id === $user->id) { ?>
                 <div class="bg-light border-bottom px-5 py-3">
                     <div class="nav nav-pills d-flex justify-content-between">
-                        <button class="nav-link small active me-2" style="border-radius:8px">
+                        <a href="<?= Settings::getSettings('site_url') ?>/edit/<?= $post_slug ?>"
+                           class="round nav-link small active">
                             <i class="far fa-pencil me-2"></i> Edit post
-                        </button>
+                        </a>
                         <div class="d-inline-flex">
-                            <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
-                                    data-bs-target="#changeStatus" style="border-radius:8px">
-                                <i class="far fa-tag fa-flip-horizontal me-2"></i> Status
-                            </button>
-                            <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
-                                    data-bs-target="#movePost" style="border-radius:8px">
-                                <i class="far fa-arrow-right-arrow-left me-2"></i> Move
-                            </button>
-                            <button class="nav-link small mx-0 pe-2" style="border-radius:8px">
-                                <i class="far fa-lock me-2"></i> Lock
-                            </button>
+                            <?php if (isAdmin()) { ?>
+                                <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
+                                        data-bs-target="#changeStatus" style="border-radius:8px">
+                                    <i class="far fa-tag fa-flip-horizontal me-2"></i> Status
+                                </button>
+                                <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
+                                        data-bs-target="#movePost" style="border-radius:8px">
+                                    <i class="far fa-arrow-right-arrow-left me-2"></i> Move
+                                </button>
+<!--                                <button class="nav-link small mx-0 pe-2" style="border-radius:8px">-->
+<!--                                    <i class="far fa-lock me-2"></i> Lock-->
+<!--                                </button>-->
+                            <?php } ?>
                             <button class="nav-link small mx-0 pe-2 text-danger"
                                     data-bs-toggle="modal" data-bs-target="#deletePost"
                                     style="border-radius:8px">
@@ -134,7 +136,11 @@ if (isset($_POST['deleteComment'])) {
                         </div>
                     </div>
                 </div>
+                <?php } else { ?>
+                    <div class="mb-2"></div>
+                <?php } ?>
 
+                <?php if (isAdmin()) { ?>
                 <!-- Change status modal -->
                 <div class="modal fade" id="changeStatus">
                     <div class="modal-dialog modal-dialog-centered">
@@ -236,6 +242,7 @@ if (isset($_POST['deleteComment'])) {
                 </div>
             </div>
         </div>
+        <?php } ?>
 
         <!-- Delete post modal -->
         <div class="modal fade" id="deletePost">
@@ -260,7 +267,7 @@ if (isset($_POST['deleteComment'])) {
                                         style="border-radius:8px">Delete forever
                                 </button>
                                 <button type="button" class="btn btn-white border"
-                                        style="border-radius:8px">Cancel
+                                        style="border-radius:8px" data-bs-dismiss="modal">Cancel
                                 </button>
                             </form>
 
@@ -286,16 +293,7 @@ if (isset($_POST['deleteComment'])) {
 
         </div>
 
-        <div class="border-top">
-
-
-            <strong class="mt-3 d-none">Comments (0)</strong>
-
-            <div class="mt-0 pt-0">
-                <span id="commentList"></span>
-            </div>
-
-        </div>
+        <div id="commentList"></div>
 
         <div class="bg-light border-top p-4 round-bottom">
             <div class="toggle-co-area">
@@ -310,7 +308,8 @@ if (isset($_POST['deleteComment'])) {
 
             <div id="comment-area" style="display:none">
                 <form method="post">
-                    <textarea class="form-control w-100 mb-3" name="content" placeholder="Leave a comment..."
+                    <textarea class="form-control w-100 mb-3" name="content"
+                              placeholder="Leave a comment..."
                               autofocus></textarea>
                     <div class="float-end">
                         <button class="btn btn-light border toggle-co-area" type="button">

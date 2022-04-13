@@ -67,8 +67,10 @@ class Post
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.slug, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
-        $stmt->bind_param("s", $post_slug);
+        $site_url = Settings::getSettings("site_url");
+
+        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.slug, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, CONCAT(?, '/p/', po.slug) url, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
+        $stmt->bind_param("ss", $site_url, $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -188,6 +190,27 @@ class Post
 
         $stmt = $conn->prepare("INSERT INTO " . $prefix . "posts (user_id, title, slug, content, board_id) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("isssi", $user->id, $title, $slug, $content, $board_id);
+        $stmt->execute();
+
+        return $stmt->affected_rows > 0;
+
+    }
+
+    /**
+     * updatePost
+     * Updates a given post
+     *
+     * @return string Status of the query
+     */
+    public static function updatePost(string $title, string $content, int $post_id): bool
+    {
+
+        global $conn;
+        global $prefix;
+        global $user;
+
+        $stmt = $conn->prepare("UPDATE " . $prefix . "posts SET title = ?, content = ? WHERE user_id = ? AND id = ? LIMIT 1");
+        $stmt->bind_param("ssii", $title, $content, $user->id, $post_id);
         $stmt->execute();
 
         return $stmt->affected_rows > 0;

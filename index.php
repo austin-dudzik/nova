@@ -67,6 +67,7 @@ include "includes/logic/feed.php";
                         <i class="far fa-magnifying-glass fa-stack-1x text-white"></i>
                      </span>
                         </a>
+                        <?php if (isAdmin()) { ?>
                         <div class="dropdown d-inline-block">
                             <a href="#" class="text-dark text-decoration-none"
                                data-bs-toggle="dropdown">
@@ -96,6 +97,7 @@ include "includes/logic/feed.php";
 
                             </ul>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
 

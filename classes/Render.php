@@ -44,6 +44,7 @@ class Render
                       <i class="far fa-bars fa-stack-1x fa-inverse"></i>
                 </span>
                 
+              
             <a class="navbar-brand" href="' . Settings::getSettings("site_url") . '">
                 <img src="' . Settings::getSettings("site_url") . '/uploads/logo.png" alt="" style="height:30px">
             </a>
@@ -73,6 +74,7 @@ class Render
                 <a href="' . Settings::getSettings("site_url") . '/register.php" class="btn btn-accent">' . __("signup") . '</a>') .
             '</div>
         </div>
+        </div>
 
     </nav>
 </div>' . (Settings::getSettings("read_only") ?
@@ -88,7 +90,7 @@ class Render
 
         global $lang;
 
-        return '<footer class="text-center pb-4">
+        return '<footer class="text-center pb-4 mt-4">
         <p class="mb-0">&copy; ' . date('Y') . ' ' . Settings::getSettings("site_title") . ', all rights reserved.</p>
         <p class="mb-0 badge bg-secondary text-white">🚀 ' . __('powered_by') . ' <a href="https://github.com/austin-dudzik/nova" class="text-white text-decoration-none">Nova</a></p>
 </footer>

@@ -129,8 +129,8 @@ function getStatuses() {
                     <div class="d-flex justify-content-between">
                         <div>
                             <i class="fas fa-circle me-2" style="color:${data[i].color}"></i> ${data[i].name}
-                        </div>
-                        <div>
+                        </div>`
+                    + (data[i].can_manage ? `<div>
                             <i class="fas fa-pencil me-2 a-tooltip" data-bs-toggle="modal" data-bs-target="#editStatus${data[i].status_id}" data-bs-placement="top" title="Edit status" role="button"></i>
                             
                             <div class="modal fade" id="editStatus${data[i].status_id}">
@@ -197,9 +197,9 @@ function getStatuses() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>` : ``) +
                 
-                        </div>
+                        `</div>
                     </div>
                     </div>
                     <div class="card-body p-0 border-0">

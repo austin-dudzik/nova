@@ -46,6 +46,10 @@ $(document).ready(() => {
                 // Set board name
                 $(".post-board").text(data.board.name).attr("href", data.board.url);
 
+                $("#user").attr("href", data.user.url);
+                $("#user img").attr("src", data.user.avatar);
+                $("#user span").text(data.user.name);
+
                 if (data.status) {
                     // Display status
                     $("#post-status").append(`<p class="badge bg-light small text-decoration-none ms-2" style="color:${data.status.color}">${data.status.name}</p>`)
@@ -98,7 +102,7 @@ $(document).ready(() => {
                                 if (data.length) {
                                     // Loop through all voters...
                                     for (let i = 0; i < data.length; i++) {
-                                        $("#commentList").append(`<div class="card border-0">
+                                        $("#commentList").append(`<div class="card border-0 border-top">
                     <div class="card-body px-5">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex">
@@ -128,8 +132,6 @@ $(document).ready(() => {
                     </div>
                 </div>`)
                                     }
-                                } else {
-                                    alert("none");
                                 }
 
                                 $("#loading").hide();

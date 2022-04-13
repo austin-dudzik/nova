@@ -19,6 +19,7 @@ function logOut() {
         }
     })
 }
+
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
     $('body').tooltip({
@@ -73,7 +74,7 @@ function votePost() {
 }
 
 function boldString(str, find) {
-    let reg = new RegExp('('+find+')', 'gi');
+    let reg = new RegExp('(' + find + ')', 'gi');
     return str.replace(reg, '<strong>$1</strong>');
 }
 
@@ -105,7 +106,7 @@ $("#searchInModal input").autocomplete({
     }
 }
 
-$("#toggleSearch").on("click", function() {
+$("#toggleSearch").on("click", function () {
     $("#searchHolder").slideToggle();
     $("#searchPage").focus();
 });
@@ -149,4 +150,8 @@ $("#searchPage").autocomplete({
     </div>
 `).appendTo(ul);
     }
+}
+
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
 }
