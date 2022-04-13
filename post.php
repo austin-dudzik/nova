@@ -5,6 +5,8 @@ include "includes/config.php";
 // Define required parameters
 $post_slug = $_GET['post_slug'];
 
+$post = Post::getPost($post_slug);
+
 if (isset($_POST['movePost'])) {
     Post::movePost($_POST['board'], $post_slug);
 }
@@ -13,8 +15,12 @@ if (isset($_POST['deletePost'])) {
     die(Post::deletePost($post_slug));
 }
 
-if(isset($_POST['changeStatus'])) {
+if (isset($_POST['changeStatus'])) {
     Post::changeStatus($_POST['status'], $post_slug);
+}
+
+if (isset($_POST['postComment'])) {
+    Comment::newComment($post->post_id, $_POST['content']) ;
 }
 
 ?>
@@ -82,7 +88,7 @@ if(isset($_POST['changeStatus'])) {
 
                             <p class="small d-inline-block"><span class="post-date"></span></p>
 
-                        <p class="badge bg-light small text-decoration-none d-inline-block ms-2" id="post-status"></p>
+                            <span id="post-status"></span>
 
 
                             <div class="mb-0">
@@ -139,21 +145,26 @@ if(isset($_POST['changeStatus'])) {
                                 <i class="far fa-tag fa-flip-horizontal fa-stack-1x text-white"></i>
                               </span>
                                 <h5>Change status</h5>
-                                <p class="small">Add a status to this post to add it to the feedback roadmap.</p>
+                                <p class="small">Add a status to this post to add it to the feedback
+                                    roadmap.</p>
 
                                 <form method="post">
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="radio" name="status"
-                                               id="default_status" value="0" <?= !isset(Post::getPost($_GET['post_slug'])->status->id) ? "checked" : "" ?>>
+                                               id="default_status"
+                                               value="0" <?= !isset(Post::getPost($_GET['post_slug'])->status->id) ? "checked" : "" ?>>
                                         <label class="form-check-label" for="default_status">
                                             No status
                                         </label>
                                     </div>
-                                    <?php foreach(Statuses::getStatuses() as $status) { ?>
+                                    <?php foreach (Statuses::getStatuses() as $status) { ?>
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="status"
-                                                   id="<?= $status->status_id ?>" value="<?= $status->status_id ?>" <?= isset(Post::getPost($_GET['post_slug'])->status->id) ? (($status->status_id === Post::getPost($_GET['post_slug'])->status->id) ? "checked" : "") : "" ?>>
-                                            <label class="form-check-label" for="<?= $status->status_id ?>">
+                                            <input class="form-check-input" type="radio"
+                                                   name="status"
+                                                   id="status_<?= $status->status_id ?>"
+                                                   value="<?= $status->status_id ?>" <?= isset(Post::getPost($_GET['post_slug'])->status->id) ? (($status->status_id === Post::getPost($_GET['post_slug'])->status->id) ? "checked" : "") : "" ?>>
+                                            <label class="form-check-label"
+                                                   for="status_<?= $status->status_id ?>">
                                                 <?= $status->name ?>
                                             </label>
                                         </div>
@@ -175,126 +186,145 @@ if(isset($_POST['changeStatus'])) {
                 </div>
             </div>
 
-                <!-- Move post modal -->
-                <div class="modal fade" id="movePost">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content shadow">
-                            <div class="modal-header border-0 pb-0">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body px-5">
+            <!-- Move post modal -->
+            <div class="modal fade" id="movePost">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content shadow">
+                        <div class="modal-header border-0 pb-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-5">
                                 <span class="fa-stack h6">
                                 <i class="fa-solid fa-circle fa-stack-2x text-accent"></i>
                                 <i class="far fa-arrow-right-arrow-left fa-stack-1x text-white"></i>
                               </span>
-                                <h5>Move post</h5>
-                                <p class="small">If this post was published to the wrong board, you can move it to another and retain all post, upvote, and comment data. The post URL will remain unchanged.</p>
+                            <h5>Move post</h5>
+                            <p class="small">If this post was published to the wrong board, you can
+                                move it to another and retain all post, upvote, and comment data.
+                                The post URL will remain unchanged.</p>
 
-                                <form method="post">
-                                <?php foreach(Boards::getBoards() as $board) { ?>
+                            <form method="post">
+                                <?php foreach (Boards::getBoards() as $board) { ?>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="radio" name="board"
-                                               id="<?= $board->board_id ?>" value="<?= $board->board_id ?>" <?= ($board->board_id === Post::getPost($_GET['post_slug'])->board->board_id) ? "checked" : "" ?>>
-                                        <label class="form-check-label" for="<?= $board->board_id ?>">
+                                               id="board_<?= $board->board_id ?>"
+                                               value="<?= $board->board_id ?>" <?= ($board->board_id === Post::getPost($_GET['post_slug'])->board->board_id) ? "checked" : "" ?>>
+                                        <label class="form-check-label"
+                                               for="board_<?= $board->board_id ?>">
                                             <?= $board->name ?>
                                         </label>
                                     </div>
                                 <?php } ?>
 
                                 <div class="my-4">
-                                        <button type="submit" name="movePost"
-                                                class="btn bg-accent text-white me-1"
-                                                style="border-radius:8px">Move to board
-                                        </button>
-                                        <button type="button" class="btn btn-white border"
-                                                style="border-radius:8px">Cancel
-                                        </button>
-                                    </form>
+                                    <button type="submit" name="movePost"
+                                            class="btn bg-accent text-white me-1"
+                                            style="border-radius:8px">Move to board
+                                    </button>
+                                    <button type="button" class="btn btn-white border"
+                                            style="border-radius:8px">Cancel
+                                    </button>
+                            </form>
 
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Delete post modal -->
-                <div class="modal fade" id="deletePost">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content shadow">
-                            <div class="modal-header border-0 pb-0">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body px-5">
+        <!-- Delete post modal -->
+        <div class="modal fade" id="deletePost">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow">
+                    <div class="modal-header border-0 pb-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-5">
                                 <span class="fa-stack h6">
                                 <i class="fa-solid fa-circle fa-stack-2x text-danger"></i>
                                 <i class="far fa-trash-alt fa-stack-1x text-white"></i>
                               </span>
-                                <h5>Delete this post?</h5>
-                                <p class="small">Deleting a post is permanent and cannot be
-                                    reversed. All upvotes and comments will also be removed.</p>
-                                <div class="mb-4">
-                                    <form method="post">
-                                        <button type="submit" name="deletePost"
-                                                class="btn btn-danger me-1"
-                                                style="border-radius:8px">Delete forever
-                                        </button>
-                                        <button type="button" class="btn btn-white border"
-                                                style="border-radius:8px">Cancel
-                                        </button>
-                                    </form>
+                        <h5>Delete this post?</h5>
+                        <p class="small">Deleting a post is permanent and cannot be
+                            reversed. All upvotes and comments will also be removed.</p>
+                        <div class="mb-4">
+                            <form method="post">
+                                <button type="submit" name="deletePost"
+                                        class="btn btn-danger me-1"
+                                        style="border-radius:8px">Delete forever
+                                </button>
+                                <button type="button" class="btn btn-white border"
+                                        style="border-radius:8px">Cancel
+                                </button>
+                            </form>
 
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="card-body px-5">
-
-                    <p class="fw-bold mb-2">Description</p>
-                    <p class="post-content mb-3"></p>
-
-                    <p class="fw-bold mb-2">Voters</p>
-                    <div class="d-flex">
-                        <div class="d-inline-block" id="voterList"></div>
-
-                        <div style="width:30px;height:30px;line-height:30px"
-                             class="bg-light other-upvotes rounded-circle text-center small border"></div>
-                    </div>
-
-                </div>
-
-                <div class="bg-light border-top p-4">
-                    <div class="toggle-co-area">
-                        <div class="card"
-                             id="leave-comment">
-                            <div class="card-body text-muted py-2"
-                                 style="font-size:14px">
-                                Leave a comment...
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="comment-area" style="display:none">
-                        <textarea id="editor"></textarea>
-                        <div class="float-end">
-                            <button class="btn btn-light border toggle-co-area">
-                                Cancel
-                            </button>
-                            <button class="btn btn-accent">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
+
+
+        <div class="card-body px-5">
+
+            <p class="fw-bold mb-2">Description</p>
+            <p class="post-content mb-3"></p>
+
+            <p class="fw-bold mb-2">Voters</p>
+            <div class="d-flex">
+                <div class="d-inline-block" id="voterList"></div>
+
+                <div style="width:30px;height:30px;line-height:30px"
+                     class="bg-light other-upvotes rounded-circle text-center small border"></div>
+            </div>
+
+        </div>
+
+        <div class="border-top">
+
+
+            <strong class="mt-3 d-none">Comments (0)</strong>
+
+            <div class="mt-0 pt-0">
+                <span id="commentList"></span>
+            </div>
+
+        </div>
+
+        <div class="bg-light border-top p-4 round-bottom">
+            <div class="toggle-co-area">
+                <div class="card"
+                     id="leave-comment">
+                    <div class="card-body text-muted py-2"
+                         style="font-size:14px">
+                        Leave a comment...
+                    </div>
+                </div>
+            </div>
+
+            <div id="comment-area" style="display:none">
+                <form method="post">
+                    <textarea class="form-control w-100 mb-3" name="content" placeholder="Leave a comment..."
+                              autofocus></textarea>
+                    <div class="float-end">
+                        <button class="btn btn-light border toggle-co-area" type="button">
+                            Cancel
+                        </button>
+                        <button class="btn btn-accent" type="submit" name="postComment">
+                            Post comment
+                        </button>
+                </form>
+            </div>
+        </div>
+
     </div>
-    <div class="col"></div>
+
+</div>
+</div>
+</div>
+<div class="col"></div>
 </div>
 
 <script>
