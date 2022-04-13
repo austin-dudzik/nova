@@ -1,5 +1,3 @@
-$("#msg").hide();
-
 $("#login").on("submit", function (e) {
 
     $(this).find("button[type=submit]").prop("disabled", true).html("<i class='fa fa-spinner-third fa-spin'></i>");
@@ -25,7 +23,7 @@ $("#login").on("submit", function (e) {
                     $("#msg").show().text("Sorry, the login details you entered are incorrect. Please try again.");
                 } else {
                     $("#msg").hide();
-                    window.location = window.location;
+                    window.location = site_url;
                 }
             }
         })

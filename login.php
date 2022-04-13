@@ -19,7 +19,7 @@ include "includes/config.php";
                 </div>
                 <div class="card-body mx-3 mx-md-0 px-4 px-md-5 py-4">
 
-                    <div class="alert bg-danger text-white" id="msg"></div>
+                    <div class="alert bg-danger text-white" id="msg" style="display:none"></div>
 
                     <form method="post" id="login">
                         <div class="form-group mb-3">
