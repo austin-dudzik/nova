@@ -24,6 +24,7 @@ $(function () {
     $('body').tooltip({
         selector: '.a-tooltip'
     });
+    $(".timeago").timeago();
 })
 
 function votePost() {

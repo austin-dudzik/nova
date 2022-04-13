@@ -288,7 +288,7 @@ class Render
 <script src="' . Settings::getSettings("site_url") . '/assets/libs/jquery/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="' . Settings::getSettings("site_url") . '/assets/libs/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="' . Settings::getSettings("site_url") . '/assets/libs/simplemde/js/simplemde.min.js"></script>
+<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
 <script src="' . Settings::getSettings("site_url") . '/assets/js/main.js"></script>
 ';
     }
