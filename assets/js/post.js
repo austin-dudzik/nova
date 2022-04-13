@@ -78,7 +78,7 @@ $(document).ready(() => {
                             // Loop through all voters...
                             for (let i = 0; i < data.length; i++) {
                                 // Append voter to voter list...
-                                $("#voterList").append(`<a href="${data[i].url}" class="a-tooltip" data-toggle="tooltip" data-bs-placement="top" title="${data[i].name}"><img src="${data[i].avatar}" class="rounded-circle me-2" style="width:30px;height:30px" alt="${data[i].name}"></a>`);
+                                $("#voterList").append(`<a href="${data[i].url}" class="a-tooltip" data-bs-placement="top" title="${data[i].name}"><img src="${data[i].avatar}" class="rounded-circle me-2" style="width:30px;height:30px" alt="${data[i].name}"></a>`);
                             }
                         } else {
                             $("#voterList").append(`<p class="small text-muted">No one has voted yet!</p>`);
@@ -109,13 +109,20 @@ $(document).ready(() => {
                                 <div>
                                     <h6 class="mb-1">${data[i].user.name}</h6>
                                     <p class="small mb-2 text-muted">@${data[i].user.username}</p>
-                                    <p class="mb-0">${data[i].content}</p>
+                                    <p class="mb-0">${htmlEntities(data[i].content)}</p>
                                 </div>
                             </div>
-
                             <div class="d-flex">
                                 <p class="small mb-0 timeago" title="${data[i].created_at}">${data[i].created_at}</p>
-                                <i class="far fa-trash-alt ms-3 mb-0 text-danger small"></i>
+                                ` + (data[i].can_manage ? `
+                                <form method="post">
+                                 <input type="hidden" name="comment_id" value="${data[i].id}">
+                                    <button type="submit" name="deleteComment" class="btn btn-link ms-3 p-0">
+                                        <i class="far fa-trash-alt text-danger small a-tooltip" data-bs-placement="top" title="Delete comment"></i>
+                                    </button>
+                                </form>
+                            ` : ``) +
+                                            `
                             </div>
                         </div>
                     </div>

@@ -23,6 +23,10 @@ if (isset($_POST['postComment'])) {
     Comment::newComment($post->post_id, $_POST['content']) ;
 }
 
+if (isset($_POST['deleteComment'])) {
+    Comment::deleteComment($_POST['comment_id']);
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -330,6 +334,7 @@ if (isset($_POST['postComment'])) {
 <script>
     let post_id = null;
     let post_slug = '<?= $_GET['post_slug'] ?>';
+    let user = <?= $_SESSION['user'] ?>;
 </script>
 <?= Render::footer(); ?>
 <script src="<?= Settings::getSettings("site_url") ?>/assets/js/post.js"></script>

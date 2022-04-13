@@ -55,11 +55,12 @@ class Comment
     {
         global $conn;
         global $prefix;
+        global $user;
 
-        if($post_id) {
+        if ($post_id) {
 
-            $stmt = $conn->prepare("SELECT co.user_id, co.content, co.created_at FROM  " . $prefix . "comments co WHERE post_id = ? ORDER BY co.created_at DESC");
-            $stmt->bind_param("i",  $post_id);
+            $stmt = $conn->prepare("SELECT co.id, co.user_id, co.content, co.created_at FROM  " . $prefix . "comments co WHERE post_id = ? ORDER BY co.created_at DESC");
+            $stmt->bind_param("i", $post_id);
             $stmt->execute();
             $result = $stmt->get_result();
 
@@ -70,6 +71,7 @@ class Comment
 
                 while ($comment = $result->fetch_object('Comment')) {
                     // Add comment to array
+                    $comment->can_manage = (isset($user) && $user->id === $comment->user_id) || isset($_SESSION["admin"]) && $_SESSION["admin"];
                     $comment->user = User::getUserExcerpt($comment->user_id);
                     $comments[] = $comment;
                 }
@@ -108,6 +110,34 @@ class Comment
         $stmt->execute();
 
         echo $stmt->error;
+
+        return $stmt->affected_rows > 0;
+
+    }
+
+    /**
+     * deleteComment
+     * Creates a new comment on a post
+     *
+     * @param string $board_id The board ID
+     * @return bool Status of the query
+     */
+    public static function deleteComment(string $comment_id): bool
+    {
+
+        global $conn;
+        global $prefix;
+        global $user;
+
+        if (isset($_SESSION["admin"]) && $_SESSION["admin"]) {
+            $stmt = $conn->prepare("DELETE FROM  " . $prefix . "comments WHERE id = ?");
+            $stmt->bind_param("i", $comment_id);
+        } else {
+            $stmt = $conn->prepare("DELETE FROM  " . $prefix . "comments WHERE id = ? AND user_id = ?");
+            $stmt->bind_param("ii", $comment_id, $user->id);
+        }
+
+        $stmt->execute();
 
         return $stmt->affected_rows > 0;
 
