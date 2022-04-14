@@ -12,8 +12,7 @@ include "includes/config.php";
      style="width:40%">
     <h1 class="mb-2">🔐</h1>
     <h2>Create an Account</h2>
-    <p>Please fill in your credentials to
-        login.</p>
+    <p>Please fill out the fields below to sign up.</p>
 
     <div class="alert alert-danger"
          id="msg"></div>

@@ -174,7 +174,7 @@ class Post
         global $prefix;
 
         $stmt = $conn->prepare("UPDATE " . $prefix . "posts SET status_id = ? WHERE slug = ? LIMIT 1");
-        $stmt->bind_param("is", $status_id, $post_slug);
+        $stmt->bind_param("ss", $status_id, $post_slug);
         $stmt->execute();
 
         return $stmt->affected_rows > 0;

@@ -93,7 +93,7 @@ class User
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE us.id = ?");
+        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE us.id = ?");
         $stmt->bind_param("ss", $site_url, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();

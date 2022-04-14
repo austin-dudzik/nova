@@ -12,7 +12,9 @@ if (isset($_POST['movePost']) && isAdmin()) {
 }
 
 if (isset($_POST['deletePost'])) {
-    die(Post::deletePost($post_slug));
+    if(Post::deletePost($post_slug)) {
+        header("location: " . Settings::getSettings('site_url') . "/index.php");
+    }
 }
 
 if (isset($_POST['changeStatus']) && isAdmin()) {

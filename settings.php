@@ -94,7 +94,7 @@ include "includes/logic/settings.php";
                             Type</label>
                         <div class="btn-group round">
                             <input type="radio" class="btn-check" name="feed_type" id="small"
-                                   value="1" <?= Settings::getSettings('feed_type') == 1 ? "checked" : "" ?>>
+                                   value="3" <?= Settings::getSettings('feed_type') == 3 ? "checked" : "" ?>>
                             <label class="btn btn-outline-primary me-2" for="small">Small</label>
 
                             <input type="radio" class="btn-check" name="feed_type" id="medium"
@@ -102,7 +102,7 @@ include "includes/logic/settings.php";
                             <label class="btn btn-outline-primary me-2" for="medium">Medium</label>
 
                             <input type="radio" class="btn-check" name="feed_type" id="large"
-                                   value="3" <?= Settings::getSettings('feed_type') == 3 ? "checked" : "" ?>>
+                                   value="1" <?= Settings::getSettings('feed_type') == 1 ? "checked" : "" ?>>
                             <label class="btn btn-outline-primary" for="large">Large</label>
                         </div>
 
