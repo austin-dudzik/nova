@@ -32,10 +32,10 @@ function getBoard() {
 
                     // Show no posts card
                     $("#posts-wrapper").append(`
-                        <div class="p-5 text-center">
-                        <i class="far fa-comments fa-3x text-muted mb-3"></i>
+                        <div class="p-4">
+                        <i class="far fa-comments fa-2x text-muted mb-3"></i>
                             <h6>Looks like there's no feedback yet</h6>
-                            <p>Looks like there's no feedback yet</p>
+                            <p>Once someone offers a suggestion, it'll appear here.</p>
                         </div>
                     `);
 

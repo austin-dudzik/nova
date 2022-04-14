@@ -4,7 +4,7 @@ $updateError = false;
 $name_err = '';
 $slug_err = '';
 
-if (isset($_POST['updateBoard'])) {
+if (isset($_POST['updateBoard']) && isAdmin()) {
 
     $check_board = Board::getBoard($_POST['slug']);
 
@@ -59,4 +59,10 @@ if (isset($_POST['updateBoard'])) {
         Board::updateBoard($board->board_id, $name, $icon, $slug, $description, $visibility, $rules);
     }
 
+}
+
+if(isset($_POST['deleteBoard']) && isAdmin()) {
+    if(Board::deleteBoard($board->board_id)) {
+        header("Location: " . Settings::getSettings('site_url'));
+    }
 }
