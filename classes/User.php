@@ -10,35 +10,54 @@ class User
 {
 
     /**
+     * @var int The user's ID
+     */
+    public int $user_id;
+    /**
+     * @var string The user's first name
+     */
+    public string $first_name;
+    /**
+     * @var string The user's last name
+     */
+    public string $last_name;
+    /**
+     * @var string The user's email
+     */
+    private string $email;
+    /**
      * @var string The user's name
      */
     public string $name;
     /**
-     * @var string The user's avatar URL
+     * @var string The user's avatar
      */
     public string $avatar;
+    /**
+     * @var string The user's URL
+     */
+    public string $url;
     /**
      * @var string The user's username
      */
     public string $username;
-
-    private string $email;
 
     /**
      * getUser
      * Returns user details for a given user
      *
      * @param string $user_slug The user slug
+     *
      * @return object The user or response object
      */
-    public static function getUser(string $user_slug): User|Response
+    public static function getUser(string $user_slug): object
     {
         global $conn;
         global $prefix;
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT us.id AS user_id, us.first_name, us.last_name, us.email, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500') avatar, CONCAT(?, '/u/', us.username) url, us.username, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE us.id = po.user_id) posts, (SELECT COUNT(up.id) FROM  " . $prefix . "upvotes up WHERE us.id = up.user_id) upvotes, us.created_at joined FROM  " . $prefix . "users us WHERE us.username = ?");
+        $stmt = $conn->prepare("SELECT us.id AS user_id, us.first_name, us.last_name, us.email, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE us.username = ?");
         $stmt->bind_param("ss", $site_url, $user_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -53,12 +72,10 @@ class User
 
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    // Magic getter
+    public function __get($name)
     {
-        return $this->email;
+        return $this->$name;
     }
 
     /**
@@ -66,6 +83,7 @@ class User
      * Returns user excerpt for a given user
      *
      * @param string $user_id The user ID
+     *
      * @return object The user or response object
      */
     public static function getUserExcerpt(string $user_id): object
@@ -95,7 +113,9 @@ class User
      * Updates a given users role
      *
      * @param string $user_id The user ID
-     * @return bool The user or response object
+     * @param int $type The new type
+     *
+     * @return bool The status of the query
      */
     public static function updateRole(string $user_id, int $type): bool
     {
@@ -115,7 +135,8 @@ class User
      * Deletes a given user account
      *
      * @param string $user_id The user ID
-     * @return bool The user or response object
+     *
+     * @return bool The status of the query
      */
     public static function deleteUser(string $user_id): bool
     {

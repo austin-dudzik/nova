@@ -39,3 +39,4 @@ function isAdmin(): bool
 
 // Retrieve user details
 $user = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
+$user_s = isset($_SESSION['user']) ? (string)$_SESSION['user'] : null;

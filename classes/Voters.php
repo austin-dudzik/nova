@@ -13,8 +13,9 @@ class Voters
      * getVoters
      * Returns users who have upvoted a given post
      *
-     * @param int $post_id The post ID
+     * @param int|null $post_id The post ID
      * @param int $limit The number of users to return
+     *
      * @return Voters|Response|array The voters or response object
      */
     public static function getVoters(int|null $post_id, int $limit = 1844674407370955161): Voters|Response|array

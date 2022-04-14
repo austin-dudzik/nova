@@ -14,6 +14,7 @@ class Settings
      * Returns all configured site settings
      *
      * @param string $setting The setting to return
+     *
      * @return string The returned setting
      */
     public static function getSettings(string $setting): string
@@ -36,10 +37,14 @@ class Settings
      * saveSettings
      * Saves site settings to database
      *
-     * @param string $setting The setting to return
-     * @return string The returned setting
+     * @param string $site_name The site name
+     * @param string $description The site description
+     * @param string $accent The site accent
+     * @param int $feed_type The feed type
+     *
+     * @return bool The status of the query
      */
-    public static function saveSettings(string $site_name, string $accent): bool
+    public static function saveSettings(string $site_name, string $description, string $accent, int $feed_type): bool
     {
 
         global $conn;
@@ -47,16 +52,32 @@ class Settings
 
         // Update site name
         $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'site_title' LIMIT 1");
-        $stmt->bind_param("s",$site_name);
+        $stmt->bind_param("s", $site_name);
         $success = $stmt->execute();
         $stmt->close();
 
         // Update site accent
-        if($success) {
+        if ($success) {
             $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'accent_color' LIMIT 1");
             $stmt->bind_param("s", $accent);
             $success = $stmt->execute();
             $stmt->close();
+
+            if ($success) {
+                $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'site_desc' LIMIT 1");
+                $stmt->bind_param("s", $description);
+                $success = $stmt->execute();
+                $stmt->close();
+
+                if ($success) {
+                    $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'feed_type' LIMIT 1");
+                    $stmt->bind_param("i", $feed_type);
+                    $success = $stmt->execute();
+                    $stmt->close();
+                }
+
+            }
+
         }
 
         return $success;

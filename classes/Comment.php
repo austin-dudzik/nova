@@ -10,45 +10,27 @@ class Comment
 {
 
     /**
-     * @var int The board ID
+     * @var int The comment ID
      */
-    public int $board_id;
+    public int $id;
     /**
-     * @var string The board name
+     * @var string The comment user ID
      */
-    public string $name;
+    public int $user_id;
     /**
-     * @var string The board slug
+     * @var string The comment content
      */
-    public string $slug;
+    public string $content;
     /**
-     * @var string The board icon
+     * @var string The comment creation date
      */
-    public string $icon;
-    /**
-     * @var string The board description
-     */
-    public string $description;
-    /**
-     * @var int The board post count
-     */
-    public int $posts;
-    /**
-     * @var int The board upvote count
-     */
-    public int $upvotes;
-    /**
-     * @var string The board URL
-     */
-    public string $board_url;
-    private int $user_id;
+    public string $created_at;
 
     /**
      * getComments
-     * Returns users who have upvoted a given post
+     * Returns comments for a given post
      *
      * @param int $post_id The post ID
-     * @param int $limit The number of users to return
      * @return Voters|Response|array The voters or response object
      */
     public static function getComments(int $post_id): Comment|Response|array
@@ -57,48 +39,41 @@ class Comment
         global $prefix;
         global $user;
 
-        if ($post_id) {
+        $stmt = $conn->prepare("SELECT co.id, co.user_id, co.content, co.created_at FROM  " . $prefix . "comments co WHERE post_id = ? ORDER BY co.created_at DESC");
+        $stmt->bind_param("i", $post_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-            $stmt = $conn->prepare("SELECT co.id, co.user_id, co.content, co.created_at FROM  " . $prefix . "comments co WHERE post_id = ? ORDER BY co.created_at DESC");
-            $stmt->bind_param("i", $post_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
 
-            if ($result->num_rows > 0) {
+            // Define new array
+            $comments = [];
 
-                // Define new array
-                $comments = [];
-
-                while ($comment = $result->fetch_object('Comment')) {
-                    // Add comment to array
-                    $comment->can_manage = (isset($user) && $user->id === $comment->user_id) || isset($_SESSION["admin"]) && $_SESSION["admin"];
-                    $comment->user = User::getUserExcerpt($comment->user_id);
-                    $comments[] = $comment;
-                }
-
-                // Return comments
-                return $comments;
-
-            } else {
-                // Return 204 response
-                return Response::throwResponse(204, "Data not found");
+            while ($comment = $result->fetch_object('Comment')) {
+                // Add comment to array
+                $comment->can_manage = (isset($user) && $user->id === $comment->user_id) || isset($_SESSION["admin"]) && $_SESSION["admin"];
+                $comment->user = User::getUserExcerpt($comment->user_id);
+                $comments[] = $comment;
             }
 
-        } else {
-            // Return 400 response
-            //return Response::throwResponse(400, "Post ID is required for this request");
-        }
+            // Return comments
+            return $comments;
 
+        } else {
+            // Return 204 response
+            return Response::throwResponse(204, "Data not found");
+        }
     }
 
     /**
      * newComment
-     * Creates a new comment on a post
+     * Creates a new comment on a given post
      *
-     * @param string $board_id The board ID
+     * @param string $post_id The post ID
+     * @param string $comment The comment content
      * @return bool Status of the query
      */
-    public static function newComment(string $post_id, string $content): bool
+    public static function newComment(string $post_id, string $comment): bool
     {
 
         global $conn;
@@ -106,10 +81,8 @@ class Comment
         global $user;
 
         $stmt = $conn->prepare("INSERT INTO  " . $prefix . "comments (post_id, user_id, content) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $post_id, $user->id, $content);
+        $stmt->bind_param("iis", $post_id, $user->id, $comment);
         $stmt->execute();
-
-        echo $stmt->error;
 
         return $stmt->affected_rows > 0;
 
@@ -117,9 +90,9 @@ class Comment
 
     /**
      * deleteComment
-     * Creates a new comment on a post
+     * Deletes a given comment
      *
-     * @param string $board_id The board ID
+     * @param int $comment_id The comment ID
      * @return bool Status of the query
      */
     public static function deleteComment(string $comment_id): bool
@@ -129,6 +102,7 @@ class Comment
         global $prefix;
         global $user;
 
+        // If current user is admin
         if (isset($_SESSION["admin"]) && $_SESSION["admin"]) {
             $stmt = $conn->prepare("DELETE FROM  " . $prefix . "comments WHERE id = ?");
             $stmt->bind_param("i", $comment_id);

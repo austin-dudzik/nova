@@ -26,21 +26,21 @@ class Board
      */
     public string $icon;
     /**
+     * @var string The board URL
+     */
+    public string $url;
+    /**
      * @var string The board description
      */
     public string $description;
     /**
-     * @var int The board post count
+     * @var int The board visibility
      */
-    public int $posts;
+    public int $visibility;
     /**
-     * @var int The board upvote count
+     * @var string The board rules
      */
-    public int $upvotes;
-    /**
-     * @var string The board URL
-     */
-    public string $board_url;
+    private string $rules;
 
 
     /**
@@ -48,9 +48,9 @@ class Board
      * Returns board details for a given board
      *
      * @param string $board_slug The board slug
-     * @return object The board or response object
+     * @return Board|Response|stdClass The board or response object
      */
-    public static function getBoard(string $board_slug): object
+    public static function getBoard(string $board_slug): Board|Response|stdClass
     {
 
         global $conn;
@@ -58,7 +58,7 @@ class Board
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM " . $prefix . "posts po WHERE po.board_id = bo.id) posts, (SELECT COUNT(up.id) FROM " . $prefix . "posts po LEFT JOIN " . $prefix . "upvotes up ON up.post_id = po.id WHERE po.board_id = bo.id) upvotes FROM  " . $prefix . "boards bo WHERE bo.slug = ?");
+        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url, bo.description, bo.visibility, bo.rules FROM  " . $prefix . "boards bo WHERE bo.slug = ?");
         $stmt->bind_param("ss", $site_url, $board_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -66,6 +66,7 @@ class Board
         if ($result->num_rows > 0) {
             // Prepare the board object
             $board = $result->fetch_object('Board');
+            // If current user is admin
             if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
                 return $board;
             } else {
@@ -90,9 +91,9 @@ class Board
      * Returns board excerpt for a given board
      *
      * @param int $board_id The board ID
-     * @return object The board or response object
+     * @return Board|Response|stdClass The board or response object
      */
-    public static function getBoardExcerpt(int $board_id): object
+    public static function getBoardExcerpt(int $board_id): Board|Response|stdClass
     {
 
         global $conn;
@@ -106,12 +107,14 @@ class Board
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
+            // Prepare the board object
             $board = $result->fetch_object('Board');
 
+            // If current user is admin
             if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
                 return $board;
             } else {
-
+                // Determine board visibility
                 if (Rules::verifyRulesByBoard($board->slug)) {
                     // Return the board
                     return $board;
@@ -132,7 +135,12 @@ class Board
      * createBoard
      * Creates a new board
      *
-     * @param string $board_id The board ID
+     * @param string $name The board name
+     * @param string $icon The board icon
+     * @param string $slug The board slug
+     * @param string $description The board description
+     * @param int $visibility The board visibility
+     * @param string $rules The board rules
      * @return bool Status of the query
      */
     public static function createBoard(string $name, string $icon, string $slug, string $description, int $visibility, string $rules): bool
@@ -153,7 +161,13 @@ class Board
      * updateBoard
      * Updates a given board
      *
-     * @param string $board_id The board ID
+     * @param int $id The board name
+     * @param string $name The board name
+     * @param string $icon The board icon
+     * @param string $slug The board slug
+     * @param string $description The board description
+     * @param int $visibility The board visibility
+     * @param string $rules The board rules
      * @return bool Status of the query
      */
     public static function updateBoard(int $id, string $name, string $icon, string $slug, string $description, int $visibility, string $rules): bool
@@ -174,7 +188,7 @@ class Board
      * deleteBoard
      * Deletes a given board
      *
-     * @param string $board_id The board ID
+     * @param int $id The board ID
      * @return bool Status of the query
      */
     public static function deleteBoard(int $id): bool
@@ -189,6 +203,12 @@ class Board
 
         return $stmt->affected_rows > 0;
 
+    }
+
+    // Magic getter
+    public function __get($name)
+    {
+        return $this->$name;
     }
 
 }

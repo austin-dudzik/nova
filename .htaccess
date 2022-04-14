@@ -1,4 +1,11 @@
-RewriteEngine on 
+RewriteEngine on
+
+#RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
+#RewriteRule ^ /%1 [NC,L,R]
+#
+#RewriteCond %{REQUEST_FILENAME}.php -f
+#RewriteRule ^ %{REQUEST_URI}.php [NC,L]
+
 RewriteRule ^p/(.*) post.php?post_slug=$1 [QSA,L]
 RewriteRule ^b/(.*)/(.*) board.php?board_slug=$1&sort=$2 [QSA,L]
 RewriteRule ^b/(.*) board.php?board_slug=$1 [QSA,L]

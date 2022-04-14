@@ -5,7 +5,7 @@ let isValid = true;
 $("#register").submit((event) => {
     event.preventDefault();
 
-    if(!isValid) {
+    if (!isValid) {
         return false;
     } else {
 
@@ -31,7 +31,7 @@ $("#register").submit((event) => {
                 if (data.code && data.code === 406) {
                     isValid = false;
                     $("#msg").show().text(data.message);
-                } else if(data.code && data.code === 200) {
+                } else if (data.code && data.code === 200) {
                     isValid = true;
                     $("#msg").hide();
                     window.location = window.location;
@@ -42,10 +42,10 @@ $("#register").submit((event) => {
 
     }
 
-        $("input").on("input", () => {
-            isValid = true;
-            $("#msg").hide();
-            $("#register button").removeClass("disabled");
-        });
+    $("input").on("input", () => {
+        isValid = true;
+        $("#msg").hide();
+        $("#register button").removeClass("disabled");
+    });
 
 });

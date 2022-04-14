@@ -202,15 +202,13 @@ include "includes/logic/board.php";
                                             <div class="mb-4 d-flex justify-content-between">
 
                                                 <button type="submit" name="updateBoard"
-                                                        class="btn bg-accent text-white me-1"
-                                                        style="border-radius:8px">Update board
+                                                        class="btn bg-accent text-white me-1 round">Update board
                                                 </button>
 
                                                 <div>
                                                     <a href="#" data-bs-toggle="modal"
                                                        data-bs-target="#deleteBoard"
-                                                       class="btn btn-outline-danger border"
-                                                       style="border-radius:8px"><i
+                                                       class="btn btn-outline-danger border round"><i
                                                                 class="far fa-trash-alt me-2"></i>
                                                         Delete
                                                     </a>
@@ -243,8 +241,7 @@ include "includes/logic/board.php";
                                         <form method="post">
                                             <div class="mb-4 d-flex justify-content-between">
                                                 <button type="submit" name="deleteBoard"
-                                                        class="btn btn-danger me-1"
-                                                        style="border-radius:8px">Delete board
+                                                        class="btn btn-danger me-1 round">Delete board
                                                 </button>
                                             </div>
                                         </form>

@@ -6,24 +6,24 @@ require_once "includes/config.php";
 header('Content-Type: application/json');
 
 ////If CSRF tokens don't match
-//if($_GET) {
-//    if (!isset($_GET["csrf_token"]) || !isset($_SESSION["csrf_token"]) || $_GET["csrf_token"] != $_SESSION["csrf_token"]) {
-//        // Remove the token
-//        unset($_SESSION["csrf_token"]);
-//        // Return error to client
-//        http_response_code(403);
-//        die(json_encode(Response::throwResponse(403, "CSRF verification failed"), JSON_PRETTY_PRINT));
-//    }
-//}
-//else if($_POST) {
-//    if (!isset($_POST["csrf_token"]) || !isset($_SESSION["csrf_token"]) || $_POST["csrf_token"] != $_SESSION["csrf_token"]) {
-//        // Remove the token
-//        unset($_SESSION["csrf_token"]);
-//        // Return error to client
-//        http_response_code(403);
-//        die(json_encode(Response::throwResponse(403, "CSRF verification failed"), JSON_PRETTY_PRINT));
-//    }
-//}
+if($_GET) {
+    if (!isset($_GET["csrf_token"]) || !isset($_SESSION["csrf_token"]) || $_GET["csrf_token"] != $_SESSION["csrf_token"]) {
+        // Remove the token
+        unset($_SESSION["csrf_token"]);
+        // Return error to client
+        http_response_code(403);
+        die(json_encode(Response::throwResponse(403, "CSRF verification failed"), JSON_PRETTY_PRINT));
+    }
+}
+else if($_POST) {
+    if (!isset($_POST["csrf_token"]) || !isset($_SESSION["csrf_token"]) || $_POST["csrf_token"] != $_SESSION["csrf_token"]) {
+        // Remove the token
+        unset($_SESSION["csrf_token"]);
+        // Return error to client
+        http_response_code(403);
+        die(json_encode(Response::throwResponse(403, "CSRF verification failed"), JSON_PRETTY_PRINT));
+    }
+}
 
 $result = [];
 

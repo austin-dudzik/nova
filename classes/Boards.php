@@ -30,14 +30,6 @@ class Boards
      */
     public string $description;
     /**
-     * @var int The board post count
-     */
-    public int $posts;
-    /**
-     * @var int The board upvote count
-     */
-    public int $upvotes;
-    /**
      * @var string The board URL
      */
     public string $board_url;
@@ -49,6 +41,10 @@ class Boards
      * @var string The board rules
      */
     private string $rules;
+    /**
+     * @var int The posts count
+     */
+    public int $posts;
 
 
     /**
@@ -65,7 +61,7 @@ class Boards
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE po.board_id = bo.id) posts, (SELECT COUNT(up.id) FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON up.post_id = po.id WHERE po.board_id = bo.id) upvotes FROM  " . $prefix . "boards bo");
+        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE po.board_id = bo.id) posts FROM  " . $prefix . "boards bo");
         $stmt->bind_param("s", $site_url);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -75,11 +71,12 @@ class Boards
 
         while ($board = $result->fetch_object('Boards')) {
 
+            // If current user is admin
             if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
                 // Add board to array
                 $boards[] = $board;
             } else {
-
+                // If board is not unlisted
                 if ($board->visibility !== 0) {
                     // Determine board visibility
                     if (Rules::verifyRulesByBoard($board->slug)) {

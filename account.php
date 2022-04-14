@@ -47,7 +47,7 @@ include "includes/logic/account.php";
         <i class="fas fa-caret-right mx-2 text-muted"></i>
         <p class="d-inline pe-0 text-muted">Account</p>
 
-        <div class="card shadow rounded-lg" style="border-radius:8px">
+        <div class="card shadow round">
             <div class="card-header bg-accent text-white px-5 py-3 round-top">
                 <div class="d-flex">
                     <a href="<?= $page_user->url ?>">
@@ -93,13 +93,12 @@ include "includes/logic/account.php";
                     </div>
                     <div class="form-group mb-3">
                         <label for="email">Email</label>
-                        <input type="hidden" name="cur_email" value="<?= $page_user->getEmail() ?>">
+                        <input type="hidden" name="cur_email" value="<?= $page_user->email ?>">
                         <input type="email" id="email" name="email"
-                               class="form-control" value="<?= $_POST['email'] ?? $page_user->getEmail() ?>" required>
+                               class="form-control" value="<?= $_POST['email'] ?? $page_user->email ?>" required>
                     </div>
                     <input type="hidden" name="user_id" value="<?= $page_user->user_id ?>">
-                    <button type="submit" name="updateAccount" class="btn bg-accent text-white px-3"
-                            style="border-radius:8px">Save changes
+                    <button type="submit" name="updateAccount" class="btn bg-accent text-white px-3 roun">Save changes
                     </button>
                     <p class="small text-muted mt-2 mb-3">You'll be required to log back in after updating your account.</p>
                 </form>
@@ -123,8 +122,7 @@ include "includes/logic/account.php";
                         </div>
                     </div>
                     <input type="hidden" name="user_id" value="<?= $page_user->user_id ?>">
-                    <button type="submit" name="changePassword" class="btn bg-accent text-white px-3"
-                            style="border-radius:8px">Change password
+                    <button type="submit" name="changePassword" class="btn bg-accent text-white px-3 round">Change password
                     </button>
                     <p class="small text-muted mt-2 mb-3">You'll be required to log back in after updating your password.</p>
                 </form>

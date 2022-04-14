@@ -1,8 +1,3 @@
-String.prototype.trunc =
-    function (n) {
-        return this.substr(0, n - 1) + (this.length > n ? '&hellip;' : '');
-    };
-
 $(document).on("click", ".logout", logOut);
 $(document).on("click", ".upvote", votePost);
 
@@ -45,14 +40,12 @@ function votePost() {
             post_id: $(this).data("id")
         },
         success: (data) => {
-
             // Remove disabled state
             $(this).find("button").removeClass("disabled");
 
             if (data.code && data.code === 401) {
-                $("#mustSignInModal").modal("show");
+                window.location = site_url + "/login";
             } else {
-
                 // Toggle appearance
                 if ($(this).data("voted")) {
                     $(this).data("voted", false);
@@ -60,7 +53,6 @@ function votePost() {
                 } else {
                     $(this).data("voted", true);
                     $(this).find("p").text(parseInt($(this).find("p").text()) + 1)
-
                 }
 
                 $(this).find("button").toggleClass("btn-accent btn-light");
@@ -79,7 +71,7 @@ function boldString(str, find) {
 }
 
 $("#searchInModal input").autocomplete({
-    source: site_url + "/api.php?type=getResults",
+    source: site_url + "/api.php?type=getResults&csrf_token=" + csrf_token,
     appendTo: '#searchInModal',
     select: (e, ui) => {
         e.preventDefault();
@@ -123,9 +115,8 @@ $('#searchModal input').on('blur', function () {
     }, .5);
 });
 
-
 $("#searchPage").autocomplete({
-    source: site_url + "/api.php?type=getResults",
+    source: site_url + "/api.php?type=getResults&csrf_token=" + csrf_token,
     appendTo: '#searchPageContainer',
     select: (e, ui) => {
         e.preventDefault();

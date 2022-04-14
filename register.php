@@ -8,7 +8,7 @@ include "includes/config.php";
 <body class="bg-light">
 <?= Render::navigation('register'); ?>
 
-<div class="mx-auto border p-5 m-5 rounded bg-white"
+<div class="mx-auto border p-5 m-5 round bg-white"
      style="width:40%">
     <h1 class="mb-2">🔐</h1>
     <h2>Create an Account</h2>

@@ -14,6 +14,7 @@ class Upvote
      * Adds/removes a vote from a post
      *
      * @param int $post_id The post ID
+     *
      * @return Response The response object
      */
     public static function votePost(int $post_id): Response
@@ -77,6 +78,7 @@ class Upvote
      * Returns current user upvote status for a post
      *
      * @param int $post_id The post ID
+     *
      * @return bool Upvote status
      */
     public static function hasUpvoted(int $post_id): bool

@@ -37,8 +37,7 @@ if (isset($_POST['deleteUser'])) {
             <p class="d-inline pe-0 text-muted">Users</p>
 
             <div class="card shadow round">
-                <div class="card-header bg-accent text-white p-5"
-                     style="border-top-left-radius:8px;border-top-right-radius:8px">
+                <div class="card-header bg-accent text-white p-5 round-top">
                     <div class="d-flex">
                         <div>
                             <h5><i class="fas fa-users me-3"></i></h5>
@@ -57,9 +56,8 @@ if (isset($_POST['deleteUser'])) {
                                     data-bs-target="#boards" type="button">
                                 <i class="fas fa-pen me-2"></i> Contributors
                             </button>
-                            <button class="nav-link small" id="roadmapBtn" data-bs-toggle="tab"
-                                    data-bs-target="#roadmap" type="button"
-                                    style="border-radius:8px">
+                            <button class="nav-link small round" id="roadmapBtn" data-bs-toggle="tab"
+                                    data-bs-target="#roadmap" type="button">
                                 <i class="fas fa-crown me-2"></i> Administrators
                             </button>
                         </div>
@@ -162,6 +160,9 @@ if (isset($_POST['deleteUser'])) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <a href="<?= Settings::getSettings('site_url') ?>/account/<?= $contributor->username ?>" class="btn btn-white border me-1"><i
+                                                    class="far fa-pencil"></i>
+                                        </a>
                                         <a href="#" data-bs-toggle="modal"
                                            data-bs-target="#delete-<?= $contributor->user_id ?>" class="btn btn-danger"><i
                                                     class="far fa-trash-alt"></i>
@@ -290,6 +291,9 @@ if (isset($_POST['deleteUser'])) {
                                             </div>
                                         </div>
                                     </div>
+                                    <a href="<?= Settings::getSettings('site_url') ?>/account/<?= $admin->username ?>" class="btn btn-white border me-1"><i
+                                                class="far fa-pencil"></i>
+                                    </a>
                                     <a href="#" data-bs-toggle="modal"
                                        data-bs-target="#delete-<?= $admin->user_id ?>" class="btn btn-danger"><i
                                                 class="far fa-trash-alt"></i>

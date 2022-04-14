@@ -20,7 +20,7 @@ if (isset($_POST['changeStatus']) && isAdmin()) {
 }
 
 if (isset($_POST['postComment']) && isset($_POST['comment'])) {
-    Comment::newComment($post->post_id, $_POST['content']);
+    Comment::newComment($post->post_id, $_POST['comment']);
 }
 
 if (isset($_POST['deleteComment'])) {
@@ -116,21 +116,17 @@ if (isset($_POST['deleteComment'])) {
                         </a>
                         <div class="d-inline-flex">
                             <?php if (isAdmin()) { ?>
-                                <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
-                                        data-bs-target="#changeStatus" style="border-radius:8px">
+                                <button class="nav-link small mx-0 pe-2 round" data-bs-toggle="modal"
+                                        data-bs-target="#changeStatus">
                                     <i class="far fa-tag fa-flip-horizontal me-2"></i> Status
                                 </button>
-                                <button class="nav-link small mx-0 pe-2" data-bs-toggle="modal"
-                                        data-bs-target="#movePost" style="border-radius:8px">
+                                <button class="nav-link small mx-0 pe-2 round" data-bs-toggle="modal"
+                                        data-bs-target="#movePost">
                                     <i class="far fa-arrow-right-arrow-left me-2"></i> Move
                                 </button>
-<!--                                <button class="nav-link small mx-0 pe-2" style="border-radius:8px">-->
-<!--                                    <i class="far fa-lock me-2"></i> Lock-->
-<!--                                </button>-->
                             <?php } ?>
-                            <button class="nav-link small mx-0 pe-2 text-danger"
-                                    data-bs-toggle="modal" data-bs-target="#deletePost"
-                                    style="border-radius:8px">
+                            <button class="nav-link small mx-0 pe-2 text-danger round"
+                                    data-bs-toggle="modal" data-bs-target="#deletePost">
                                 <i class="far fa-trash-alt me-2"></i> Delete
                             </button>
                         </div>
@@ -182,11 +178,9 @@ if (isset($_POST['deleteComment'])) {
 
                                     <div class="my-4">
                                         <button type="submit" name="changeStatus"
-                                                class="btn bg-accent text-white me-1"
-                                                style="border-radius:8px">Change status
+                                                class="btn bg-accent text-white me-1 round">Change status
                                         </button>
-                                        <button type="button" class="btn btn-white border"
-                                                style="border-radius:8px">Cancel
+                                        <button type="button" class="btn btn-white border round">Cancel
                                         </button>
                                 </form>
 
@@ -229,11 +223,9 @@ if (isset($_POST['deleteComment'])) {
 
                                 <div class="my-4">
                                     <button type="submit" name="movePost"
-                                            class="btn bg-accent text-white me-1"
-                                            style="border-radius:8px">Move to board
+                                            class="btn bg-accent text-white me-1 round">Move to board
                                     </button>
-                                    <button type="button" class="btn btn-white border"
-                                            style="border-radius:8px">Cancel
+                                    <button type="button" class="btn btn-white border round">Cancel
                                     </button>
                             </form>
 
@@ -263,11 +255,9 @@ if (isset($_POST['deleteComment'])) {
                         <div class="mb-4">
                             <form method="post">
                                 <button type="submit" name="deletePost"
-                                        class="btn btn-danger me-1"
-                                        style="border-radius:8px">Delete forever
+                                        class="btn btn-danger me-1 round">Delete forever
                                 </button>
-                                <button type="button" class="btn btn-white border"
-                                        style="border-radius:8px" data-bs-dismiss="modal">Cancel
+                                <button type="button" class="btn btn-white border round" data-bs-dismiss="modal">Cancel
                                 </button>
                             </form>
 
@@ -308,7 +298,7 @@ if (isset($_POST['deleteComment'])) {
 
             <div id="comment-area" style="display:none">
                 <form method="post">
-                    <textarea class="form-control w-100 mb-3" name="content"
+                    <textarea class="form-control w-100 mb-3" name="comment"
                               placeholder="Leave a comment..."
                               autofocus></textarea>
                     <div class="float-end">
@@ -333,7 +323,7 @@ if (isset($_POST['deleteComment'])) {
 <script>
     let post_id = null;
     let post_slug = '<?= $_GET['post_slug'] ?>';
-    let user = <?= $_SESSION['user'] ?? 'null' ?>;
+    let user = <?= $user_s ?? 'null' ?>;
 </script>
 <?= Render::footer(); ?>
 <script src="<?= Settings::getSettings("site_url") ?>/assets/js/post.js"></script>

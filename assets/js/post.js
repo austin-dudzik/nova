@@ -1,6 +1,10 @@
 $(".toggle-co-area").click(function () {
-    $("#comment-area, #leave-comment").toggle();
-    $(".toggle-co-area textarea").focus();
+    if(user) {
+        $("#comment-area, #leave-comment").toggle();
+        $(".toggle-co-area textarea").focus();
+    } else {
+        window.location.href = site_url + "/login.php";
+    }
 });
 
 $(document).ready(() => {

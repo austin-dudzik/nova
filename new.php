@@ -40,7 +40,7 @@ include "includes/logic/new.php";
         <i class="fas fa-caret-right mx-2 text-muted"></i>
         <p class="d-inline pe-0 text-muted">New suggestion</p>
 
-        <div class="card shadow rounded-lg" style="border-radius:8px">
+        <div class="card shadow round">
             <div class="card-header bg-accent text-white p-5"
                  style="border-top-left-radius:8px;border-top-right-radius:8px">
                 <div class="d-flex">
@@ -59,17 +59,16 @@ include "includes/logic/new.php";
 
                 <form method="post">
                     <label for="suggestion" class="mb-1" style="font-weight:500">Title</label>
-                    <input type="text" class="form-control p-2 px-3 mb-3" id="suggestion"
-                           placeholder="A short, descriptive title" style="border-radius:8px"
+                    <input type="text" class="form-control p-2 px-3 mb-3 round" id="suggestion"
+                           placeholder="A short, descriptive title"
                            name="title" value="<?= $title ?? "" ?>">
                     <p class="small text-danger"><?= $title_err ?></p>
                     <label for="description" class="mb-1" style="font-weight:500">Description</label>
-                    <textarea placeholder="Please include only one suggestion per post" class="form-control p-2 px-3 mb-3"
+                    <textarea placeholder="Please include only one suggestion per post" class="form-control p-2 px-3 mb-3 round"
                               id="description"
-                              rows="6" style="border-radius:8px" name="description"><?= $description ?? "" ?></textarea>
+                              rows="6" name="description"><?= $description ?? "" ?></textarea>
                     <p class="small text-danger"><?= $desc_err ?></p>
-                    <button type="submit" name="submit" class="btn bg-accent text-white px-3"
-                            style="border-radius:8px">Create post
+                    <button type="submit" name="submit" class="btn bg-accent text-white px-3 round">Create post
                     </button>
                 </form>
             </div>

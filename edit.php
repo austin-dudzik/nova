@@ -52,7 +52,7 @@ include "includes/logic/edit.php";
         <i class="fas fa-caret-right mx-2 text-muted"></i>
         <p class="d-inline pe-0 text-muted">Edit post</p>
 
-        <div class="card shadow rounded-lg" style="border-radius:8px">
+        <div class="card shadow rounded-lg round">
             <div class="card-header bg-accent text-white px-5 py-3 round-top">
                 <div class="d-flex">
                     <a href="<?= $post->url ?>">
@@ -70,23 +70,19 @@ include "includes/logic/edit.php";
 
                 <form method="post">
                     <label for="suggestion" class="mb-1" style="font-weight:500">Title</label>
-                    <input type="text" class="form-control p-2 px-3 mb-3" id="suggestion"
-                           placeholder="A short, descriptive title" style="border-radius:8px"
+                    <input type="text" class="form-control p-2 px-3 mb-3 round" id="suggestion"
+                           placeholder="A short, descriptive title"
                            name="title" value="<?= $post->title ?? "" ?>">
                     <p class="small text-danger"><?= $title_err ?></p>
                     <label for="description" class="mb-1"
                            style="font-weight:500">Description</label>
                     <textarea placeholder="Please include only one suggestion per post"
-                              class="form-control p-2 px-3 mb-3"
-                              id="description"
-                              rows="6" style="border-radius:8px"
-                              name="description"><?= $post->content ?? "" ?></textarea>
+                              class="form-control p-2 px-3 mb-3 round"
+                              id="description" name="description"><?= $post->content ?? "" ?></textarea>
                     <p class="small text-danger"><?= $desc_err ?></p>
-                    <button type="submit" name="submit" class="btn bg-accent text-white px-3"
-                            style="border-radius:8px">Save changes
+                    <button type="submit" name="submit" class="btn bg-accent text-white px-3 round">Save changes
                     </button>
-                    <a href="<?= $post->url ?>" type="button" class="btn btn-light border px-3"
-                       style="border-radius:8px">Cancel
+                    <a href="<?= $post->url ?>" type="button" class="btn btn-light border px-3 round">Cancel
                     </a>
                 </form>
             </div>

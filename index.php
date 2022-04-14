@@ -43,9 +43,8 @@ include "includes/logic/feed.php";
                                 </svg>
                                 <?= __('boards') ?>
                             </button>
-                            <button class="nav-link small" id="roadmapBtn" data-bs-toggle="tab"
-                                    data-bs-target="#roadmap" type="button"
-                                    style="border-radius:8px">
+                            <button class="nav-link small round" id="roadmapBtn" data-bs-toggle="tab"
+                                    data-bs-target="#roadmap" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      class="d-inline me-2"
                                      style="height:20px;width:20px"
@@ -77,9 +76,9 @@ include "includes/logic/feed.php";
                         <i class="far fa-plus fa-stack-1x text-white"></i>
                      </span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end p-3">
+                            <ul class="dropdown-menu dropdown-menu-end">
 
-                                <button class="btn btn-outline-primary mb-2 w-100 d-block" data-bs-toggle="modal"
+                                <li><a href="#" class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#createBoard">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="d-inline me-2"
@@ -89,11 +88,12 @@ include "includes/logic/feed.php";
                                         <path d="M2 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V4zM8 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H9a1 1 0 01-1-1V4zM15 3a1 1 0 00-1 1v12a1 1 0 001 1h2a1 1 0 001-1V4a1 1 0 00-1-1h-2z"/>
                                     </svg>
                                     Board
-                                </button>
-                                <button class="btn btn-outline-primary w-100 d-block" data-bs-toggle="modal"
+                                </a></li>
+                                <hr class="my-2">
+                                <li><a href="#" class="dropdown-item" data-bs-toggle="modal"
                                         data-bs-target="#createStatus"><i
                                             class="fas fa-tag me-3 fa-flip-horizontal"></i> Status
-                                </button>
+                                </a></li>
 
                             </ul>
                         </div>
@@ -221,8 +221,7 @@ include "includes/logic/feed.php";
                         <div class="mb-4">
 
                             <button type="submit" name="createBoard"
-                                    class="btn bg-accent text-white me-1"
-                                    style="border-radius:8px">Create board
+                                    class="btn bg-accent text-white me-1 round">Create board
                             </button>
                     </form>
 

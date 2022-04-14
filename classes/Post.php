@@ -59,6 +59,7 @@ class Post
      * Returns post details for a given post
      *
      * @param string $post_slug The post ID
+     *
      * @return Post|Response|stdClass The post or response object
      */
     public static function getPost(string $post_slug): Post|Response|stdClass
@@ -79,8 +80,7 @@ class Post
             // Assign variable to Posts object
             $post = $result->fetch_object('Post');
 
-            if (Rules::verifyRulesByPost($post->slug)) {
-
+            if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
                 // If post has assigned status
                 if ($post->status_id) {
                     $post->status = Status::getStatusExcerpt($post->status_id);
@@ -99,10 +99,34 @@ class Post
 
                 // Return the post
                 return $post;
-
             } else {
-                // Return 204 response
-                return Response::throwResponse(204, 'No data found');
+
+                if (Rules::verifyRulesByPost($post->slug)) {
+
+                    // If post has assigned status
+                    if ($post->status_id) {
+                        $post->status = Status::getStatusExcerpt($post->status_id);
+                    }
+
+                    // If user is signed in
+                    if (isset($user)) {
+                        $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
+                    }
+
+                    // Get post board details
+                    $post->board = Board::getBoardExcerpt($post->board_id);
+
+                    // Get post user details
+                    $post->user = User::getUserExcerpt($post->user_id);
+
+                    // Return the post
+                    return $post;
+
+                } else {
+                    // Return 204 response
+                    return Response::throwResponse(204, 'No data found');
+                }
+
             }
 
         } else {
@@ -116,10 +140,11 @@ class Post
      * deletePost
      * Deletes a given post
      *
-     * @param string $post_slug The post ID
-     * @return string The post or response object
+     * @param string $post_slug The post slug
+     *
+     * @return bool The status of the query
      */
-    public static function deletePost(string $post_slug): string
+    public static function deletePost(string $post_slug): bool
     {
 
         global $conn;
@@ -137,8 +162,10 @@ class Post
      * changeStatus
      * Changes the status on a given post
      *
-     * @param string $post_slug The post ID
-     * @return bool Status of the query
+     * @param int $status_id The status ID
+     * @param string $post_slug The post slug
+     *
+     * @return bool The status of the query
      */
     public static function changeStatus(int $status_id, string $post_slug): bool
     {
@@ -158,8 +185,10 @@ class Post
      * movePost
      * Moves a given post to another board
      *
-     * @param string $post_slug The post ID
-     * @return bool Status of the query
+     * @param int $board_id The board ID
+     * @param string $post_slug The post slug
+     *
+     * @return bool The status of the query
      */
     public static function movePost(int $board_id, string $post_slug): bool
     {
@@ -179,7 +208,12 @@ class Post
      * createPost
      * Creates a new post
      *
-     * @return string Status of the query
+     * @param string $title The post title
+     * @param string $slug The post slug
+     * @param string $content The post content
+     * @param int $board_id The board ID
+     *
+     * @return bool The status of the query
      */
     public static function createPost(string $title, string $slug, string $content, int $board_id): bool
     {
@@ -200,7 +234,11 @@ class Post
      * updatePost
      * Updates a given post
      *
-     * @return string Status of the query
+     * @param string $title The post title
+     * @param string $content The post content
+     * @param int $post_id The post ID
+     *
+     * @return bool The status of the query
      */
     public static function updatePost(string $title, string $content, int $post_id): bool
     {

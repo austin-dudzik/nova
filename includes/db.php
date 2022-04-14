@@ -16,5 +16,5 @@ if ($conn->connect_error) {
     // Set content type to JSON
     header('Content-Type: application/json');
     // Return error to client
-    die(json_encode(array("code" => 500, "message" => "Internal Server Error"), JSON_PRETTY_PRINT));
+    die(json_encode(["code" => 500, "message" => "Internal Server Error"], JSON_PRETTY_PRINT));
 }

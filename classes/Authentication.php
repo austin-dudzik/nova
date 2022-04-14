@@ -29,13 +29,17 @@ class Authentication
      * @var string The user's password
      */
     private string $password;
+    /**
+     * @var int Is the user an admin?
+     */
+    public int $is_admin;
 
     /**
      * authenticateUser
      * Verify credentials and log the user in
      *
-     * @param string $email The email
-     * @param string $password The password
+     * @param string $email The user's email
+     * @param string $password The user's password
      * @return Authentication|Response The authentication or response object
      */
     public static function authenticateUser(string $email, string $password): Authentication|Response
@@ -51,6 +55,7 @@ class Authentication
 
         if ($result->num_rows > 0) {
 
+            // Prepare the Authentication object
             $auth = $result->fetch_object('Authentication');
 
             // If submitted password matches the hash
@@ -80,8 +85,8 @@ class Authentication
      * @param string $firstName The user's first name
      * @param string $lastName The user's last name
      * @param string $username The user's username
-     * @param string $email The email
-     * @param string $password The password
+     * @param string $email The user's email
+     * @param string $password The user's password
      * @param string $confirm_password The confirmation password
      * @return Response The response object
      */
@@ -132,7 +137,7 @@ class Authentication
                 return Response::throwResponse(406, 'Sorry, that email is already taken');
             } else {
 
-                $stmt = $conn->prepare("INSERT INTO nova_users (first_name, last_name, username, email, password) VALUES (?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO ". $prefix . "users (first_name, last_name, username, email, password) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $password);
                 $stmt->execute();
 

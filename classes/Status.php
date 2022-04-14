@@ -23,14 +23,14 @@ class Status
      * getStatuses
      * Returns all statuses
      *
-     * @return object The post or response object
+     * @return Statuses|Response|array The status or response object
      */
-    public static function getStatuses(): Statuses|array
+    public static function getStatuses(): Statuses|Response|array
     {
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  ". $prefix . "statuses st");
+        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  " . $prefix . "statuses st");
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -38,10 +38,8 @@ class Status
         $statuses = [];
 
         while ($status = $result->fetch_object('Status')) {
-
             // Add status to array
             $statuses[] = $status;
-
         }
 
         if (count($statuses) > 0) {
@@ -55,44 +53,19 @@ class Status
     }
 
     /**
-     * getStatus
-     * Returns status details for a given status
-     *
-     * @param int $status_id The status ID
-     * @return object The post or response object
-     */
-    public static function getStatus(int $status_id): object
-    {
-        global $conn;
-        global $prefix;
-
-        $stmt = $conn->prepare("SELECT st.name, st.color FROM  ". $prefix . "statuses st WHERE st.id = ?");
-        $stmt->bind_param("i", $status_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            // Return status details
-            return $result->fetch_object('Status');
-        } else {
-            // Return 204 response
-            return Response::throwResponse(204, 'No data found');
-        }
-    }
-
-    /**
      * getStatusExcerpt
      * Returns status excerpt for a given status
      *
      * @param int $status_id The status ID
-     * @return object The post or response object
+     *
+     * @return object The status or response object
      */
     public static function getStatusExcerpt(int $status_id): object
     {
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  ". $prefix . "statuses st WHERE st.id = ?");
+        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  " . $prefix . "statuses st WHERE st.id = ?");
         $stmt->bind_param("i", $status_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -110,15 +83,17 @@ class Status
      * createStatus
      * Creates a new status
      *
-     * @param int $status_id The status ID
-     * @return object The post or response object
+     * @param string $name The status name
+     * @param string $color The status color
+     *
+     * @return bool The status of the query
      */
     public static function createStatus(string $name, string $color): bool
     {
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("INSERT INTO ". $prefix . "statuses (name, color) VALUES (?, ?)");
+        $stmt = $conn->prepare("INSERT INTO " . $prefix . "statuses (name, color) VALUES (?, ?)");
         $stmt->bind_param("ss", $name, $color);
         $stmt->execute();
 
@@ -126,20 +101,22 @@ class Status
 
     }
 
-
     /**
      * updateStatus
      * Updates a given status
      *
-     * @param int $status_id The status ID
-     * @return object The post or response object
+     * @param int $id The status ID
+     * @param string $name The status name
+     * @param string $color The status color
+     *
+     * @return bool The status of the query
      */
     public static function updateStatus(int $id, string $name, string $color): bool
     {
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("UPDATE ". $prefix . "statuses SET name = ?, color = ? WHERE id = ? LIMIT 1");
+        $stmt = $conn->prepare("UPDATE " . $prefix . "statuses SET name = ?, color = ? WHERE id = ? LIMIT 1");
         $stmt->bind_param("ssi", $name, $color, $id);
         $stmt->execute();
 
@@ -151,15 +128,15 @@ class Status
      * deleteStatus
      * Deletes a given status
      *
-     * @param int $status_id The status ID
-     * @return object The post or response object
+     * @param int $id The status ID
+     * @return bool The status of the query
      */
     public static function deleteStatus(int $id): bool
     {
         global $conn;
         global $prefix;
 
-        $stmt = $conn->prepare("DELETE FROM ". $prefix . "statuses WHERE id = ? LIMIT 1");
+        $stmt = $conn->prepare("DELETE FROM " . $prefix . "statuses WHERE id = ? LIMIT 1");
         $stmt->bind_param("i", $id);
         $stmt->execute();
 

@@ -26,13 +26,13 @@ class Search
      */
     private string $slug;
 
-
     /**
      * getResults
      * Returns all posts for a given search term
      *
      * @param string $term The search term
-     * @return Search|Response|array The posts object or a response
+     *
+     * @return Search|Response|array The search or response object
      */
     public static function getResults(string $term): Search|Response|array
     {
@@ -42,18 +42,20 @@ class Search
 
         $site_url = Settings::getSettings("site_url");
 
+        // If not term is entered
         if (!$term) {
             // Return an empty array
-            return array(Response::throwResponse(204, "No results found"));
+            return [Response::throwResponse(204, "No results found")];
         }
 
+        // Trim the term
         $term = trim($term);
 
 
         if ($term) {
             $term = "%" . trim($term) . "%";
         } else {
-            return array();
+            return [];
         }
 
         $stmt = $conn->prepare("SELECT name, type, slug, url FROM (SELECT po.title AS name, 'post' AS type, po.slug, CONCAT(?, '/p/', po.slug) url FROM  " . $prefix . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, us.username, CONCAT(?, '/u/', us.username) url FROM  " . $prefix . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, bo.slug, CONCAT(?, '/b/', bo.slug) url FROM  " . $prefix . "boards bo WHERE bo.name LIKE ?) AS search ORDER BY name LIMIT 10");
@@ -62,10 +64,11 @@ class Search
         $result = $stmt->get_result();
 
         // Define new array
-        $searchResults = array();
+        $searchResults = [];
 
         while ($searchResult = $result->fetch_object('Search')) {
 
+            // If result is post
             if ($searchResult->type === "post") {
                 // Determine result visibility
                 if (Rules::verifyRulesByPost($searchResult->slug)) {
@@ -73,11 +76,15 @@ class Search
                     $searchResults[] = $searchResult;
                 }
 
-            } else if ($searchResult->type === "user") {
+            }
+            // If result is user
+            else if ($searchResult->type === "user") {
                 // Add result to array
                 $searchResults[] = $searchResult;
 
-            } else if ($searchResult->type === "board") {
+            }
+            // Is result is board
+            else if ($searchResult->type === "board") {
                 // Determine result visibility
                 if (Rules::verifyRulesByBoard($searchResult->slug)) {
                     // Add result to array
@@ -92,7 +99,7 @@ class Search
             return $searchResults;
         } else {
             // Return 204 response
-            return array(Response::throwResponse(204, "No results found"));
+            return [Response::throwResponse(204, "No results found")];
         }
 
 

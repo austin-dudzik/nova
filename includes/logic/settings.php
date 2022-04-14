@@ -16,9 +16,10 @@ if (isset($_POST["submit"])) {
     }
 
     $accent = $_POST['accent'];
+    $description = $_POST['description'];
+    $feed_type = $_POST['feed_type'];
 
-
-    if(!empty($_FILES['logo']['name'])) {
+    if (!empty($_FILES['logo']['name'])) {
 
         $target_file = "uploads/" . basename("logo") . ".png";
 
@@ -48,7 +49,7 @@ if (isset($_POST["submit"])) {
 
     }
 
-    if(!empty($_FILES['favicon']['name'])) {
+    if (!empty($_FILES['favicon']['name'])) {
 
         $target_file = "uploads/" . basename("favicon") . ".png";
 
@@ -79,7 +80,7 @@ if (isset($_POST["submit"])) {
     }
 
     if (!$error) {
-        Settings::saveSettings($site_name, $accent);
+        Settings::saveSettings($site_name, $description, $accent, (int)$feed_type);
     }
 
 }

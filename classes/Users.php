@@ -10,6 +10,10 @@ class Users
 {
 
     /**
+     * @var int The user's ID
+     */
+    public string $user_id;
+    /**
      * @var string The user's name
      */
     public string $name;
@@ -23,20 +27,21 @@ class Users
     public string $username;
 
     /**
-     * getUser
-     * Returns user details for a given user
+     * getAllUsers
+     * Returns all users
      *
-     * @param string $user_slug The user slug
-     * @return \Response The user or response object
+     * @param int $type The type of users to return
+     *
+     * @return Users|Response|array The user or response object
      */
-    public static function getAllUsers(int $type = 0): array|Response
+    public static function getAllUsers(int $type = 0): Users|Response|array
     {
         global $conn;
         global $prefix;
 
         $site_url = Settings::getSettings("site_url");
 
-        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE us.id = po.user_id) posts, (SELECT COUNT(up.id) FROM  " . $prefix . "upvotes up WHERE us.id = up.user_id) upvotes, us.created_at joined FROM  " . $prefix . "users us WHERE is_admin =" . $type . " ORDER BY us.created_at DESC");
+        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE is_admin =" . $type . " ORDER BY us.created_at DESC");
         $stmt->bind_param("s", $site_url);
         $stmt->execute();
         $result = $stmt->get_result();

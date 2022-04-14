@@ -1,8 +1,21 @@
 <?php
 
+/**
+ * Rules class
+ * @author Austin Dudzik
+ * @version 1.0
+ * @copyright Copyright (C) 2022 Austin Dudzik
+ */
 class Rules
 {
 
+    /**
+     * verifyRulesByPost
+     * Verifies if user can access a given post
+     *
+     * @param string $post_slug The post slug
+     * @return bool True if user can access post, false if not
+     */
     public static function verifyRulesByPost(string $post_slug): bool
     {
 
@@ -66,6 +79,14 @@ class Rules
 
     }
 
+    /**
+     * verifyRulesByBoard
+     * Verifies if user can access a given post
+     *
+     * @param string $board_slug The board slug
+
+     * @return bool True if user can access post, false if not
+     */
     public static function verifyRulesByBoard(string $board_slug): bool
     {
 

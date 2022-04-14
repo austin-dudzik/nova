@@ -34,12 +34,11 @@ $user_slug = $_GET['user_slug'];
             <p class="d-inline pe-0 text-muted user-name"></p>
 
             <p class="d-inline pe-0 text-muted board-name"></p>
-            <div class="card shadow rounded-lg" style="border-radius:8px">
-                <div class="card-header bg-accent text-white p-5"
-                     style="border-top-left-radius:8px;border-top-right-radius:8px">
+            <div class="card shadow round">
+                <div class="card-header bg-accent text-white p-5 round-top">
 
                     <div class="d-flex">
-                        <img class="user-avatar rounded mb-3 me-3" height="70">
+                        <img class="user-avatar round mb-3 me-3" height="70">
 
                         <div class="my-auto">
                             <h5 class="user-name"></h5>
@@ -109,7 +108,7 @@ $user_slug = $_GET['user_slug'];
         </div>
 
 
-        <div class="p-4 card shadow rounded-lg" style="display:none;border-radius:8px"
+        <div class="p-4 card shadow round" style="display:none"
              id="404-holder">
             <div class="card-body">
                 <h5>User Not Found</h5>
