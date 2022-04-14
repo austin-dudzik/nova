@@ -13,9 +13,10 @@ spl_autoload_register(function ($class_name) {
 // Load the language file
 require_once dirname(__DIR__, 1) . "/lang/" . Settings::getSettings('language') . ".php";
 
-function __($term) {
+function __($term)
+{
     global $lang;
-    return $lang[$term];
+    return $lang["$term"];
 }
 
 // Generate CSRF token
