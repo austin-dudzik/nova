@@ -107,7 +107,7 @@ if (isset($_POST['deleteComment'])) {
 
                 </div>
 
-                <?php if(isAdmin() || $post->user->id === $user->id) { ?>
+                <?php if(isAdmin() || (isset($user->id) && $post->user->id === $user->id)) { ?>
                 <div class="bg-light border-bottom px-5 py-3">
                     <div class="nav nav-pills d-flex justify-content-between">
                         <a href="<?= Settings::getSettings('site_url') ?>/edit/<?= $post_slug ?>"
@@ -333,7 +333,7 @@ if (isset($_POST['deleteComment'])) {
 <script>
     let post_id = null;
     let post_slug = '<?= $_GET['post_slug'] ?>';
-    let user = <?= $_SESSION['user'] ?>;
+    let user = <?= $_SESSION['user'] ?? 'null' ?>;
 </script>
 <?= Render::footer(); ?>
 <script src="<?= Settings::getSettings("site_url") ?>/assets/js/post.js"></script>
