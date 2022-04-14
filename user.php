@@ -48,16 +48,45 @@ $user_slug = $_GET['user_slug'];
                     </div>
 
                 </div>
+
+
+                <div class="bg-light border-bottom px-5 py-3 d-flex justify-content-between">
+                    <div class="nav nav-pills">
+                        <?php if((isset($user) && $user_slug === $user->username) || isAdmin()) { ?>
+                        <a href="<?= Settings::getSettings('site_url') ?>/account/<?= $user_slug ?>"
+                           class="round nav-link small active">
+                            <i class="far fa-pencil me-2"></i> Edit profile
+                        </a>
+                        <?php } ?>
+                    </div>
+                    <div>
+                        <a href="#" id="toggleSearch" class="my-auto text-dark">
+                     <span class="fa-stack" data-toggle="tooltip" data-bs-placement="left"
+                           title="Search <?= Settings::getSettings('site_title') ?>">
+                        <i class="fa-solid fa-circle fa-stack-2x text-accent"></i>
+                        <i class="far fa-magnifying-glass fa-stack-1x text-white"></i>
+                      </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white border-bottom" id="searchHolder"
+                     style="display:none">
+                    <div class="input-icons input-group px-5" id="searchPageContainer">
+                        <i class="far fa-magnifying-glass text-dark"></i>
+                        <input class="search form-control ps-5" type="text"
+                               id="searchPage"
+                               placeholder="<?= __('search_text') ?>">
+                    </div>
+                </div>
+
+
                 <div class="card-body px-5">
 
-                    <div class="p-5 text-center no-posts-holder d-none-ni">
-                        <i class="far fa-comments fa-3x text-muted mb-3"></i>
+                    <div class="p-4 no-posts-holder d-none-ni">
+                        <i class="far fa-comments text-muted fa-2x mb-3"></i>
                         <h6>Looks like there's no feedback yet</h6>
-                        <p>Looks like there's no feedback yet</p>
-                        <button type="button" class="btn btn-accent btn-sm px-4 me-2">
-                            <i class="far fa-plus"></i>
-                            New post
-                        </button>
+                        <p>This user has yet to share feedback. Once they do, it'll show up here.</p>
                     </div>
 
                     <ul class="list-group list-group-flush posts-list"></ul>
