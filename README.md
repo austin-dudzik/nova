@@ -46,6 +46,4 @@ With most instances of Nova using the prefix of ```nova_```, it may be easier fo
 
 ## Copyright
 
----
-
 &copy; 2022 Austin Dudzik, All Rights Reserved. Code released under the [MIT License](https://github.com/austin-dudzik/nova/blob/master/LICENSE).
