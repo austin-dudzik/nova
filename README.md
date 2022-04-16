@@ -26,7 +26,7 @@ Nova has one of the simplest and straight-forward installations yet. In four ste
 - Apache 2.2+
 - MySQL 5.7+
 
-<strong>Note: For demonstration purposes, Nova includes demo data straight out of the box with the included SQL import file. You may wish to make your own edits to the SQL file before importing.</strong>
+<strong>Note: For demonstration purposes, Nova includes demo data right out of the box with the included SQL import file. You may wish to make your own edits to the SQL file before importing.</strong>
 
 
 ### Installation Steps:
@@ -38,11 +38,14 @@ Nova has one of the simplest and straight-forward installations yet. In four ste
 
 ### Using custom prefixes
 
-Although the Nova database and its tables will work right out of the box after importing, as an extra security measure, Nova includes custom prefix support, specified within the config file. The default prefix is set to ```nova_```, but can be changing by updating the ``DB_PREFIX`` constant within ````includes/config.php```` and doing a find and replace in ````database.sql```` before importing.
+Although the Nova database and its tables will work right out of the box after importing, as an extra security measure, Nova includes custom prefix support, specified within the config file. The default prefix is set to ```nova_```, but can be changed by updating the ``DB_PREFIX`` constant within ````includes/config.php```` and doing a find and replace in ````database.sql```` before importing.
 
 #### Why would I want to do this?
 With most instances of Nova using the prefix of ```nova_```, it may be easier for attackers to find and wreak havoc on your database, if they are aware of this default prefix. Setting a custom prefix makes it more difficult to locate and identify Nova tables in your database.
 
 
 ## Copyright
+
+---
+
 &copy; 2022 Austin Dudzik, All Rights Reserved. Code released under the [MIT License](https://github.com/austin-dudzik/nova/blob/master/LICENSE).
