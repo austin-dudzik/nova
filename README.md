@@ -30,11 +30,21 @@ Nova has one of the simplest and straight-forward installations yet. In four ste
 
 
 ### Installation Steps:
+
 1. Download the latest release
 2. Import ````datatabase.sql```` into your database
 3. Rename ````includes/config.example.php```` to ````includes/config.php````
 4. Enter site URL & database details into ````includes/config.php````
 5. You're done! 🎉
+
+### Login Details
+
+For first time login, Nova comes with a default administrator account, accessible using the login details below. **It is highly recommended that you change the email/password immediately**.
+
+Email: ````test@dudzik.dev````
+
+Password: ````passw0rd123!````
+
 
 ### Using custom prefixes
 
