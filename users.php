@@ -239,7 +239,7 @@ if (isset($_POST['deleteUser'])) {
                                         </div>
                                         </a>
                                     </div>
-                                    <?php if ($admin->user_id !== $user->id) { ?>
+                                    <?php if ((int)$admin->user_id !== $user->id) { ?>
                                     <div>
                                         <a href="#" data-bs-toggle="modal"
                                            data-bs-target="#demote-<?= $admin->user_id ?>"
@@ -291,7 +291,7 @@ if (isset($_POST['deleteUser'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="<?= $site_url ?>/account/<?= $admin->username ?>" class="btn btn-white border me-1"><i
+                                    <a href="<?= SITE_URL ?>/account/<?= $admin->username ?>" class="btn btn-white border me-1"><i
                                                 class="far fa-pencil"></i>
                                     </a>
                                     <a href="#" data-bs-toggle="modal"
