@@ -12,12 +12,6 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Database: `feedback`
---
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `nova_boards`
 --
 
