@@ -66,11 +66,10 @@ class Post
     {
         global $user;
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.slug, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, CONCAT(?, '/p/', po.slug) url, COUNT(up.id) upvotes FROM " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
+        $stmt = $conn->prepare("SELECT po.id as post_id, po.user_id, po.title, po.slug, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, CONCAT(?, '/p/', po.slug) url, COUNT(up.id) upvotes FROM " . DB_PREFIX . "posts po LEFT JOIN  " . DB_PREFIX . "upvotes up ON po.id = up.post_id WHERE po.slug = ? GROUP BY po.id");
         $stmt->bind_param("ss", $site_url, $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -148,9 +147,8 @@ class Post
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("DELETE FROM " . $prefix . "posts WHERE slug = ? LIMIT 1");
+        $stmt = $conn->prepare("DELETE FROM " . DB_PREFIX . "posts WHERE slug = ? LIMIT 1");
         $stmt->bind_param("s", $post_slug);
         $stmt->execute();
 
@@ -171,9 +169,8 @@ class Post
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("UPDATE " . $prefix . "posts SET status_id = ? WHERE slug = ? LIMIT 1");
+        $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "posts SET status_id = ? WHERE slug = ? LIMIT 1");
         $stmt->bind_param("ss", $status_id, $post_slug);
         $stmt->execute();
 
@@ -194,9 +191,8 @@ class Post
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("UPDATE " . $prefix . "posts SET board_id = ? WHERE slug = ? LIMIT 1");
+        $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "posts SET board_id = ? WHERE slug = ? LIMIT 1");
         $stmt->bind_param("is", $board_id, $post_slug);
         $stmt->execute();
 
@@ -219,10 +215,9 @@ class Post
     {
 
         global $conn;
-        global $prefix;
         global $user;
 
-        $stmt = $conn->prepare("INSERT INTO " . $prefix . "posts (user_id, title, slug, content, board_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO " . DB_PREFIX . "posts (user_id, title, slug, content, board_id) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("isssi", $user->id, $title, $slug, $content, $board_id);
         $stmt->execute();
 
@@ -244,10 +239,9 @@ class Post
     {
 
         global $conn;
-        global $prefix;
         global $user;
 
-        $stmt = $conn->prepare("UPDATE " . $prefix . "posts SET title = ?, content = ? WHERE user_id = ? AND id = ? LIMIT 1");
+        $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "posts SET title = ?, content = ? WHERE user_id = ? AND id = ? LIMIT 1");
         $stmt->bind_param("ssii", $title, $content, $user->id, $post_id);
         $stmt->execute();
 

@@ -28,9 +28,8 @@ class Status
     public static function getStatuses(): Statuses|Response|array
     {
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  " . $prefix . "statuses st");
+        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  " . DB_PREFIX . "statuses st");
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -63,9 +62,8 @@ class Status
     public static function getStatusExcerpt(int $status_id): object
     {
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  " . $prefix . "statuses st WHERE st.id = ?");
+        $stmt = $conn->prepare("SELECT st.id, st.name, st.color FROM  " . DB_PREFIX . "statuses st WHERE st.id = ?");
         $stmt->bind_param("i", $status_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -91,9 +89,8 @@ class Status
     public static function createStatus(string $name, string $color): bool
     {
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("INSERT INTO " . $prefix . "statuses (name, color) VALUES (?, ?)");
+        $stmt = $conn->prepare("INSERT INTO " . DB_PREFIX . "statuses (name, color) VALUES (?, ?)");
         $stmt->bind_param("ss", $name, $color);
         $stmt->execute();
 
@@ -114,9 +111,8 @@ class Status
     public static function updateStatus(int $id, string $name, string $color): bool
     {
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("UPDATE " . $prefix . "statuses SET name = ?, color = ? WHERE id = ? LIMIT 1");
+        $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "statuses SET name = ?, color = ? WHERE id = ? LIMIT 1");
         $stmt->bind_param("ssi", $name, $color, $id);
         $stmt->execute();
 
@@ -134,9 +130,8 @@ class Status
     public static function deleteStatus(int $id): bool
     {
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("DELETE FROM " . $prefix . "statuses WHERE id = ? LIMIT 1");
+        $stmt = $conn->prepare("DELETE FROM " . DB_PREFIX . "statuses WHERE id = ? LIMIT 1");
         $stmt->bind_param("i", $id);
         $stmt->execute();
 

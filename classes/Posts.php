@@ -78,9 +78,8 @@ class Posts
 
         global $user;
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
         $filter = (!empty($filter)) ? "AND status_id IN (" . implode(",", $filter) . ")" : "";
 
@@ -89,7 +88,7 @@ class Posts
             default => "created_at DESC",
         };
 
-        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id WHERE po.board_id = ? $filter GROUP BY po.id ORDER BY $sort LIMIT ?, ?");
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . DB_PREFIX . "posts po LEFT JOIN  " . DB_PREFIX . "upvotes up ON po.id = up.post_id LEFT JOIN  " . DB_PREFIX . "comments co ON po.id = co.post_id WHERE po.board_id = ? $filter GROUP BY po.id ORDER BY $sort LIMIT ?, ?");
 
         $stmt->bind_param("siii", $site_url, $board_id, $offset, $limit);
         $stmt->execute();
@@ -100,8 +99,7 @@ class Posts
 
         while ($post = $result->fetch_object('Posts')) {
 
-            // Determine post visibility
-            if (Rules::verifyRulesByPost($post->slug)) {
+            if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
 
                 // If post has assigned status
                 if ($post->status_id) {
@@ -118,8 +116,31 @@ class Posts
                 // Get post user details
                 $post->user = User::getUserExcerpt($post->user_id);
 
-                // Add post to array
+                // Add board to array
                 $posts[] = $post;
+            } else {
+                // Determine post visibility
+                if (Rules::verifyRulesByPost($post->slug)) {
+
+                    // If post has assigned status
+                    if ($post->status_id) {
+                        $post->status = Status::getStatusExcerpt($post->status_id);
+                    }
+
+                    // Get post board details
+                    $post->board = Board::getBoardExcerpt($post->board_id);
+
+                    // If user is signed in
+                    if (isset($user)) {
+                        $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
+                    }
+                    // Get post user details
+                    $post->user = User::getUserExcerpt($post->user_id);
+
+                    // Add post to array
+                    $posts[] = $post;
+
+                }
 
             }
 
@@ -149,11 +170,10 @@ class Posts
 
         global $user;
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id WHERE po.user_id = ? GROUP BY po.id DESC LIMIT ?, ?");
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . DB_PREFIX . "posts po LEFT JOIN  " . DB_PREFIX . "upvotes up ON po.id = up.post_id LEFT JOIN  " . DB_PREFIX . "comments co ON po.id = co.post_id WHERE po.user_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $user_id, $offset, $limit);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -163,8 +183,7 @@ class Posts
 
         while ($post = $result->fetch_object('Posts')) {
 
-            // Determine post visibility
-            if (Rules::verifyRulesByPost($post->slug)) {
+            if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
 
                 // If post has assigned status
                 if ($post->status_id) {
@@ -182,8 +201,32 @@ class Posts
                 // Get post user details
                 $post->user = User::getUserExcerpt($post->user_id);
 
-                // Add post to array
+                // Add board to array
                 $posts[] = $post;
+            } else {
+                // Determine post visibility
+                if (Rules::verifyRulesByPost($post->slug)) {
+
+                    // If post has assigned status
+                    if ($post->status_id) {
+                        $post->status = Status::getStatusExcerpt($post->status_id);
+                    }
+
+                    // Get post board details
+                    $post->board = Board::getBoardExcerpt($post->board_id);
+
+                    // If user is signed in
+                    if (isset($user)) {
+                        $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
+                    }
+
+                    // Get post user details
+                    $post->user = User::getUserExcerpt($post->user_id);
+
+                    // Add post to array
+                    $posts[] = $post;
+
+                }
 
             }
 
@@ -213,11 +256,10 @@ class Posts
 
         global $user;
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . $prefix . "posts po LEFT JOIN  " . $prefix . "upvotes up ON po.id = up.post_id LEFT JOIN  " . $prefix . "comments co ON po.id = co.post_id WHERE po.status_id = ? GROUP BY po.id DESC LIMIT ?, ?");
+        $stmt = $conn->prepare("SELECT po.id AS post_id, po.user_id, po.title, po.slug, CONCAT(?, '/p/', po.slug) url, po.content, po.board_id, po.status_id, po.updated_at, po.created_at, COUNT(up.id) upvotes, COUNT(co.id) comments FROM  " . DB_PREFIX . "posts po LEFT JOIN  " . DB_PREFIX . "upvotes up ON po.id = up.post_id LEFT JOIN  " . DB_PREFIX . "comments co ON po.id = co.post_id WHERE po.status_id = ? GROUP BY po.id DESC LIMIT ?, ?");
         $stmt->bind_param("siii", $site_url, $status_id, $offset, $limit);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -227,8 +269,7 @@ class Posts
 
         while ($post = $result->fetch_object('Posts')) {
 
-            // Determine post visibility
-            if (Rules::verifyRulesByPost($post->slug)) {
+            if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
 
                 // If post has assigned status
                 if ($post->status_id) {
@@ -248,6 +289,31 @@ class Posts
 
                 // Add post to array
                 $posts[] = $post;
+
+            } else {
+                // Determine post visibility
+                if (Rules::verifyRulesByPost($post->slug)) {
+
+                    // If post has assigned status
+                    if ($post->status_id) {
+                        $post->status = Status::getStatusExcerpt($post->status_id);
+                    }
+
+                    // Get post board details
+                    $post->board = Board::getBoardExcerpt($post->board_id);
+
+                    // If user is signed in
+                    if (isset($user)) {
+                        $post->hasUpvoted = Upvote::hasUpvoted($post->post_id);
+                    }
+
+                    // Get post user details
+                    $post->user = User::getUserExcerpt($post->user_id);
+
+                    // Add post to array
+                    $posts[] = $post;
+
+                }
 
             }
 

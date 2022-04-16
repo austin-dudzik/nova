@@ -53,11 +53,10 @@ class User
     public static function getUser(string $user_slug): object
     {
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT us.id AS user_id, us.first_name, us.last_name, us.email, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE us.username = ?");
+        $stmt = $conn->prepare("SELECT us.id AS user_id, us.first_name, us.last_name, us.email, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . DB_PREFIX . "users us WHERE us.username = ?");
         $stmt->bind_param("ss", $site_url, $user_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -89,11 +88,10 @@ class User
     public static function getUserExcerpt(string $user_id): object
     {
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE us.id = ?");
+        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . DB_PREFIX . "users us WHERE us.id = ?");
         $stmt->bind_param("ss", $site_url, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -120,9 +118,8 @@ class User
     public static function updateRole(string $user_id, int $type): bool
     {
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("UPDATE  " . $prefix . "users SET is_admin = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE  " . DB_PREFIX . "users SET is_admin = ? WHERE id = ?");
         $stmt->bind_param("ii", $type, $user_id);
         $stmt->execute();
 
@@ -141,9 +138,8 @@ class User
     public static function deleteUser(string $user_id): bool
     {
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("DELETE FROM " . $prefix . "users WHERE id = ? LIMIT 1");
+        $stmt = $conn->prepare("DELETE FROM " . DB_PREFIX . "users WHERE id = ? LIMIT 1");
         $stmt->bind_param("i",  $user_id);
         $stmt->execute();
 

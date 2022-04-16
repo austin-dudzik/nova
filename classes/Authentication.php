@@ -46,9 +46,8 @@ class Authentication
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name, ' ', us.last_name) name, us.email, us.username, us.password, us.is_admin FROM  " . $prefix . "users us WHERE us.email = ? LIMIT 1");
+        $stmt = $conn->prepare("SELECT us.id, CONCAT(us.first_name, ' ', us.last_name) name, us.email, us.username, us.password, us.is_admin FROM  " . DB_PREFIX . "users us WHERE us.email = ? LIMIT 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -115,9 +114,8 @@ class Authentication
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . $prefix . "users us WHERE us.username = ? GROUP BY us.id");
+        $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . DB_PREFIX . "users us WHERE us.username = ? GROUP BY us.id");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -127,7 +125,7 @@ class Authentication
             return Response::throwResponse(406, 'Sorry, that username is already taken');
         } else {
 
-            $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . $prefix . "users us WHERE us.email = ? GROUP BY us.id");
+            $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . DB_PREFIX . "users us WHERE us.email = ? GROUP BY us.id");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -137,7 +135,7 @@ class Authentication
                 return Response::throwResponse(406, 'Sorry, that email is already taken');
             } else {
 
-                $stmt = $conn->prepare("INSERT INTO ". $prefix . "users (first_name, last_name, username, email, password) VALUES (?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO ". DB_PREFIX . "users (first_name, last_name, username, email, password) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $password);
                 $stmt->execute();
 

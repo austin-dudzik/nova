@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 
     if (!$error) {
         if (Post::createPost($title, $slug, $description, $board->board_id)) {
-            header("Location: " . Settings::getSettings('site_url') . '/p/' . $slug);
+            header("Location: " . SITE_URL . '/p/' . $slug);
         }
     }
 

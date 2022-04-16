@@ -36,10 +36,9 @@ class Comment
     public static function getComments(int $post_id): Comment|Response|array
     {
         global $conn;
-        global $prefix;
         global $user;
 
-        $stmt = $conn->prepare("SELECT co.id, co.user_id, co.content, co.created_at FROM  " . $prefix . "comments co WHERE post_id = ? ORDER BY co.created_at DESC");
+        $stmt = $conn->prepare("SELECT co.id, co.user_id, co.content, co.created_at FROM  " . DB_PREFIX . "comments co WHERE post_id = ? ORDER BY co.created_at DESC");
         $stmt->bind_param("i", $post_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -77,10 +76,9 @@ class Comment
     {
 
         global $conn;
-        global $prefix;
         global $user;
 
-        $stmt = $conn->prepare("INSERT INTO  " . $prefix . "comments (post_id, user_id, content) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO  " . DB_PREFIX . "comments (post_id, user_id, content) VALUES (?, ?, ?)");
         $stmt->bind_param("iis", $post_id, $user->id, $comment);
         $stmt->execute();
 
@@ -99,15 +97,14 @@ class Comment
     {
 
         global $conn;
-        global $prefix;
         global $user;
 
         // If current user is admin
         if (isset($_SESSION["admin"]) && $_SESSION["admin"]) {
-            $stmt = $conn->prepare("DELETE FROM  " . $prefix . "comments WHERE id = ?");
+            $stmt = $conn->prepare("DELETE FROM  " . DB_PREFIX . "comments WHERE id = ?");
             $stmt->bind_param("i", $comment_id);
         } else {
-            $stmt = $conn->prepare("DELETE FROM  " . $prefix . "comments WHERE id = ? AND user_id = ?");
+            $stmt = $conn->prepare("DELETE FROM  " . DB_PREFIX . "comments WHERE id = ? AND user_id = ?");
             $stmt->bind_param("ii", $comment_id, $user->id);
         }
 

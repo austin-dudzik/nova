@@ -57,11 +57,10 @@ class Boards
     {
 
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM  " . $prefix . "posts po WHERE po.board_id = bo.id) posts FROM  " . $prefix . "boards bo");
+        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, CONCAT(?, '/b/', bo.slug) url, bo.icon, bo.description, bo.visibility, bo.rules, (SELECT COUNT(po.id) FROM  " . DB_PREFIX . "posts po WHERE po.board_id = bo.id) posts FROM  " . DB_PREFIX . "boards bo");
         $stmt->bind_param("s", $site_url);
         $stmt->execute();
         $result = $stmt->get_result();

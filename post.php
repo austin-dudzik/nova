@@ -13,7 +13,7 @@ if (isset($_POST['movePost']) && isAdmin()) {
 
 if (isset($_POST['deletePost'])) {
     if(Post::deletePost($post_slug)) {
-        header("location: " . Settings::getSettings('site_url') . "/index.php");
+        header("location: " . SITE_URL . "/index.php");
     }
 }
 
@@ -55,7 +55,7 @@ if (isset($_POST['deleteComment'])) {
                 <h5>Post Not Found</h5>
                 <p>Sorry, we couldn't find a post located at the specified URL.</p>
                 <p class="fw-bold">It may have been moved, deleted, or may have never existed.</p>
-                <a href="<?= Settings::getSettings("site_url") ?>" class="btn btn-accent">Go back
+                <a href="<?= SITE_URL ?>" class="btn btn-accent">Go back
                     home</a>
             </div>
         </div>
@@ -63,7 +63,7 @@ if (isset($_POST['deleteComment'])) {
         <!-- Page content -->
         <div id="page">
             <p class="d-inline-block pe-0 text-muted mb-3">
-                <a href="<?= Settings::getSettings("site_url") ?>"
+                <a href="<?= SITE_URL ?>"
                    class="text-accent text-decoration-none">Home</a>
                 <i class="fas fa-caret-right mx-2"></i>
             </p>
@@ -112,7 +112,7 @@ if (isset($_POST['deleteComment'])) {
                 <?php if(isAdmin() || (isset($user->id) && $post->user->id === $user->id)) { ?>
                 <div class="bg-light border-bottom px-5 py-3">
                     <div class="nav nav-pills d-flex justify-content-between">
-                        <a href="<?= Settings::getSettings('site_url') ?>/edit/<?= $post_slug ?>"
+                        <a href="<?= SITE_URL ?>/edit/<?= $post_slug ?>"
                            class="round nav-link small active">
                             <i class="far fa-pencil me-2"></i> Edit post
                         </a>
@@ -328,6 +328,6 @@ if (isset($_POST['deleteComment'])) {
     let user = <?= $user_s ?? 'null' ?>;
 </script>
 <?= Render::footer(); ?>
-<script src="<?= Settings::getSettings("site_url") ?>/assets/js/post.js"></script>
+<script src="<?= SITE_URL ?>/assets/js/post.js"></script>
 </body>
 </html>

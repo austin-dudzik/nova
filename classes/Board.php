@@ -54,11 +54,10 @@ class Board
     {
 
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url, bo.description, bo.visibility, bo.rules FROM  " . $prefix . "boards bo WHERE bo.slug = ?");
+        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url, bo.description, bo.visibility, bo.rules FROM  " . DB_PREFIX . "boards bo WHERE bo.slug = ?");
         $stmt->bind_param("ss", $site_url, $board_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -97,11 +96,10 @@ class Board
     {
 
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url FROM  " . $prefix . "boards bo WHERE bo.id = ?");
+        $stmt = $conn->prepare("SELECT bo.id board_id, bo.name, bo.slug, bo.icon, CONCAT(?, '/b/', bo.slug) url FROM  " . DB_PREFIX . "boards bo WHERE bo.id = ?");
         $stmt->bind_param("si", $site_url, $board_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -147,9 +145,8 @@ class Board
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("INSERT INTO  " . $prefix . "boards (name, icon, slug, description, visibility, rules) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO  " . DB_PREFIX . "boards (name, icon, slug, description, visibility, rules) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssis", $name, $icon, $slug, $description, $visibility, $rules);
         $stmt->execute();
 
@@ -174,9 +171,8 @@ class Board
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("UPDATE " . $prefix . "boards SET name = ?, icon = ?, slug = ?, description = ?, visibility = ?, rules = ? WHERE id = ? LIMIT 1");
+        $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "boards SET name = ?, icon = ?, slug = ?, description = ?, visibility = ?, rules = ? WHERE id = ? LIMIT 1");
         $stmt->bind_param("ssssisi", $name, $icon, $slug, $description, $visibility, $rules, $id);
         $stmt->execute();
 
@@ -195,9 +191,8 @@ class Board
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("DELETE FROM " . $prefix . "boards WHERE id = ? LIMIT 1");
+        $stmt = $conn->prepare("DELETE FROM " . DB_PREFIX . "boards WHERE id = ? LIMIT 1");
         $stmt->bind_param("i", $id);
         $stmt->execute();
 

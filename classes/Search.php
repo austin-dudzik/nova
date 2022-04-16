@@ -38,9 +38,8 @@ class Search
     {
 
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
         // If not term is entered
         if (!$term) {
@@ -58,7 +57,7 @@ class Search
             return [];
         }
 
-        $stmt = $conn->prepare("SELECT name, type, slug, url FROM (SELECT po.title AS name, 'post' AS type, po.slug, CONCAT(?, '/p/', po.slug) url FROM  " . $prefix . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, us.username, CONCAT(?, '/u/', us.username) url FROM  " . $prefix . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, bo.slug, CONCAT(?, '/b/', bo.slug) url FROM  " . $prefix . "boards bo WHERE bo.name LIKE ?) AS search ORDER BY name LIMIT 10");
+        $stmt = $conn->prepare("SELECT name, type, slug, url FROM (SELECT po.title AS name, 'post' AS type, po.slug, CONCAT(?, '/p/', po.slug) url FROM  " . DB_PREFIX . "posts po WHERE po.title LIKE ? UNION SELECT CONCAT(us.first_name, ' ', us.last_name) AS name, 'user' AS type, us.username, CONCAT(?, '/u/', us.username) url FROM  " . DB_PREFIX . "users us WHERE CONCAT(us.first_name, ' ', us.last_name) LIKE ? UNION SELECT bo.name AS name, 'board' AS type, bo.slug, CONCAT(?, '/b/', bo.slug) url FROM  " . DB_PREFIX . "boards bo WHERE bo.name LIKE ?) AS search ORDER BY name LIMIT 10");
         $stmt->bind_param("ssssss", $site_url, $term, $site_url, $term, $site_url, $term);
         $stmt->execute();
         $result = $stmt->get_result();

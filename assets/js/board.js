@@ -30,16 +30,6 @@ function getBoard() {
                     // Remove elements
                     $(".btm-hold, #sidebar, #toggle-sidebar").remove();
 
-                    // Show no posts card
-                    $("#posts-wrapper").append(`
-                        <div class="p-4">
-                        <i class="far fa-comments fa-2x text-muted mb-3"></i>
-                            <h6>Looks like there's no feedback yet</h6>
-                            <p>Once someone offers a suggestion, it'll appear here.</p>
-                        </div>
-                    `);
-
-
                 }
 
                 // Set board information
@@ -71,10 +61,8 @@ function getPosts(filter, sort, offset = 0, loadMore = false) {
         filter = $("input[name=filter]:checked").map(function () {
             return this.value;
         }).get();
-        console.log(filter);
     } else {
         filter = [];
-        console.log("No filter selected");
     }
 
     $.ajax({
@@ -93,40 +81,52 @@ function getPosts(filter, sort, offset = 0, loadMore = false) {
 
             $(document).ready(() => {
 
-                if (loadMore) {
-                    // Remove disabled class
-                    $(".loadMore").removeClass("disabled");
-                    // Remove loading class
-                    $(".loadMore i").removeClass("fa-spin").toggleClass("fa-plus fa-spinner-third");
+                if (data.code && data.code === 204) {
+                    $("#loading").remove();
+                    // Show no posts card
+                    $("#posts-wrapper").html(`
+                        <div class="p-4">
+                        <i class="far fa-comments fa-2x text-muted mb-3"></i>
+                            <h6>Looks like there's no feedback yet</h6>
+                            <p>Once someone offers a suggestion, it'll appear here.</p>
+                        </div>
+                    `);
+                } else {
 
-                    // If no more posts
-                    if (data.code && data.code === 204) {
+                    if (loadMore) {
+                        // Remove disabled class
+                        $(".loadMore").removeClass("disabled");
+                        // Remove loading class
+                        $(".loadMore i").removeClass("fa-spin").toggleClass("fa-plus fa-spinner-third");
+
+                        // If no more posts
+                        if (data.code && data.code === 204) {
+                            // Hide load more btn
+                            $(".btm-hold button").hide();
+                            // Show no more posts message
+                            $(".btm-hold p").show();
+                        }
+
+                    }
+
+                    // If another full page available
+                    if (data.length === 10) {
+                        // Show load more btn
+                        $(".btm-hold .loadMore").show();
+                        // Hide no more posts message
+                        $(".btm-hold p").hide();
+                    } else {
                         // Hide load more btn
-                        $(".btm-hold button").hide();
+                        $(".btm-hold .loadMore").hide();
                         // Show no more posts message
                         $(".btm-hold p").show();
                     }
 
-                }
+                    // Loop through all posts
+                    for (let i = 0; i < data.length; i++) {
 
-                // If another full page available
-                if (data.length === 10) {
-                    // Show load more btn
-                    $(".btm-hold .loadMore").show();
-                    // Hide no more posts message
-                    $(".btm-hold p").hide();
-                } else {
-                    // Hide load more btn
-                    $(".btm-hold .loadMore").hide();
-                    // Show no more posts message
-                    $(".btm-hold p").show();
-                }
-
-                // Loop through all posts
-                for (let i = 0; i < data.length; i++) {
-
-                    // Append post to posts list
-                    $(".posts-list").append(`<li class="list-group-item post-listing px-2 px-md-0">
+                        // Append post to posts list
+                        $(".posts-list").append(`<li class="list-group-item post-listing px-2 px-md-0">
                             <div class="d-flex">
                                 <div class="upvote" data-id="${data[i].post_id}" data-voted="${data[i].hasUpvoted}">
                                     <button class="btn ${data[i].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
@@ -149,6 +149,8 @@ function getPosts(filter, sort, offset = 0, loadMore = false) {
                                 </a>
                             </div>
                         </li>`);
+                    }
+
                 }
 
 

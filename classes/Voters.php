@@ -21,13 +21,12 @@ class Voters
     public static function getVoters(int|null $post_id, int $limit = 1844674407370955161): Voters|Response|array
     {
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
         if($post_id) {
 
-            $stmt = $conn->prepare("SELECT CONCAT(us.first_name, ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url FROM  " . $prefix . "upvotes up LEFT JOIN  " . $prefix . "users us ON up.user_id = us.id WHERE post_id = ? GROUP BY us.id LIMIT ?");
+            $stmt = $conn->prepare("SELECT CONCAT(us.first_name, ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url FROM  " . DB_PREFIX . "upvotes up LEFT JOIN  " . DB_PREFIX . "users us ON up.user_id = us.id WHERE post_id = ? GROUP BY us.id LIMIT ?");
             $stmt->bind_param("sii", $site_url, $post_id, $limit);
             $stmt->execute();
             $result = $stmt->get_result();

@@ -5,13 +5,13 @@ session_start();
 // !!! BEGIN YOUR EDITS HERE !!!
 
 // Set the application URL
-const SITE_URL = "http://localhost/feedback";
+const SITE_URL = "";
 
 // Set database credentials
 const DB_HOST = "localhost";
-const DB_USER = "root";
+const DB_USER = "";
 const DB_PASS = "";
-const DB_NAME = "feedback";
+const DB_NAME = "";
 
 // The table prefix
 const DB_PREFIX = "nova_";

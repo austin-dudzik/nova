@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 
     if (!$error) {
         if (Post::updatePost($title, $description, $post->post_id)) {
-            header("Location: " . Settings::getSettings('site_url') . '/p/' . $post->slug);
+            header("Location: " . SITE_URL . '/p/' . $post->slug);
         }
     }
 

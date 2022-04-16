@@ -43,7 +43,7 @@ function getBoards() {
                         <i class="fas fa-${data[i].icon} fa-stack-1x text-white"></i>
                       </span>
                     <p class="mb-0 clamp-1" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].visibility === 2 ? '<i class="fas fa-lock me-1 a-tooltip" data-bs-placement="top" title="Private"></i>' : ''} ${data[i].visibility === 0 ? '<i class="fas fa-eye-slash me-1 a-tooltip" data-bs-placement="top" title="Unlisted"></i>' : ''} ${data[i].name}</p>
-                    <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} ${terms.posts}</small>
+                    <small style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} posts</small>
                 </div>
             </div>
             </a>
@@ -65,7 +65,7 @@ function getBoards() {
                             <div class="ps-3">
                                 <p class="mb-0 clamp-1" style="font-weight: 600;font-size: 15px;line-height: 22px">${data[i].visibility === 2 ? '<i class="fas fa-lock me-1 a-tooltip" data-bs-placement="top" title="Private"></i>' : ''} ${data[i].visibility === 0 ? '<i class="fas fa-eye-slash me-1 a-tooltip" data-bs-placement="top" title="Unlisted"></i>' : ''} ${data[i].name}</p>
                                 <small
-                                    style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} ${terms.posts}</small>
+                                    style="color: #999; font-size: 11px; font-weight: 700; letter-spacing: .05em; line-height: 17px; text-transform: uppercase">${data[i].posts} posts</small>
                             </div>
                         </div>
                     </div>
@@ -226,7 +226,7 @@ function getStatuses() {
                                 $("#statusGroup-" + data[i].status_id + " .list-group").append(`
                         <li class="list-group-item bg-white px-0">
                         <div class="d-flex">
-                                <div class="me-4 upvote mt-1" data-id="${posts[j].post_id}" data-voted="${posts[j].hasUpvoted}">
+                                <div class="me-4 upvote mt-0" data-id="${posts[j].post_id}" data-voted="${posts[j].hasUpvoted}">
                                     <button class="btn ${posts[j].hasUpvoted ? "btn-accent" : "btn-light"} border px-3">
                                         <i class="fas fa-caret-up d-block"></i>
                                         <p class="mb-0">${posts[j].upvotes}</p>
@@ -242,7 +242,7 @@ function getStatuses() {
                             }
 
                         } else {
-                            $("#statusGroup-" + data[i].status_id + " .card-body").append(`<div class="card-body pt-1"><p class="ms-4 my-auto noPosts text-muted">` + terms.nothing_here + `</p></div>`)
+                            $("#statusGroup-" + data[i].status_id + " .card-body").append(`<div class="card-body pt-1"><p class="ms-4 my-auto noPosts text-muted">Nothing here, yet. Check back soon!</p></div>`)
                         }
 
                     }

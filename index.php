@@ -7,10 +7,10 @@ include "includes/logic/feed.php";
 ?>
 <!doctype html>
 <html lang="en">
-<?= Render::header(__('feed')); ?>
+<?= Render::header('Feed'); ?>
 <body>
 <?= Render::navigation(); ?>
-<div class="row my-5">
+<div class="row my-5 mb-3">
     <div class="col"></div>
     <div class="col-md-6">
 
@@ -41,7 +41,7 @@ include "includes/logic/feed.php";
                                      fill="currentColor">
                                     <path d="M2 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V4zM8 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H9a1 1 0 01-1-1V4zM15 3a1 1 0 00-1 1v12a1 1 0 001 1h2a1 1 0 001-1V4a1 1 0 00-1-1h-2z"/>
                                 </svg>
-                                <?= __('boards') ?>
+                                Boards
                             </button>
                             <button class="nav-link small round" id="roadmapBtn" data-bs-toggle="tab"
                                     data-bs-target="#roadmap" type="button">
@@ -54,7 +54,7 @@ include "includes/logic/feed.php";
                                           d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z"
                                           clip-rule="evenodd"/>
                                 </svg>
-                                <?= __('roadmap') ?>
+                                Roadmap
                             </button>
                         </div>
                     </nav>
@@ -105,7 +105,7 @@ include "includes/logic/feed.php";
                     <div class="input-icons input-group px-5" id="searchPageContainer">
                         <i class="far fa-magnifying-glass text-dark"></i>
                         <input class="search form-control ps-5" type="text" id="searchPage"
-                               placeholder="<?= __('search_text') ?>">
+                               placeholder="Search for ideas, updates, users, and more...">
                     </div>
                 </div>
 
@@ -160,7 +160,7 @@ include "includes/logic/feed.php";
 
                                 <label for="board_slug" class="mb-2">Slug</label>
                                 <div class="input-group mb-1">
-                                    <span class="input-group-text bg-light small"><?= preg_replace("(^https?://)", "", Settings::getSettings('site_url')) ?>/b/</span>
+                                    <span class="input-group-text bg-light small"><?= preg_replace("(^https?://)", "", SITE_URL) ?>/b/</span>
                                     <input type="text" name="slug" id="board_slug"
                                            class="form-control" value="<?= $_POST['slug'] ?? '' ?>"
                                            required>
@@ -268,7 +268,7 @@ include "includes/logic/feed.php";
 
 
 <?= Render::footer(); ?>
-<script src="<?= Settings::getSettings("site_url") ?>/assets/js/feed.js"></script>
+<script src="<?= SITE_URL ?>/assets/js/feed.js"></script>
 <?php if ($createError) { ?>
     <script>
         $(document).ready(function () {

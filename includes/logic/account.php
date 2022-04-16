@@ -30,7 +30,7 @@ if (isset($_POST['updateAccount'])) {
 
         if ($_POST['cur_username'] !== $_POST['username']) {
 
-            $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . $prefix . "users us WHERE us.username = ? GROUP BY us.id");
+            $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . DB_PREFIX . "users us WHERE us.username = ? GROUP BY us.id");
             $stmt->bind_param("s", $username);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -49,7 +49,7 @@ if (isset($_POST['updateAccount'])) {
 
         if ($_POST['cur_email'] !== $_POST['email']) {
 
-            $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . $prefix . "users us WHERE us.email = ? GROUP BY us.id");
+            $stmt = $conn->prepare("SELECT COUNT(us.id) FROM  " . DB_PREFIX . "users us WHERE us.email = ? GROUP BY us.id");
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -66,13 +66,13 @@ if (isset($_POST['updateAccount'])) {
 
     if (!$updateError) {
 
-        $stmt = $conn->prepare("UPDATE " . $prefix . "users SET first_name = ?, last_name = ?, username = ?, email = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "users SET first_name = ?, last_name = ?, username = ?, email = ? WHERE id = ?");
         $stmt->bind_param("ssssi", $firstName, $lastName, $username, $email, $user_id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
             unset($_SESSION['user']);
-            header("Location:" .  Settings::getSettings("site_url") . "/login.php");
+            header("Location:" .  SITE_URL . "/login.php");
         }
 
     }
@@ -101,13 +101,13 @@ if (isset($_POST['updateAccount'])) {
             // Hash the password
             $password = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $conn->prepare("UPDATE " . $prefix . "users SET password = ? WHERE id = ?");
+            $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "users SET password = ? WHERE id = ?");
             $stmt->bind_param("ss", $password, $user_id);
             $stmt->execute();
 
             if ($stmt->affected_rows > 0) {
                 unset($_SESSION['user']);
-                header("Location:" .  Settings::getSettings("site_url") . "/login.php");
+                header("Location:" .  SITE_URL . "/login.php");
             }
 
         }

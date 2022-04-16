@@ -34,7 +34,7 @@ include "includes/logic/edit.php";
     <div class="col-md-6">
 
         <p class="d-inline-block pe-0 mb-3">
-            <a href="<?= Settings::getSettings("site_url") ?>"
+            <a href="<?= SITE_URL ?>"
                class="text-accent text-decoration-none">
                 Home
             </a>

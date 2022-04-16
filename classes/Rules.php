@@ -20,10 +20,9 @@ class Rules
     {
 
         global $conn;
-        global $prefix;
         global $user;
 
-        $stmt = $conn->prepare("SELECT bo.rules, bo.visibility FROM " . $prefix . "posts po LEFT JOIN " . $prefix . "boards bo ON po.board_id = bo.id WHERE po.slug = ?");
+        $stmt = $conn->prepare("SELECT bo.rules, bo.visibility FROM " . DB_PREFIX . "posts po LEFT JOIN " . DB_PREFIX . "boards bo ON po.board_id = bo.id WHERE po.slug = ?");
         $stmt->bind_param("s", $post_slug);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -91,10 +90,9 @@ class Rules
     {
 
         global $conn;
-        global $prefix;
         global $user;
 
-        $stmt = $conn->prepare("SELECT bo.rules, bo.visibility FROM " . $prefix . "boards bo WHERE bo.slug = ?");
+        $stmt = $conn->prepare("SELECT bo.rules, bo.visibility FROM " . DB_PREFIX . "boards bo WHERE bo.slug = ?");
         $stmt->bind_param("s", $board_slug);
         $stmt->execute();
         $result = $stmt->get_result();

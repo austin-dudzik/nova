@@ -245,6 +245,10 @@ body {
     }
 }
 
+.bg-accent-light {
+    background-color: var(--accent-color-light) !important;
+}
+
 .bg-accent, .nav-pills .active {
     background-color: var(--accent-color) !important;
 }

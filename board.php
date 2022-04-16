@@ -30,17 +30,17 @@ include "includes/logic/board.php";
 
         <div class="card p-4" id="board-not-found" style="display:none">
             <div class="card-body">
-                <h5><?= __('board_not_found') ?></h5>
-                <p><?= __('board_not_found_msg') ?></p>
-                <p class="fw-bold"><?= __('not_found_reason') ?></p>
-                <a href="<?= Settings::getSettings('site_url') ?>"
-                   class="btn btn-accent"><?= __('return_home') ?></a>
+                <h5>Board Not Found</h5>
+                <p>Sorry, we couldn't find a board located at the specified URL</p>
+                <p class="fw-bold">The page may have been moved, deleted, or may have never existed.</p>
+                <a href="<?= SITE_URL ?>"
+                   class="btn btn-accent">Go back home</a>
             </div>
         </div>
 
         <div id="page">
             <p class="d-inline-block pe-0 text-muted mb-3">
-                <a href="<?= Settings::getSettings("site_url") ?>"
+                <a href="<?= SITE_URL ?>"
                    class="text-accent text-decoration-none">
                     Home
                 </a>
@@ -66,7 +66,7 @@ include "includes/logic/board.php";
 
                 <div class="bg-light border-bottom px-5 py-3 d-flex justify-content-between">
                     <div class="nav nav-pills">
-                        <a href="<?= Settings::getSettings('site_url') ?>/new/<?= $_GET['board_slug'] ?>"
+                        <a href="<?= SITE_URL ?>/new/<?= $_GET['board_slug'] ?>"
                            class="round nav-link small active">
                             <i class="far fa-plus me-2"></i> New suggestion
                         </a>
@@ -125,7 +125,7 @@ include "includes/logic/board.php";
                                                     <label for="board_slug"
                                                            class="mb-2">Slug</label>
                                                     <div class="input-group mb-1">
-                                                        <span class="input-group-text bg-light small"><?= preg_replace("(^https?://)", "", Settings::getSettings('site_url')) ?>/b/</span>
+                                                        <span class="input-group-text bg-light small"><?= preg_replace("(^https?://)", "", SITE_URL) ?>/b/</span>
                                                         <input type="text" name="slug"
                                                                id="board_slug"
                                                                class="form-control"
@@ -332,7 +332,7 @@ include "includes/logic/board.php";
                         <i class="far fa-magnifying-glass text-dark"></i>
                         <input class="search form-control ps-5" type="text"
                                id="searchPage"
-                               placeholder="<?= __('search_text') ?>">
+                               placeholder="Search for ideas, updates, users, and more...">
                     </div>
                 </div>
 
@@ -345,7 +345,7 @@ include "includes/logic/board.php";
                             <button type="button"
                                     class="btn btn-light px-5 border btn-sm mb-2 loadMore">
                                 <i class="fas fa-plus me-2"></i>
-                                <?= __("load_more") ?>
+                                Load more
                             </button>
                         </div>
 
@@ -367,7 +367,7 @@ include "includes/logic/board.php";
     let boardSlug = '<?= $board_slug ?>';
 </script>
 <?= Render::footer(); ?>
-<script src="<?= Settings::getSettings("site_url") ?>/assets/js/board.js"></script>
+<script src="<?= SITE_URL ?>/assets/js/board.js"></script>
 <?php if ($updateError) { ?>
     <script>
         $(document).ready(function () {

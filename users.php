@@ -28,7 +28,7 @@ if (isset($_POST['deleteUser'])) {
 
         <div>
             <p class="d-inline-block pe-0 text-muted mb-3">
-                <a href="<?= Settings::getSettings("site_url") ?>"
+                <a href="<?= SITE_URL ?>"
                    class="text-accent text-decoration-none">
                     Home
                 </a>
@@ -78,7 +78,7 @@ if (isset($_POST['deleteUser'])) {
                     <div class="input-icons input-group px-5" id="searchPageContainer">
                         <i class="far fa-magnifying-glass text-dark"></i>
                         <input class="search form-control ps-5" type="text" id="searchPage"
-                               placeholder="<?= __('search_text') ?>">
+                               placeholder="Search for ideas, updates, users, and more...">
                     </div>
                 </div>
 
@@ -160,7 +160,7 @@ if (isset($_POST['deleteUser'])) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="<?= Settings::getSettings('site_url') ?>/account/<?= $contributor->username ?>" class="btn btn-white border me-1"><i
+                                        <a href="<?= SITE_URL ?>/account/<?= $contributor->username ?>" class="btn btn-white border me-1"><i
                                                     class="far fa-pencil"></i>
                                         </a>
                                         <a href="#" data-bs-toggle="modal"
@@ -291,7 +291,7 @@ if (isset($_POST['deleteUser'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="<?= Settings::getSettings('site_url') ?>/account/<?= $admin->username ?>" class="btn btn-white border me-1"><i
+                                    <a href="<?= $site_url ?>/account/<?= $admin->username ?>" class="btn btn-white border me-1"><i
                                                 class="far fa-pencil"></i>
                                     </a>
                                     <a href="#" data-bs-toggle="modal"

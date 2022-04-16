@@ -27,7 +27,7 @@ $user_slug = $_GET['user_slug'];
 
         <div id="user-holder">
             <p class="d-inline-block pe-0 text-muted mb-3">
-                <a href="<?= Settings::getSettings("site_url") ?>"
+                <a href="<?= SITE_URL ?>"
                    class="text-accent text-decoration-none">Home</a>
                 <i class="fas fa-caret-right mx-2"></i>
             </p>
@@ -52,7 +52,7 @@ $user_slug = $_GET['user_slug'];
                 <div class="bg-light border-bottom px-5 py-3 d-flex justify-content-between">
                     <div class="nav nav-pills">
                         <?php if((isset($user) && $user_slug === $user->username) || isAdmin()) { ?>
-                        <a href="<?= Settings::getSettings('site_url') ?>/account/<?= $user_slug ?>"
+                        <a href="<?= SITE_URL ?>/account/<?= $user_slug ?>"
                            class="round nav-link small active">
                             <i class="far fa-pencil me-2"></i> Edit profile
                         </a>
@@ -75,7 +75,7 @@ $user_slug = $_GET['user_slug'];
                         <i class="far fa-magnifying-glass text-dark"></i>
                         <input class="search form-control ps-5" type="text"
                                id="searchPage"
-                               placeholder="<?= __('search_text') ?>">
+                               placeholder="Search for ideas, updates, users, and more...">
                     </div>
                 </div>
 
@@ -96,7 +96,7 @@ $user_slug = $_GET['user_slug'];
                             <button type="button"
                                     class="btn btn-light px-5 border btn-sm mb-2 loadMore">
                                 <i class="fas fa-plus me-2"></i>
-                                <?= __("load_more") ?>
+                                Load more
                             </button>
                         </div>
 
@@ -118,7 +118,7 @@ $user_slug = $_GET['user_slug'];
                     been
                     moved, deleted, or may have never
                     existed.</p>
-                <a href="<?= Settings::getSettings("site_url") ?>"
+                <a href="<?= SITE_URL ?>"
                    class="btn btn-accent">Go back
                     home</a>
             </div>
@@ -133,6 +133,6 @@ $user_slug = $_GET['user_slug'];
     let userSlug = '<?= $user_slug ?>';
 </script>
 <?= Render::footer(); ?>
-<script src="<?= Settings::getSettings("site_url") ?>/assets/js/user.js"></script>
+<script src="<?= SITE_URL ?>/assets/js/user.js"></script>
 </body>
 </html>

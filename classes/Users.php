@@ -37,11 +37,10 @@ class Users
     public static function getAllUsers(int $type = 0): Users|Response|array
     {
         global $conn;
-        global $prefix;
 
-        $site_url = Settings::getSettings("site_url");
+        $site_url = SITE_URL;
 
-        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . $prefix . "users us WHERE is_admin =" . $type . " ORDER BY us.created_at DESC");
+        $stmt = $conn->prepare("SELECT us.id AS user_id, CONCAT(us.first_name , ' ', us.last_name) name, CONCAT('https://gravatar.com/avatar/', md5(us.email), '?s=500&d=mp') avatar, CONCAT(?, '/u/', us.username) url, us.username FROM  " . DB_PREFIX . "users us WHERE is_admin =" . $type . " ORDER BY us.created_at DESC");
         $stmt->bind_param("s", $site_url);
         $stmt->execute();
         $result = $stmt->get_result();

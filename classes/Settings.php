@@ -21,9 +21,8 @@ class Settings
     {
 
         global $conn;
-        global $prefix;
 
-        $stmt = $conn->prepare("SELECT se.value FROM " . $prefix . "settings se WHERE se.setting = ? LIMIT 1");
+        $stmt = $conn->prepare("SELECT se.value FROM " . DB_PREFIX . "settings se WHERE se.setting = ? LIMIT 1");
         $stmt->bind_param("s", $setting);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -48,29 +47,28 @@ class Settings
     {
 
         global $conn;
-        global $prefix;
 
         // Update site name
-        $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'site_title' LIMIT 1");
+        $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "settings SET value = ? WHERE setting = 'site_title' LIMIT 1");
         $stmt->bind_param("s", $site_name);
         $success = $stmt->execute();
         $stmt->close();
 
         // Update site accent
         if ($success) {
-            $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'accent_color' LIMIT 1");
+            $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "settings SET value = ? WHERE setting = 'accent_color' LIMIT 1");
             $stmt->bind_param("s", $accent);
             $success = $stmt->execute();
             $stmt->close();
 
             if ($success) {
-                $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'site_desc' LIMIT 1");
+                $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "settings SET value = ? WHERE setting = 'site_desc' LIMIT 1");
                 $stmt->bind_param("s", $description);
                 $success = $stmt->execute();
                 $stmt->close();
 
                 if ($success) {
-                    $stmt = $conn->prepare("UPDATE " . $prefix . "settings SET value = ? WHERE setting = 'feed_type' LIMIT 1");
+                    $stmt = $conn->prepare("UPDATE " . DB_PREFIX . "settings SET value = ? WHERE setting = 'feed_type' LIMIT 1");
                     $stmt->bind_param("i", $feed_type);
                     $success = $stmt->execute();
                     $stmt->close();

@@ -63,6 +63,6 @@ if (isset($_POST['updateBoard']) && isAdmin()) {
 
 if(isset($_POST['deleteBoard']) && isAdmin()) {
     if(Board::deleteBoard($board->board_id)) {
-        header("Location: " . Settings::getSettings('site_url'));
+        header("Location: " . SITE_URL);
     }
 }
