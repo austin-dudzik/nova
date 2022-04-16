@@ -10,8 +10,6 @@ Sleek, modern, and open-source feedback collection platform for website and prod
 <img src="screenshot.png" alt="Screenshot of Nova">
 
 ## Features
-
----
 - Fast and flexible custom JSON API
 - AJAX-powered for a refresh-free experience
 - Powerful privacy controls
@@ -20,9 +18,6 @@ Sleek, modern, and open-source feedback collection platform for website and prod
 - Self-hosting ready
 
 ## Getting Started
-
----
-
 Nova has one of the simplest and straight-forward installations yet. In four steps, you'll have Nova up and running on your server.
 
 ###Requirements:
@@ -34,7 +29,6 @@ Nova has one of the simplest and straight-forward installations yet. In four ste
 
 
 ### Installation Steps:
-
 1. Download the latest release
 2. Import ````datatabase.sql```` into your database
 3. Rename ````includes/config.example.php```` to ````includes/config.php````
@@ -48,9 +42,5 @@ Although the Nova database and its tables will work right out of the box after i
 With most instances of Nova using the prefix of ```nova_```, it may be easier for attackers to find and wreak havoc on your database, if they are aware of this default prefix. Setting a custom prefix makes it more difficult to locate and identify Nova tables in your database.
 
 
-
 ## Copyright
-
----
-
 &copy; 2022 Austin Dudzik, All Rights Reserved. Code released under the [MIT License](https://github.com/austin-dudzik/nova/blob/master/LICENSE).
