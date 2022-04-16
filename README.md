@@ -21,6 +21,7 @@ Sleek, modern, and open-source feedback collection platform for website and prod
 Nova has one of the simplest and straight-forward installations yet. In four steps, you'll have Nova up and running on your server.
 
 ###Requirements:
+
 - PHP 8.0+
 - Apache 2.2+
 - MySQL 5.7+
@@ -36,6 +37,7 @@ Nova has one of the simplest and straight-forward installations yet. In four ste
 5. You're done! 🎉
 
 ###Using custom prefixes
+
 Although the Nova database and its tables will work right out of the box after importing, as an extra security measure, Nova includes custom prefix support, specified within the config file. The default prefix is set to ```nova_```, but can be changing by updating the ``DB_PREFIX`` constant within ````includes/config.php```` and doing a find and replace in ````database.sql```` before importing.
 
 #### Why would I want to do this?
