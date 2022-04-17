@@ -39,12 +39,6 @@ class Render
         <div class="container py-2">
         
         <div>
-        <span class="fa-stack fa-2x d-inline-block me-2 d-lg-none" id="openNav" data-bs-toggle="collapse" data-bs-target="#navExtra">
-                      <i class="fas fa-circle fa-stack-2x"></i>
-                      <i class="far fa-bars fa-stack-1x fa-inverse"></i>
-                </span>
-                
-              
             <a class="navbar-brand" href="' . SITE_URL . '">
                 <img src="' . SITE_URL . '/uploads/logo.png" alt="" style="height:30px">
             </a>
